@@ -2,5 +2,8 @@ from django.shortcuts import render
 
 # Create your views here.
 
+from .models import Tema
+
 def home(request):
-    return render(request, 'main/home.html')
+    temi = Tema.objects.all()
+    return render(request, 'main/home.html', {'temi': temi})
