@@ -1,20 +1,43 @@
-<!-- home.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Homepage</title>
+    <title>Mostra Temi</title>
+    <style>
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        table, th, td {
+            border: 1px solid black;
+            padding: 8px;
+        }
+        th {
+            background-color: #f2f2f2;
+        }
+    </style>
 </head>
 <body>
-    <h1>Elenco Temi</h1>
-    <ul>
-        {% for tema in temi %}
-            <li>
-                Codice: {{ tema.codice }} <br>
-                Descrizione: {{ tema.descrizione }} <br>
-                Numero Sale: {{ tema.numeroSale }}
-            </li>
-        {% endfor %}
-    </ul>
+    <h1>Temi</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nome</th>
+                <th>Descrizione</th>
+                <!-- Aggiungi altri campi se presenti nella tabella TEMA -->
+            </tr>
+        </thead>
+        <tbody>
+            {% for tema in temi %}
+                <tr>
+                    <td>{{ tema.0 }}</td>  {# tema.0 corrisponde al primo campo nella riga, ad esempio l'ID #}
+                    <td>{{ tema.1 }}</td>  {# tema.1 corrisponde al secondo campo nella riga, ad esempio il Nome #}
+                    <td>{{ tema.2 }}</td>  {# tema.2 corrisponde al terzo campo nella riga, ad esempio la Descrizione #}
+                    <!-- Aggiungi altri campi se presenti nella tabella TEMA -->
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 </body>
 </html>
