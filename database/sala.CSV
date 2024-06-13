@@ -1,0 +1,31 @@
+numero;nome;superficie;temaSala;numeroOpere
+1;Sala degli Antichi Maestri;400;10;36
+2;Galleria delle Sculture Contemporanee;560;4;33
+3;Stanza delle Meraviglie Naturali;170;3;32
+4;Sala delle Civilizzazioni Antiche;600;3;41
+5;Galleria dei Maestri Rinascimentali;100;6;36
+6;Stanza dell'Arte Moderna;430;10;23
+7;Sala delle Tecnologie del Futuro;350;10;33
+8;Galleria delle Bellezze Paesaggistiche;250;8;33
+9;Stanza della Fotografia Storica;500;2;30
+10;Sala degli Artefatti;670;3;35
+11;Galleria delle Innovazioni Scientifiche;150;7;29
+12;Stanza delle Opere d'Arte Asiatiche;300;5;38
+13;Sala dei Dipinti Astratti;400;10;34
+14;Galleria delle Sculture Greche;180;3;36
+15;Stanza delle Miniature Medioevali;340;4;28
+16;Sala delle Scoperte Archeologiche;500;1;27
+17;Galleria dei Movimenti Artistici Controversi;100;3;40
+18;Stanza dei Ritratti Regali;100;2;35
+19;Sala delle Esplorazioni Geografiche;270;6;36
+20;Galleria degli Oggetti Magici;300;10;29
+21;Stanza delle Tendenze Moda e Design;220;9;41
+22;Sala dei Dipinti Paesaggistici;200;7;31
+0;Magazzino;1000;NULL;NULL
+24;Stanza delle Sculture Barocche;260;9;47
+25;Sala delle Invenzioni del Rinascimento;430;7;32
+26;Galleria delle Arti Tribali;250;6;28
+27;Stanza delle Opere Surrealiste;200;3;25
+28;Sala dei Miti e delle Leggende;370;8;36
+29;Galleria dei Paesaggi Marini;450;2;31
+30;Stanza delle Opere d'Arte Contemporanee;330;8;31
