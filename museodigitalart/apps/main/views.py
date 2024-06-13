@@ -1,35 +1,47 @@
 from django.shortcuts import render
 import sqlite3
 
-# Create your views here.
-
-from .models import Tema
-
 def home(request):
     # Connessione al database SQLite
     conn = sqlite3.connect('db.sqlite3')  # Assicurati di specificare il percorso corretto al tuo database SQLite
-
-    # Creazione di un cursore per eseguire query SQL
     cursor = conn.cursor()
 
-    # Query per selezionare tutti gli elementi dalla tabella TEMA
-    query = "SELECT * FROM TEMA"
+    # Recupero dei parametri di filtro
+    codice = request.GET.get('codice', '')
+    descrizione = request.GET.get('descrizione', '')
+    numeroSale = request.GET.get('numeroSale', '')
+    sort_by = request.GET.get('sort_by', 'codice')
+    sort_order = request.GET.get('sort_order', 'asc')
 
-    # Esecuzione della query
+    # Costruzione della query SQL con i filtri
+    query = """
+    SELECT codice, descrizione, numeroSale
+    FROM TEMA
+    WHERE 1=1
+    """
+
+    if codice:
+        query += f" AND codice = '{codice}'"
+    if descrizione:
+        query += f" AND descrizione LIKE '%{descrizione}%'"
+
+    # Ordinamento
+    if sort_by and sort_order:
+        query += f" ORDER BY {sort_by} {sort_order}"
+
     cursor.execute(query)
-
-    # Recupero di tutti i risultati
     rows = cursor.fetchall()
 
-    # Chiusura del cursore e della connessione al database
     cursor.close()
     conn.close()
 
-    # Preparazione dei dati da passare al template HTML
     context = {
-        'temi': rows  # Passiamo i risultati della query come contesto al template
+        'temi': rows,
+        'sort_by': sort_by,
+        'sort_order': sort_order,
+        'codice': codice,
+        'descrizione': descrizione,
+        'numeroSale': numeroSale
     }
 
-    # Renderizza il template HTML e passa il contesto
     return render(request, 'main/home.html', context)
-
