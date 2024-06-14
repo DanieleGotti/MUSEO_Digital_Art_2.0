@@ -1,88 +1,21 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Mostra Temi</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <title>Home</title>
+    
 </head>
 <body>
-    <h1>Temi</h1>
-    
-   
 
-    <div id="filtri" class="filters">
-        <form method="GET" action=".">
-            <ul class="filterContainer">
-                <li class="filterHeader">
-                    <span class="filterTitle">Filtri</span>
-                </li>
-                <li class="filterItem">
-                    <button type="submit" class="button">
-                        <span class="buttonText">Cerca</span>
-                        <span class="buttonIcon">
-                            <!-- Aggiungi l'immagine della ricerca -->
-                        </span>
-                    </button>
-                    <button type="reset" class="button" onclick="window.location.href='.'">
-                        <span class="buttonText">Reset</span>
-                        <span class="buttonIcon">
-                            <!-- Aggiungi l'immagine del reset -->
-                        </span>
-                    </button>
-                </li>
-                <div class="filterScroll">
-                    <li class="filterItem">
-                        <input id="codice" class="input" name="codice" type="text" value="{{ codice }}"/>
-                        <label class="placeHolder">Codice</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="descrizione" class="input" name="descrizione" type="text" value="{{ descrizione }}"/>
-                        <label class="placeHolder">Descrizione</label>
-                    </li>
-                </div>
-            </ul>
-        </form>
+    <div class="content">
+        <h1>Benvenuti</h1>
+        <p>Seleziona una sezione per navigare:</p>
+        <ul>
+            <li><a href="{% url 'tema' %}">Temi</a></li>
+            <li><a href="{% url 'sala' %}">Sale</a></li>
+        </ul>
     </div>
 
-    <div id="result" class="tableBody">
-        <table>
-            <thead>
-                <tr>
-                    <th>CODICE
-                       
-                    </th>
-                    <th>DESCRIZIONE
-                       
-                    </th>
-                    <th>NUMERO SALE
-                        
-                    </th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tema in temi %}
-                    <tr>
-                        <td>{{ tema.0 }}</td>
-                        <td>{{ tema.1 }}</td>
-                        <td>
-                            {{ tema.2 }}
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+  
 </body>
 </html>

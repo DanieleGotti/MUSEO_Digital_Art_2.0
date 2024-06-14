@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Sale</title>
+   
+</head>
+<body>
+
+    <div id="filtri" class="filters">
+        <form method="GET" action=".">
+            <ul class="filterContainer">
+                <li class="filterHeader">
+                    <span class="filterTitle">Filtri</span>
+                </li>
+                <li class="filterItem">
+                    <button type="submit" class="button">
+                        <span class="buttonText">Cerca</span>
+                        <span class="buttonIcon"></span>
+                    </button>
+                    <button type="reset" class="button" onclick="window.location.href='.'">
+                        <span class="buttonText">Reset</span>
+                        <span class="buttonIcon"></span>
+                    </button>
+                </li>
+                <div class="filterScroll">
+                    <li class="filterItem">
+                        <input id="numero" class="input" name="numero" type="text" value="{{ numero }}"/>
+                        <label class="placeHolder">Numero</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="nome" class="input" name="nome" type="text" value="{{ nome }}"/>
+                        <label class="placeHolder">Nome</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="superficie" class="input" name="superficie" type="text" value="{{ superficie }}"/>
+                        <label class="placeHolder">Superficie</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="temaSala" class="input" name="temaSala" type="text" value="{{ temaSala }}"/>
+                        <label class="placeHolder">Tema</label>
+                    </li>
+                    <li class="filterItemLast">
+                        <input id="descrizione" class="input" name="descrizione" type="text" value="{{ descrizione }}"/>
+                        <label class="placeHolder">Descrizione</label>
+                    </li>
+                    <li>
+                        <form name="myform2" class="form" method="get">
+                            <ul class="filterContainer2">
+                                <li class="filterItem">
+                                    <input id="opera" class="input" name="nomeopera" type="text" value="{{ nomeopera }}">
+                                    <label class="placeHolder">Titolo dell'opera</label>
+                                </li>
+                                <li class="filterItem">
+                                    <button type="submit" class="button">
+                                        <span class="buttonText">Cerca per opera</span>
+                                        <span class="buttonIcon"></span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </form>
+                    </li>
+                </div>
+            </ul>
+        </form>
+    </div>
+
+    <div id="result" class="tableBody">
+        <table>
+            <thead>
+                <tr>
+                    <th>NUMERO</th>
+                    <th>NOME</th>
+                    <th>SUPERFICIE</th>
+                    <th>NUMERO OPERE</th>
+                    <th>TEMA SALA</th>
+                    <th>DESCRIZIONE TEMA</th>
+                    {% if nomeopera %}
+                    <th>TITOLO OPERA</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for sala in sale %}
+                <tr class="{{ forloop.counter0|divisibleby:2|yesno:'rowEven,rowOdd' }}">
+                    <td>{{ sala.0 }}</td>
+                    <td>{{ sala.1 }}</td>
+                    <td>{{ sala.2 }} m²</td>
+                    <td>{{ sala.3 }}</td>
+                    <td>{{ sala.4 }}</td>
+                    <td>{{ sala.5 }}</td>
+                    {% if nomeopera %}
+                    <td>{{ sala.6 }}</td>
+                    {% endif %}
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
