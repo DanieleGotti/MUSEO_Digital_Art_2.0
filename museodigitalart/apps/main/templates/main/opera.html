@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Opere</title>
+   </head>
+<body>
+    <div id="filtri" class="filters">
+        <form method="GET" action=".">
+            <ul class="filterContainer">
+                <li class="filterHeader">
+                    <span class="filterTitle">Filtri</span>
+                </li>
+                <li class="filterItem">
+                    <button type="submit" class="button">
+                        <span class="buttonText">Cerca</span>
+                        <span class="buttonIcon"></span>
+                    </button>
+                    <button type="reset" class="button" onclick="window.location.href='.'">
+                        <span class="buttonText">Reset</span>
+                        <span class="buttonIcon"></span>
+                    </button>
+                </li>
+                <div class="filterScroll">
+                    <li class="filterItem">
+                        <input id="opera" class="input" name="opera" type="text" value="{{ opera }}"/>
+                        <label class="placeHolder">Opera</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="autore" class="input" name="autore" type="text" value="{{ autore }}"/>
+                        <label class="placeHolder">Autore</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="nome" class="input" name="nome" type="text" value="{{ nome }}"/>
+                        <label class="placeHolder">Nome</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="cognome" class="input" name="cognome" type="text" value="{{ cognome }}"/>
+                        <label class="placeHolder">Cognome</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="titolo" class="input" name="titolo" type="text" value="{{ titolo }}"/>
+                        <label class="placeHolder">Titolo</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="annoAcquisto" class="input" name="annoAcquisto" type="text" value="{{ annoAcquisto }}"/>
+                        <label class="placeHolder">Anno Acquisto</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="annoRealizzazione" class="input" name="annoRealizzazione" type="text" value="{{ annoRealizzazione }}"/>
+                        <label class="placeHolder">Anno Realizzazione</label>
+                    </li>
+                    <li class="filterItem">
+                        <input type="radio" id="quadro" name="tipo" value="Quadro">
+                        <label for="quadro" class="buttonText">Quadro</label>
+                    </li>
+                    <li class="filterItem">
+                        <input type="radio" id="scultura" name="tipo" value="Scultura">
+                        <label for="scultura" class="buttonText">Scultura</label>
+                    </li>
+                    <li class="filterItemLast">
+                        <input id="espostaInSala" class="input" name="espostaInSala" type="text" value="{{ espostaInSala }}"/>
+                        <label class="placeHolder">Esposta In Sala</label>
+                    </li>
+                </div>
+            </ul>
+        </form>
+    </div>
+
+    <div id="result" class="tableBody">
+        <table>
+            <thead>
+                <tr>
+                    <th>Opera</th>
+                    <th>Autore</th>
+                    <th>Nome</th>
+                    <th>Cognome</th>
+                    <th>Titolo</th>
+                    <th>Anno Acquisto</th>
+                    <th>Anno Realizzazione</th>
+                    <th>Tipo</th>
+                    <th>Esposta In Sala</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for opera in opere %}
+                <tr class="{{ forloop.counter0|divisibleby:2|yesno:'rowEven,rowOdd' }}">
+                    <td>{{ opera.0 }}</td>
+                    <td>{{ opera.1 }}</td>
+                    <td>{{ opera.2 }}</td>
+                    <td>{{ opera.3 }}</td>
+                    <td>{{ opera.4 }}</td>
+                    <td>{{ opera.5 }}</td>
+                    <td>{{ opera.6 }}</td>
+                    <td>{{ opera.7 }}</td>
+                    <td>{{ opera.8 }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+</body>
+</html>
+
