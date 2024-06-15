@@ -20,6 +20,7 @@ from django.urls import path
 from . import viewssala
 from . import viewstema
 from . import viewsopera
+from . import viewsautore
 from . import views
 
 urlpatterns = [
@@ -27,5 +28,5 @@ urlpatterns = [
     path('tema/', viewstema.tema, name='tema'),  # Supponendo che tu abbia già una vista "temi"
     path('sala/', viewssala.sala, name='sala'),  # La vista "sale" che abbiamo già creato
     path('opera/', viewsopera.opera, name='opera'),  
-     # path('autori/', views.autori, name='autori'),  
+    path('autore/', viewsautore.autore, name='autore'),  
 ]
