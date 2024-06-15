@@ -28,5 +28,5 @@ urlpatterns = [
     path('tema/', viewstema.tema, name='tema'),  # Supponendo che tu abbia già una vista "temi"
     path('sala/', viewssala.sala, name='sala'),  # La vista "sale" che abbiamo già creato
     path('opera/', viewsopera.opera, name='opera'),  
-    path('autore/', viewsautore.autore, name='autore'),  
+   # path('autore/', viewsautore.autore, name='autore'),  
 ]
