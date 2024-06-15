@@ -21,10 +21,9 @@ def sala(request):
 
     # Costruzione della query SQL con i filtri
     query = """
-    SELECT DISTINCT SALA.numero, SALA.nome, SALA.superficie, SALA.numeroOpere, SALA.temaSala, TEMA.descrizione, OPERA.titolo AS nomeopera
+    SELECT DISTINCT SALA.numero, SALA.nome, SALA.superficie, SALA.numeroOpere, SALA.temaSala, TEMA.descrizione
     FROM SALA
     LEFT JOIN TEMA ON SALA.temaSala = TEMA.codice
-    LEFT JOIN OPERA ON OPERA.espostaInSala = SALA.numero
     WHERE 1=1
     """
 
@@ -41,7 +40,13 @@ def sala(request):
     if descrizione:
         query += f" AND TEMA.descrizione LIKE '%{descrizione}%'"
     if nomeopera:
-        query += f" AND OPERA.titolo LIKE '%{nomeopera}%'"
+          query = """
+                    SELECT DISTINCT SALA.numero, SALA.nome, SALA.superficie, SALA.numeroOpere, SALA.temaSala, TEMA.descrizione, OPERA.titolo AS nomeopera
+                    FROM SALA
+                    LEFT JOIN TEMA ON SALA.temaSala = TEMA.codice
+                    LEFT JOIN OPERA ON OPERA.espostaInSala = SALA.numero
+                    WHERE 1=1 AND OPERA.titolo LIKE '%{nomeopera}%'
+                    """
 
     if sort_by and sort_order:
         query += f" ORDER BY {sort_by} {sort_order}"

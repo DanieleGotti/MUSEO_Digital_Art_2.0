@@ -64,39 +64,70 @@
             </ul>
         </form>
     </div>
-
-    <div id="result" class="tableBody">
-        <table>
-            <thead>
-                <tr>
-                    <th>NUMERO</th>
-                    <th>NOME</th>
-                    <th>SUPERFICIE</th>
-                    <th>NUMERO OPERE</th>
-                    <th>TEMA SALA</th>
-                    <th>DESCRIZIONE TEMA</th>
-                    {% if nomeopera %}
-                    <th>TITOLO OPERA</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for sala in sale %}
-                <tr class="{{ forloop.counter0|divisibleby:2|yesno:'rowEven,rowOdd' }}">
-                    <td>{{ sala.0 }}</td>
-                    <td>{{ sala.1 }}</td>
-                    <td>{{ sala.2 }} m²</td>
-                    <td>{{ sala.3 }}</td>
-                    <td>{{ sala.4 }}</td>
-                    <td>{{ sala.5 }}</td>
-                    {% if nomeopera %}
-                    <td>{{ sala.6 }}</td>
-                    {% endif %}
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+    
+    {% if nomeopera == "" %}
+        <div id="result" class="tableBody">
+            <table>
+                <thead>
+                    <tr>
+                        <th>NUMERO</th>
+                        <th>NOME</th>
+                        <th>SUPERFICIE</th>
+                        <th>NUMERO OPERE</th>
+                        <th>TEMA SALA</th>
+                        <th>DESCRIZIONE TEMA</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sala in sale %}
+                    <tr class="{{ forloop.counter0|divisibleby:2|yesno:'rowEven,rowOdd' }}">
+                        <td>{{ sala.0 }}</td>
+                        <td>{{ sala.1 }}</td>
+                        <td>{{ sala.2 }} m²</td>
+                        <td>{{ sala.3 }}</td>
+                        <td>{{ sala.4 }}</td>
+                        <td>{{ sala.5 }}</td>
+                       
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
+    {% if nomeopera %}
+        <div id="result" class="tableBody">
+            <table>
+                <thead>
+                    <tr>
+                        <th>NUMERO</th>
+                        <th>NOME</th>
+                        <th>SUPERFICIE</th>
+                        <th>NUMERO OPERE</th>
+                        <th>TEMA SALA</th>
+                        <th>DESCRIZIONE TEMA</th>
+                        
+                        <th>TITOLO OPERA</th>
+                        
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for sala in sale %}
+                    <tr class="{{ forloop.counter0|divisibleby:2|yesno:'rowEven,rowOdd' }}">
+                        <td>{{ sala.0 }}</td>
+                        <td>{{ sala.1 }}</td>
+                        <td>{{ sala.2 }} m²</td>
+                        <td>{{ sala.3 }}</td>
+                        <td>{{ sala.4 }}</td>
+                        <td>{{ sala.5 }}</td>
+                        <td>{{ sala.6 }}</td>
+                        
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    {% endif %}
 
 </body>
 </html>
