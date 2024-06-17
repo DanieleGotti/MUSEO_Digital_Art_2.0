@@ -22,6 +22,7 @@ def autore(request):
     sort_order = request.GET.get('sort_order', 'asc')
 
     mostra = False
+
     if request.method == 'POST' and 'toggle_crud' in request.POST:
         mostra = True
 
@@ -85,7 +86,6 @@ def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tip
         query += f" ORDER BY {sort_by} {sort_order}"
 
     return query
-
 def create_autore(request):
     if request.method == 'POST':
         codice = request.POST['codice']
@@ -99,17 +99,15 @@ def create_autore(request):
 
         conn = get_connection()
         cursor = conn.cursor()
-        try:
-            cursor.execute('''
-                INSERT INTO AUTORE (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere)
-                VALUES (?, ?, ?, ?, ?, ?, ?, ?)
-            ''', (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere))
-            conn.commit()
-        finally:
-            cursor.close()
-            conn.close()
+        cursor.execute('''
+            INSERT INTO AUTORE (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere)
+            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+        ''', (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere))
+        conn.commit()
+        cursor.close()
+        conn.close()
 
-        return redirect('create_autore')
+        return redirect('autore')
 
     return render(request, 'main/autore.html')
 
@@ -140,7 +138,7 @@ def update_autore(request, codice):
     cursor.close()
     conn.close()
 
-    return render(request, 'autore.html', {'autore': autore})
+    return render(request, 'main/autore.html', {'autore': autore})
 
 def delete_autore(request, codice):
     conn = get_connection()

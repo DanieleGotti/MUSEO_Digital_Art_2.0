@@ -150,16 +150,16 @@
         <tbody>
             {% for autore in autori %}
             <tr>
-                <td>{{ autore.0 }}</td>
-                <td>{{ autore.1 }}</td>
-                <td>{{ autore.2 }}</td>
-                <td>{{ autore.3 }}</td>
-                <td>{{ autore.4 }}</td>
-                <td>{{ autore.5 }}</td>
-                <td>{{ autore.6 }}</td>
-                <td>{{ autore.7 }}</td>
+                <td>{{ autore.0|default:'' }}</td>
+                <td>{{ autore.1|default:'' }}</td>
+                <td>{{ autore.2|default:'' }}</td>
+                <td>{{ autore.3|default:'' }}</td>
+                <td>{{ autore.4|default:'' }}</td>
+                <td>{{ autore.5|default:'' }}</td>
+                <td>{{ autore.6|default:'' }}</td>
+                <td>{{ autore.7|default:'' }}</td>
                 {% if nomeopera %}
-                <td>{{ autore.8 }}</td>
+                <td>{{ autore.8|default:'' }}</td>
                 {% endif %}
                 {% if mostra %}
                 <td>
@@ -223,7 +223,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="inserisciAutoreForm" method="post" action="{% url 'create_autore' %}" onsubmit="return mostraConferma()">
+                <form id="inserisciAutoreForm" method="post" action="{% url 'create_autore' %}" onsubmit="return mostraConfermaInserimento()">
                     {% csrf_token %}
                     <label for="codice">Codice</label>
                     <input type="text" id="codice" name="codice" required>
@@ -250,6 +250,27 @@
 
                     <button type="submit" class="btn btn-primary">Inserisci</button>
                 </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal di conferma -->
+<div class="modal fade" id="confermaModal" tabindex="-1" role="dialog" aria-labelledby="confermaModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="confermaModalLabel">Conferma Inserimento</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Sei sicuro di voler inserire questo autore?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                <button type="button" class="btn btn-primary" onclick="confermaInserimento()">Conferma</button>
             </div>
         </div>
     </div>
@@ -283,12 +304,13 @@
         $('#deleteConfirmModal').modal('hide');
     }
 
-    function mostraConferma() {
+    function mostraConfermaInserimento() {
         $('#confermaModal').modal('show');
         return false; // Previene l'invio del form finché l'utente non conferma
     }
 
     function confermaInserimento() {
+        $('#confermaModal').modal('hide'); // Nascondi la modale di conferma
         $('#inserisciAutoreForm').off('submit').submit(); // Rimuove il gestore di submit e invia il form
     }
 
@@ -305,6 +327,7 @@
         $('#createAuthorModal').modal('show');
     }
 </script>
+
 
 </body>
 </html>
