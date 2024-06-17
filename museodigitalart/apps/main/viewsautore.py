@@ -86,6 +86,7 @@ def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tip
         query += f" ORDER BY {sort_by} {sort_order}"
 
     return query
+
 def create_autore(request):
     if request.method == 'POST':
         codice = request.POST['codice']
@@ -101,7 +102,7 @@ def create_autore(request):
         cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO AUTORE (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere)
-            VALUES (?, ?, ?, ?, ?, ?, ?, ?)
+            VALUES (?, ?, ?, ?, ?, ?, ?, "0")
         ''', (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere))
         conn.commit()
         cursor.close()
