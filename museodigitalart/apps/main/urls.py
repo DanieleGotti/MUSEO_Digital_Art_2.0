@@ -25,8 +25,12 @@ from . import views
 
 urlpatterns = [
     path('', views.home, name='home'),
-    path('tema/', viewstema.tema, name='tema'),  # Supponendo che tu abbia già una vista "temi"
-    path('sala/', viewssala.sala, name='sala'),  # La vista "sale" che abbiamo già creato
+    path('tema/', viewstema.tema, name='tema'),  
+    path('sala/', viewssala.sala, name='sala'),
     path('opera/', viewsopera.opera, name='opera'),  
-   # path('autore/', viewsautore.autore, name='autore'),  
+    path('autore/', viewsautore.autore, name='autore'),  
+    
+    path('autore/create/', viewsautore.create_autore, name='create_autore'),
+    path('autore/update/<str:codice>/', viewsautore.update_autore, name='update_autore'),
+    path('autore/delete/<str:codice>/', viewsautore.delete_autore, name='delete_autore'),
 ]
