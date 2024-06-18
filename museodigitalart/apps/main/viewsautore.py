@@ -88,21 +88,21 @@ def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tip
 
 def create_autore(request):
     if request.method == 'POST':
-        codice = request.POST['codice']
-        nome = request.POST['nome']
-        cognome = request.POST['cognome']
-        nazione = request.POST['nazione']
-        dataNascita = request.POST['dataNascita']
-        dataMorte = request.POST.get('dataMorte', None)  # dataMorte è opzionale
-        tipo = request.POST['tipo']
-        numeroOpere = request.POST.get('numeroOpere', '0')  # default to '0' if not provided
+        codicecreate = request.POST['codicecreate']
+        nomecreate = request.POST['nomecreate']
+        cognomecreate = request.POST['cognomecreate']
+        nazionecreate = request.POST['nazionecreate']
+        dataNascitacreate = request.POST['dataNascitacreate']
+        dataMortecreate = request.POST.get('dataMortecreate', None)  # dataMorte è opzionale
+        tipocreate = request.POST['tipocreate']
+        numeroOperecreate = request.POST.get('numeroOperecreate', '0')  # default to '0' if not provided
 
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO AUTORE (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        ''', (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere))
+        ''', (codicecreate, nomecreate, cognomecreate, nazionecreate, dataNascitacreate, dataMortecreate, tipocreate, numeroOperecreate))
         conn.commit()
         cursor.close()
         conn.close()

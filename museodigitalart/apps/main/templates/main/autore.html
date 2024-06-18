@@ -177,11 +177,11 @@
                         <input type="text" name="editNome" value="{{ autore.1 }}">
                         <input type="text" name="editCognome" value="{{ autore.2 }}">
                         <input type="text" name="editNazione" value="{{ autore.3 }}">
-                        <input type="text" name="editDataNascita" value="{{ autore.4 }}">
-                        <input type="text" name="editDataMorte" value="{{ autore.5 }}">
-                        <input type="text" name="editTipo" value="{{ autore.6 }}">
+                        <input type="date" name="editDataNascita" value="{{ autore.4 }}">
+                        <input type="date" name="editDataMorte" id="editDataMorte{{ autore.0 }}" value="{{ autore.5 }}" onchange="impostaTipoEdit('{{ autore.0 }}')">
+                        <input type="hidden" name="editTipo" id="editTipo{{ autore.0 }}" value="{{ autore.6 }}">
                         <input type="text" name="editNumeroOpere" value="{{ autore.7 }}">
-                        <button type="submit" class="btn btn-success">Salva </button>
+                        <button type="button" class="btn btn-success" onclick="mostraConfermaModifica('{{ autore.0 }}')">Salva</button>
                         <button type="button" class="btn btn-secondary" onclick="toggleEditForm('{{ autore.0 }}')">Annulla</button>
                     </form>
                 </td>
@@ -189,6 +189,27 @@
             {% endfor %}
         </tbody>
     </table>
+</div>
+
+<!-- Modal di conferma per modifica -->
+<div class="modal fade" id="editConfirmModal" tabindex="-1" role="dialog" aria-labelledby="editConfirmModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="editConfirmModalLabel">Conferma Modifica</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                Sei sicuro di voler modificare questo autore?
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                <button type="button" class="btn btn-primary" onclick="confermaModifica()">Conferma</button>
+            </div>
+        </div>
+    </div>
 </div>
 
 <!-- Modal di conferma per cancellazione -->
@@ -226,37 +247,35 @@
                 <form id="inserisciAutoreForm" method="post" action="{% url 'create_autore' %}">
                     {% csrf_token %}
                     <label for="codice">Codice</label>
-                    <input type="text" id="codice" name="codice" required>
+                    <input type="text" id="codicecreate" name="codicecreate" required>
                 
                     <label for="nome">Nome</label>
-                    <input type="text" id="nome" name="nome" required>
+                    <input type="text" id="nomecreate" name="nomecreate" required>
                 
                     <label for="cognome">Cognome</label>
-                    <input type="text" id="cognome" name="cognome" required>
+                    <input type="text" id="cognomecreate" name="cognomecreate" required>
                 
                     <label for="nazione">Nazione</label>
-                    <input type="text" id="nazione" name="nazione" required>
+                    <input type="text" id="nazionecreate" name="nazionecreate" required>
                 
                     <label for="dataNascita">Data Nascita</label>
-                    <input type="date" id="dataNascita" name="dataNascita" required>
+                    <input type="date" id="dataNascitacreate" name="dataNascitacreate" required>
                 
                     <label for="dataMorte">Data Morte</label>
-                    <input type="date" id="dataMorte" name="dataMorte">
+                    <input type="date" id="dataMortecreate" name="dataMortecreate" onchange="impostaTipoCreate()">
                 
-                    <label for="tipo">Tipo</label>
-                    <input type="text" id="tipo" name="tipo" required>
-                
+                    <input type="hidden" id="tipocreate" name="tipocreate" value="Vivo">
+    
                     <input type="hidden" id="numeroOpere" name="numeroOpere" value="0">
                 
                     <button type="button" class="btn btn-primary" onclick="mostraConfermaInserimento()">Inserisci</button>
                 </form>
-                
             </div>
         </div>
     </div>
 </div>
 
-<!-- Modal di conferma -->
+<!-- Modal di conferma per inserimento -->
 <div class="modal fade" id="confermaModal" tabindex="-1" role="dialog" aria-labelledby="confermaModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -279,6 +298,7 @@
 
 <script>
     var codiceToDelete = null;
+    var editFormId = null;
 
     function showDeleteConfirm(codice) {
         codiceToDelete = codice;
@@ -305,15 +325,50 @@
         $('#deleteConfirmModal').modal('hide');
     }
 
+    function impostaTipoCreate() {
+        var dataMorte = document.getElementById('dataMortecreate').value;
+        var tipo = document.getElementById('tipocreate');
+        
+        if (dataMorte) {
+            tipo.value = 'Morto';
+        } else {
+            tipo.value = 'Vivo';
+        }
+    }
+
     function mostraConfermaInserimento() {
+        impostaTipoCreate(); // Imposta il tipo prima di mostrare la conferma
         $('#confermaModal').modal('show');
     }
 
     function confermaInserimento() {
         $('#confermaModal').modal('hide'); // Nascondi la modale di conferma
-
         $('#createAuthorModal').modal('hide'); // Nascondi la modale di inserimento
         $('#inserisciAutoreForm').submit(); // Invia il form
+    }
+
+    function impostaTipoEdit(formId) {
+        var dataMorte = document.getElementById('editDataMorte' + formId).value;
+        var tipo = document.getElementById('editTipo' + formId);
+        
+        if (dataMorte) {
+            tipo.value = 'Morto';
+        } else {
+            tipo.value = 'Vivo';
+        }
+    }
+
+    function mostraConfermaModifica(formId) {
+        impostaTipoEdit(formId); // Imposta il tipo prima di mostrare la conferma
+        editFormId = formId;
+        $('#editConfirmModal').modal('show');
+    }
+
+    function confermaModifica() {
+        if (editFormId !== null) {
+            $('#editForm' + editFormId).submit();
+            $('#editConfirmModal').modal('hide');
+        }
     }
 
     function toggleEditForm(codice) {
@@ -328,6 +383,11 @@
     function showCreateForm() {
         $('#createAuthorModal').modal('show');
     }
+
+    // Chiamare impostaTipoCreate anche quando la pagina è caricata, per impostare correttamente il valore iniziale
+    $(document).ready(function() {
+        impostaTipoCreate();
+    });
 </script>
 
 </body>
