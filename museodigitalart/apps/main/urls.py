@@ -29,7 +29,7 @@ urlpatterns = [
     path('sala/', viewssala.sala, name='sala'),
     path('opera/', viewsopera.opera, name='opera'),  
     path('autore/', viewsautore.autore, name='autore'),  
-    path('autore/create/', viewsautore.create_autore, name='create_autore'),
+    path('create_autore/', viewsautore.create_autore, name='create_autore'),
     path('autore/update/<str:codice>/', viewsautore.update_autore, name='update_autore'),
     path('autore/delete/<str:codice>/', viewsautore.delete_autore, name='delete_autore'),
 ]

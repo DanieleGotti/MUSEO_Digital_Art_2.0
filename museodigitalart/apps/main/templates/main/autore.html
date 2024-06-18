@@ -223,7 +223,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form id="inserisciAutoreForm" method="post" action="{% url 'create_autore' %}" onsubmit="return mostraConfermaInserimento()">
+                <form id="inserisciAutoreForm" method="post" action="{% url 'create_autore' %}">
                     {% csrf_token %}
                     <label for="codice">Codice</label>
                     <input type="text" id="codice" name="codice" required>
@@ -238,17 +238,17 @@
                     <input type="text" id="nazione" name="nazione" required>
                 
                     <label for="dataNascita">Data Nascita</label>
-                    <input type="text" id="dataNascita" name="dataNascita" required>
+                    <input type="date" id="dataNascita" name="dataNascita" required>
                 
                     <label for="dataMorte">Data Morte</label>
-                    <input type="text" id="dataMorte" name="dataMorte">
+                    <input type="date" id="dataMorte" name="dataMorte">
                 
                     <label for="tipo">Tipo</label>
                     <input type="text" id="tipo" name="tipo" required>
                 
                     <input type="hidden" id="numeroOpere" name="numeroOpere" value="0">
                 
-                    <button type="submit" class="btn btn-primary">Inserisci</button>
+                    <button type="button" class="btn btn-primary" onclick="mostraConfermaInserimento()">Inserisci</button>
                 </form>
                 
             </div>
@@ -271,7 +271,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                <button type="button" class="btn btn-primary"  onclick="confermaInserimento()">Conferma</button>
+                <button type="button" class="btn btn-primary" onclick="confermaInserimento()">Conferma</button>
             </div>
         </div>
     </div>
@@ -307,14 +307,13 @@
 
     function mostraConfermaInserimento() {
         $('#confermaModal').modal('show');
-        return false; // Previene l'invio del form finché l'utente non conferma
     }
 
     function confermaInserimento() {
         $('#confermaModal').modal('hide'); // Nascondi la modale di conferma
 
-        $('#createAuthorModal').modal('hide'); // Nascondi la modale di conferma
-        $('#inserisciAutoreForm').off('submit').submit(); // Rimuove il gestore di submit e invia il form
+        $('#createAuthorModal').modal('hide'); // Nascondi la modale di inserimento
+        $('#inserisciAutoreForm').submit(); // Invia il form
     }
 
     function toggleEditForm(codice) {
@@ -330,7 +329,6 @@
         $('#createAuthorModal').modal('show');
     }
 </script>
-
 
 </body>
 </html>
