@@ -1,0 +1,21 @@
+/* styles.css */
+
+/* Override Bootstrap styles here */
+body {
+    background-color: #f8f9fa;
+}
+
+.custom-button {
+    background-color: #007bff;
+    border-color: #007bff;
+    color: white;
+    padding: 10px 20px;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.custom-button:hover {
+    background-color: #0056b3;
+    border-color: #004085;
+}
