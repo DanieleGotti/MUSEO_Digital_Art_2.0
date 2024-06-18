@@ -181,7 +181,7 @@
                         <input type="text" name="editDataMorte" value="{{ autore.5 }}">
                         <input type="text" name="editTipo" value="{{ autore.6 }}">
                         <input type="text" name="editNumeroOpere" value="{{ autore.7 }}">
-                        <button type="submit" class="btn btn-success">Salva</button>
+                        <button type="submit" class="btn btn-success">Salva </button>
                         <button type="button" class="btn btn-secondary" onclick="toggleEditForm('{{ autore.0 }}')">Annulla</button>
                     </form>
                 </td>
@@ -227,29 +227,30 @@
                     {% csrf_token %}
                     <label for="codice">Codice</label>
                     <input type="text" id="codice" name="codice" required>
-
+                
                     <label for="nome">Nome</label>
                     <input type="text" id="nome" name="nome" required>
-
+                
                     <label for="cognome">Cognome</label>
                     <input type="text" id="cognome" name="cognome" required>
-
+                
                     <label for="nazione">Nazione</label>
                     <input type="text" id="nazione" name="nazione" required>
-
+                
                     <label for="dataNascita">Data Nascita</label>
                     <input type="text" id="dataNascita" name="dataNascita" required>
-
+                
                     <label for="dataMorte">Data Morte</label>
                     <input type="text" id="dataMorte" name="dataMorte">
-
+                
                     <label for="tipo">Tipo</label>
                     <input type="text" id="tipo" name="tipo" required>
-
+                
                     <input type="hidden" id="numeroOpere" name="numeroOpere" value="0">
-
+                
                     <button type="submit" class="btn btn-primary">Inserisci</button>
                 </form>
+                
             </div>
         </div>
     </div>
@@ -270,7 +271,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                <button type="button" class="btn btn-primary" onclick="confermaInserimento()">Conferma</button>
+                <button type="button" class="btn btn-primary"  onclick="confermaInserimento()">Conferma</button>
             </div>
         </div>
     </div>

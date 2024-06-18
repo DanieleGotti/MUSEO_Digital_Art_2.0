@@ -1,9 +1,8 @@
 from django.shortcuts import render, redirect
 from django.db import connection
-import sqlite3
 
 def get_connection():
-    return sqlite3.connect('db.sqlite3')  # Adjust the path if necessary
+    return connection  # Usa il connection object fornito da Django
 
 def autore(request):
     conn = get_connection()
@@ -94,15 +93,15 @@ def create_autore(request):
         cognome = request.POST['cognome']
         nazione = request.POST['nazione']
         dataNascita = request.POST['dataNascita']
-        dataMorte = request.POST['dataMorte']
+        dataMorte = request.POST.get('dataMorte', None)  # dataMorte è opzionale
         tipo = request.POST['tipo']
-        numeroOpere = request.POST['numeroOpere']
+        numeroOpere = request.POST.get('numeroOpere', '0')  # default to '0' if not provided
 
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute('''
             INSERT INTO AUTORE (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere)
-            VALUES (?, ?, ?, ?, ?, ?, ?, "0")
+            VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
         ''', (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere))
         conn.commit()
         cursor.close()
@@ -117,24 +116,24 @@ def update_autore(request, codice):
     cursor = conn.cursor()
 
     if request.method == 'POST':
-        nome = request.POST['nome']
-        cognome = request.POST['cognome']
-        nazione = request.POST['nazione']
-        dataNascita = request.POST['dataNascita']
-        dataMorte = request.POST['dataMorte']
-        tipo = request.POST['tipo']
-        numeroOpere = request.POST['numeroOpere']
+        nome = request.POST['editNome']
+        cognome = request.POST['editCognome']
+        nazione = request.POST['editNazione']
+        dataNascita = request.POST['editDataNascita']
+        dataMorte = request.POST['editDataMorte']
+        tipo = request.POST['editTipo']
+        numeroOpere = request.POST['editNumeroOpere']
 
         cursor.execute('''
             UPDATE AUTORE
-            SET nome = ?, cognome = ?, nazione = ?, dataNascita = ?, dataMorte = ?, tipo = ?, numeroOpere = ?
-            WHERE codice = ?
+            SET nome = %s, cognome = %s, nazione = %s, dataNascita = %s, dataMorte = %s, tipo = %s, numeroOpere = %s
+            WHERE codice = %s
         ''', (nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere, codice))
         conn.commit()
 
         return redirect('autore')
 
-    cursor.execute('SELECT * FROM AUTORE WHERE codice = ?', (codice,))
+    cursor.execute('SELECT * FROM AUTORE WHERE codice = %s', (codice,))
     autore = cursor.fetchone()
     cursor.close()
     conn.close()
@@ -145,10 +144,10 @@ def delete_autore(request, codice):
     conn = get_connection()
     cursor = conn.cursor()
     try:
-        cursor.execute('DELETE FROM AUTORE WHERE codice = ?', (codice,))
+        cursor.execute('DELETE FROM AUTORE WHERE codice = %s', (codice,))
         conn.commit()
     finally:
         cursor.close()
         conn.close()
 
-    return redirect('main/autore.html')
+    return redirect('autore')
