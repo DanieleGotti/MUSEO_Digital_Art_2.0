@@ -126,7 +126,9 @@
 </div>
 
 <div id="result" class="tableBody">
+    {% if mostra %}
     <button class="btn btn-primary" onclick="showCreateForm()">Inserisci Autore</button>
+    {% endif %}
     <table>
         <thead>
             <tr>
@@ -349,13 +351,16 @@
 
     function impostaTipoEdit(formId) {
         var dataMorte = document.getElementById('editDataMorte' + formId).value;
-        var tipo = document.getElementById('editTipo' + formId);
-        
+        var tipo = document.createElement('input');
+        tipo.type = 'hidden';
+        tipo.name = 'editTipo';
+        tipo.id = 'editTipo' + formId;
         if (dataMorte) {
             tipo.value = 'Morto';
         } else {
             tipo.value = 'Vivo';
         }
+        document.getElementById('editForm' + formId).appendChild(tipo);
     }
 
     function mostraConfermaModifica(formId) {

@@ -20,10 +20,11 @@ def autore(request):
     sort_by = request.GET.get('sort_by', 'codice')
     sort_order = request.GET.get('sort_order', 'asc')
 
-    mostra = False
+    mostra = request.session.get('mostra_crud', False)  # Get the state from the session
 
     if request.method == 'POST' and 'toggle_crud' in request.POST:
-        mostra = True
+        mostra = not mostra  # Toggle the state
+        request.session['mostra_crud'] = mostra  # Save the state in the session
 
     query = get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere, nomeopera, sort_by, sort_order)
     cursor.execute(query)
@@ -49,6 +50,7 @@ def autore(request):
     }
 
     return render(request, 'main/autore.html', context)
+
 
 def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere, nomeopera, sort_by, sort_order):
     query = """
@@ -93,7 +95,7 @@ def create_autore(request):
         cognomecreate = request.POST['cognomecreate']
         nazionecreate = request.POST['nazionecreate']
         dataNascitacreate = request.POST['dataNascitacreate']
-        dataMortecreate = request.POST.get('dataMortecreate', None)  # dataMorte è opzionale
+        dataMortecreate = request.POST.get('dataMortecreate', '')  # Default to empty string if not provided
         tipocreate = request.POST['tipocreate']
         numeroOperecreate = request.POST.get('numeroOperecreate', '0')  # default to '0' if not provided
 
@@ -102,7 +104,7 @@ def create_autore(request):
         cursor.execute('''
             INSERT INTO AUTORE (codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere)
             VALUES (%s, %s, %s, %s, %s, %s, %s, %s)
-        ''', (codicecreate, nomecreate, cognomecreate, nazionecreate, dataNascitacreate, dataMortecreate, tipocreate, numeroOperecreate))
+        ''', (codicecreate, nomecreate, cognomecreate, nazionecreate, dataNascitacreate, dataMortecreate or '', tipocreate, numeroOperecreate))
         conn.commit()
         cursor.close()
         conn.close()
@@ -120,7 +122,7 @@ def update_autore(request, codice):
         cognome = request.POST['editCognome']
         nazione = request.POST['editNazione']
         dataNascita = request.POST['editDataNascita']
-        dataMorte = request.POST['editDataMorte']
+        dataMorte = request.POST.get('editDataMorte', '')  # Default to empty string if not provided
         tipo = request.POST['editTipo']
         numeroOpere = request.POST['editNumeroOpere']
 
@@ -128,7 +130,7 @@ def update_autore(request, codice):
             UPDATE AUTORE
             SET nome = %s, cognome = %s, nazione = %s, dataNascita = %s, dataMorte = %s, tipo = %s, numeroOpere = %s
             WHERE codice = %s
-        ''', (nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere, codice))
+        ''', (nome, cognome, nazione, dataNascita, dataMorte or '', tipo, numeroOpere, codice))
         conn.commit()
 
         return redirect('autore')
@@ -139,6 +141,7 @@ def update_autore(request, codice):
     conn.close()
 
     return render(request, 'main/autore.html', {'autore': autore})
+
 
 def delete_autore(request, codice):
     conn = get_connection()
