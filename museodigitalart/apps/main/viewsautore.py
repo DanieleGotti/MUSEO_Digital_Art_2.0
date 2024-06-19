@@ -154,7 +154,6 @@ def delete_autore(request, codice):
         conn.close()
 
     return redirect('autore')
-
 from django.shortcuts import render
 import sqlite3
 
@@ -162,6 +161,7 @@ def autore_opera(request, autore_codice):
     conn = sqlite3.connect('db.sqlite3')
     cursor = conn.cursor()
 
+    codice = autore_codice
     nome = request.GET.get('nome', '')
     cognome = request.GET.get('cognome', '')
     nazione = request.GET.get('nazione', '')
@@ -182,37 +182,32 @@ def autore_opera(request, autore_codice):
 
     params = [autore_codice]
 
+    if codice:
+        query += f" AND AUTORE.codice = '{codice}'"
     if nome:
-        query += " AND AUTORE.nome LIKE ?"
-        params.append(f"%{nome}%")
+        query += f" AND AUTORE.nome LIKE '%{nome}%'"
     if cognome:
-        query += " AND AUTORE.cognome LIKE ?"
-        params.append(f"%{cognome}%")
+        query += f" AND AUTORE.cognome LIKE '%{cognome}%'"
     if nazione:
-        query += " AND AUTORE.nazione LIKE ?"
-        params.append(f"%{nazione}%")
+        query += f" AND AUTORE.nazione LIKE '%{nazione}%'"
     if dataNascita:
-        query += " AND AUTORE.dataNascita LIKE ?"
-        params.append(f"%{dataNascita}%")
+        query += f" AND AUTORE.dataNascita LIKE '%{dataNascita}%'"
     if dataMorte:
-        query += " AND AUTORE.dataMorte LIKE ?"
-        params.append(f"%{dataMorte}%")
+        query += f" AND AUTORE.dataMorte LIKE '%{dataMorte}%'"
     if tipo:
-        query += " AND AUTORE.tipo LIKE ?"
-        params.append(f"%{tipo}%")
+        query += f" AND AUTORE.tipo LIKE '%{tipo}%'"
     if numeroOpere:
-        query += " AND AUTORE.numeroOpere = ?"
-        params.append(numeroOpere)
+        query += f" AND AUTORE.numeroOpere = {numeroOpere}"
     if nomeopera:
-        query = """
+        query = f"""
         SELECT DISTINCT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere, OPERA.titolo AS nomeopera
         FROM AUTORE
         JOIN OPERA ON OPERA.autore = AUTORE.codice
-        WHERE OPERA.titolo LIKE ?
+        WHERE OPERA.titolo LIKE '%{nomeopera}%'
         """
-        params = [f"%{nomeopera}%"]
 
-    query += f" ORDER BY {sort_by} {sort_order}"
+    if sort_by and sort_order:
+        query += f" ORDER BY {sort_by} {sort_order}"
 
     cursor.execute(query, params)
     rows = cursor.fetchall()
