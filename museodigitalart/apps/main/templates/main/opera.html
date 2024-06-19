@@ -1,8 +1,12 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
     <title>Opere</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
     <style>
         table {
             width: 100%;
@@ -18,6 +22,9 @@
     </style>
 </head>
 <body>
+
+    {% include 'nav.html' %}
+    
     <div id="filtri" class="filters">
         <form method="GET" action=".">
             <ul class="filterContainer">

@@ -21,6 +21,7 @@
   }
   
   .navbarNav {
+    width: 100%;
     list-style: none;
     padding-left: 0;
     margin: 0 auto;
@@ -38,7 +39,6 @@
     transition: width 600ms;
     padding: 0.5rem;
     box-sizing: border-box;
-    max-width: 100%;
     margin: 0 auto;
     user-select: none;
   }
@@ -53,8 +53,7 @@
     vertical-align: center;
     margin-left: 2rem;
     color: #FEF0E7;
-    font-family: "Open sans";
-    font-weight: 800;
+    font-weight: 600;
     font-size: 1rem;
   }
   

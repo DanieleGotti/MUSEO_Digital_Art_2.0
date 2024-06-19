@@ -17,8 +17,8 @@ function animateIcon(element) {
   
   // Cambia colore del background alle icone della navbar se c'è hover
   document.addEventListener('DOMContentLoaded', function() {
-    let currentPage = window.location.pathname.split("/").pop();
-    let elements = document.getElementsByClassName('navItem');
+    var currentPage = window.location.pathname.split("/").filter(Boolean).pop() || "home";
+    var elements = document.getElementsByClassName('navItem');
     const color = '#F76E11';
   
     if (elements.length === 0) {
@@ -26,22 +26,26 @@ function animateIcon(element) {
       return;
     }
   
+    console.log("Pagina corrente:", currentPage);
+  
     switch (currentPage) {
-      case 'index.php':
+      case 'home':
         elements[0].style.backgroundColor = color;
         break;
-      case 'tema.php':
+      case 'tema':
         elements[1].style.backgroundColor = color;
         break;
-      case 'sala.php':
+      case 'sala':
         elements[2].style.backgroundColor = color;
         break;
-      case 'opera.php':
+      case 'opera':
         elements[3].style.backgroundColor = color;
         break;
-      case 'autore.php':
+      case 'autore':
         elements[4].style.backgroundColor = color;
         break;
-      }
+      default:
+        console.log("Pagina non trovata nel switch case");
+    }
   });
   
