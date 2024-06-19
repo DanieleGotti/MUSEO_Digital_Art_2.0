@@ -16,7 +16,7 @@
             background-color: #f2f2f2;
         }
     </style>
-   </head>
+</head>
 <body>
     <div id="filtri" class="filters">
         <form method="GET" action=".">
@@ -99,14 +99,18 @@
                 {% for opera in opere %}
                 <tr class="{{ forloop.counter0|divisibleby:2|yesno:'rowEven,rowOdd' }}">
                     <td>{{ opera.0 }}</td>
-                    <td>{{ opera.1 }}</td>
+                    <td>
+                        <a href="{% url 'autore_opera' opera.1 %}">{{ opera.1 }}</a>
+                    </td>
                     <td>{{ opera.2 }}</td>
                     <td>{{ opera.3 }}</td>
                     <td>{{ opera.4 }}</td>
                     <td>{{ opera.5 }}</td>
                     <td>{{ opera.6 }}</td>
                     <td>{{ opera.7 }}</td>
-                    <td>{{ opera.8 }}</td>
+                    <td>
+                        <a href="{% url 'sala_opera' opera.8 %}">{{ opera.8 }}</a>
+                    </td>
                 </tr>
                 {% endfor %}
             </tbody>
@@ -115,4 +119,3 @@
 
 </body>
 </html>
-

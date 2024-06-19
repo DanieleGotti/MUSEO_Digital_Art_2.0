@@ -22,15 +22,18 @@ from . import viewsopera
 from . import viewsautore
 from . import views
 
+
 urlpatterns = [
     path('', views.home, name='home'),
     path('tema/', viewstema.tema, name='tema'),  
     path('sala/<str:tema_codice>/', viewssala.sala_tema, name='sale_tema'),
     path('sala/', viewssala.sala, name='sala'),
     path('opera/', viewsopera.opera, name='opera'),  
-    path('opera/sala/<str:sala_numero>/', viewsopera.opere_sala, name='opere_sala'),  # Nuova rotta
-    path('tema/sala/<str:tema_codice>/', viewstema.tema_sala, name='tema_sala'),  # Nuova rotta
-    path('autore/', viewsautore.autore, name='autore'),  
+    path('opera/sala/<str:sala_numero>/', viewsopera.opere_sala, name='opere_sala'),
+    path('tema/sala/<str:tema_codice>/', viewstema.tema_sala, name='tema_sala'),
+    path('sala/opera/<str:sala_numero>/', viewssala.sala_opera, name='sala_opera'),
+    path('autore/', viewsautore.autore, name='autore'),
+    path('autore/opera/<str:autore_codice>/', viewsautore.autore_opera, name='autore_opera'),  # Nuova rotta
     path('create_autore/', viewsautore.create_autore, name='create_autore'),
     path('autore/update/<str:codice>/', viewsautore.update_autore, name='update_autore'),
     path('autore/delete/<str:codice>/', viewsautore.delete_autore, name='delete_autore'),

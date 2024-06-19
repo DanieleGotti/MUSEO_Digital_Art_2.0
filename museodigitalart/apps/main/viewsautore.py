@@ -154,3 +154,85 @@ def delete_autore(request, codice):
         conn.close()
 
     return redirect('autore')
+
+from django.shortcuts import render
+import sqlite3
+
+def autore_opera(request, autore_codice):
+    conn = sqlite3.connect('db.sqlite3')
+    cursor = conn.cursor()
+
+    nome = request.GET.get('nome', '')
+    cognome = request.GET.get('cognome', '')
+    nazione = request.GET.get('nazione', '')
+    dataNascita = request.GET.get('dataNascita', '')
+    dataMorte = request.GET.get('dataMorte', '')
+    tipo = request.GET.get('tipo', '')
+    numeroOpere = request.GET.get('numeroOpere', '')
+    nomeopera = request.GET.get('nomeopera', '')
+    sort_by = request.GET.get('sort_by', 'codice')
+    sort_order = request.GET.get('sort_order', 'asc')
+
+    # Costruzione della query SQL con i filtri
+    query = """
+    SELECT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere
+    FROM AUTORE
+    WHERE AUTORE.codice = ?
+    """
+
+    params = [autore_codice]
+
+    if nome:
+        query += " AND AUTORE.nome LIKE ?"
+        params.append(f"%{nome}%")
+    if cognome:
+        query += " AND AUTORE.cognome LIKE ?"
+        params.append(f"%{cognome}%")
+    if nazione:
+        query += " AND AUTORE.nazione LIKE ?"
+        params.append(f"%{nazione}%")
+    if dataNascita:
+        query += " AND AUTORE.dataNascita LIKE ?"
+        params.append(f"%{dataNascita}%")
+    if dataMorte:
+        query += " AND AUTORE.dataMorte LIKE ?"
+        params.append(f"%{dataMorte}%")
+    if tipo:
+        query += " AND AUTORE.tipo LIKE ?"
+        params.append(f"%{tipo}%")
+    if numeroOpere:
+        query += " AND AUTORE.numeroOpere = ?"
+        params.append(numeroOpere)
+    if nomeopera:
+        query = """
+        SELECT DISTINCT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere, OPERA.titolo AS nomeopera
+        FROM AUTORE
+        JOIN OPERA ON OPERA.autore = AUTORE.codice
+        WHERE OPERA.titolo LIKE ?
+        """
+        params = [f"%{nomeopera}%"]
+
+    query += f" ORDER BY {sort_by} {sort_order}"
+
+    cursor.execute(query, params)
+    rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    context = {
+        'autori': rows,
+        'sort_by': sort_by,
+        'sort_order': sort_order,
+        'codice': autore_codice,
+        'nome': nome,
+        'cognome': cognome,
+        'nazione': nazione,
+        'dataNascita': dataNascita,
+        'dataMorte': dataMorte,
+        'tipo': tipo,
+        'numeroOpere': numeroOpere,
+        'nomeopera': nomeopera,
+    }
+
+    return render(request, 'main/autore.html', context)
