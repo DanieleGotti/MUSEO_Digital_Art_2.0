@@ -76,28 +76,66 @@ def sala(request):
 
 def sala_tema(request, tema_codice):
     # Connessione al database SQLite
-    conn = sqlite3.connect('db.sqlite3')  # Assicurati di specificare il percorso corretto al tuo database SQLite
+    conn = sqlite3.connect('db.sqlite3')  
     cursor = conn.cursor()
 
-    # Query per ottenere le sale relative al tema specifico
+    # Recupero dei parametri di filtro
+    numero = request.GET.get('numero', '')
+    nome = request.GET.get('nome', '')
+    superficie = request.GET.get('superficie', '')
+    numeroOpere = request.GET.get('numeroOpere', '')
+    descrizione = request.GET.get('descrizione', '')
+    nomeopera = request.GET.get('nomeopera', '')
+    sort_by = request.GET.get('sort_by', 'numero')
+    sort_order = request.GET.get('sort_order', 'asc')
+
+    # Costruzione della query SQL con i filtri
     query = """
-    SELECT SALA.numero, SALA.nome, SALA.superficie, SALA.numeroOpere, SALA.temaSala, TEMA.descrizione
+    SELECT DISTINCT SALA.numero, SALA.nome, SALA.superficie, SALA.numeroOpere, SALA.temaSala, TEMA.descrizione
     FROM SALA
     LEFT JOIN TEMA ON SALA.temaSala = TEMA.codice
     WHERE SALA.temaSala = ?
     """
+
+    if numero:
+        query += f" AND SALA.numero = '{numero}'"
+    if nome:
+        query += f" AND SALA.nome LIKE '%{nome}%'"
+    if superficie:
+        query += f" AND SALA.superficie LIKE '%{superficie}%'"
+    if numeroOpere:
+        query += f" AND SALA.numeroOpere LIKE '%{numeroOpere}%'"
+    if descrizione:
+        query += f" AND TEMA.descrizione LIKE '%{descrizione}%'"
+    if nomeopera:
+          query = """
+                    SELECT DISTINCT SALA.numero, SALA.nome, SALA.superficie, SALA.numeroOpere, SALA.temaSala, TEMA.descrizione, OPERA.titolo AS nomeopera
+                    FROM SALA
+                    LEFT JOIN TEMA ON SALA.temaSala = TEMA.codice
+                    LEFT JOIN OPERA ON OPERA.espostaInSala = SALA.numero
+                    WHERE SALA.temaSala = ? AND OPERA.titolo LIKE '%{nomeopera}%'
+                    """
+
+    if sort_by and sort_order:
+        query += f" ORDER BY {sort_by} {sort_order}"
+
     cursor.execute(query, (tema_codice,))
     rows = cursor.fetchall()
 
     cursor.close()
     conn.close()
 
-    # Aggiungi una stampa di debug per verificare i dati
-    print("Rows:", rows)
-
     context = {
         'sale': rows,
-        'tema_codice': tema_codice
+        'sort_by': sort_by,
+        'sort_order': sort_order,
+        'numero': numero,
+        'nome': nome,
+        'superficie': superficie,
+        'numeroOpere': numeroOpere,
+        'temaSala': tema_codice,
+        'descrizione': descrizione,
+        'nomeopera': nomeopera
     }
 
     return render(request, 'main/sala.html', context)
