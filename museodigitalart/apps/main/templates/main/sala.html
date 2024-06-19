@@ -16,10 +16,10 @@
             background-color: #f2f2f2;
         }
     </style>
-   
 </head>
 <body>
 
+    <h1>Filtra Sale</h1>
     <div id="filtri" class="filters">
         <form method="GET" action=".">
             <ul class="filterContainer">
@@ -57,43 +57,43 @@
                         <input id="descrizione" class="input" name="descrizione" type="text" value="{{ descrizione }}"/>
                         <label class="placeHolder">Descrizione</label>
                     </li>
-                    <li>
-                        <form name="myform2" class="form" method="get">
-                            <ul class="filterContainer2">
-                                <li class="filterItem">
-                                    <input id="opera" class="input" name="nomeopera" type="text" value="{{ nomeopera }}">
-                                    <label class="placeHolder">Titolo dell'opera</label>
-                                </li>
-                                <li class="filterItem">
-                                    <button type="submit" class="button">
-                                        <span class="buttonText">Cerca per opera</span>
-                                        <span class="buttonIcon"></span>
-                                    </button>
-                                </li>
-                            </ul>
-                        </form>
-                    </li>
                 </div>
             </ul>
         </form>
+        <form method="GET" action=".">
+            <ul class="filterContainer2">
+                <li class="filterItem">
+                    <input id="opera" class="input" name="nomeopera" type="text" value="{{ nomeopera }}">
+                    <label class="placeHolder">Titolo dell'opera</label>
+                </li>
+                <li class="filterItem">
+                    <button type="submit" class="button">
+                        <span class="buttonText">Cerca per opera</span>
+                        <span class="buttonIcon"></span>
+                    </button>
+                </li>
+            </ul>
+        </form>
     </div>
-    
-    {% if nomeopera == "" %}
-        <div id="result" class="tableBody">
-            <table>
-                <thead>
-                    <tr>
-                        <th>NUMERO</th>
-                        <th>NOME</th>
-                        <th>SUPERFICIE</th>
-                        <th>NUMERO OPERE</th>
-                        <th>TEMA SALA</th>
-                        <th>DESCRIZIONE TEMA</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for sala in sale %}
+
+    <h1>Risultati Sale</h1>
+    <div id="result" class="tableBody">
+        <table>
+            <thead>
+                <tr>
+                    <th>NUMERO</th>
+                    <th>NOME</th>
+                    <th>SUPERFICIE</th>
+                    <th>NUMERO OPERE</th>
+                    <th>TEMA SALA</th>
+                    <th>DESCRIZIONE TEMA</th>
+                    {% if nomeopera %}
+                    <th>TITOLO OPERA</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for sala in sale %}
                     <tr class="{{ forloop.counter0|divisibleby:2|yesno:'rowEven,rowOdd' }}">
                         <td>{{ sala.0 }}</td>
                         <td>{{ sala.1 }}</td>
@@ -101,46 +101,14 @@
                         <td>{{ sala.3 }}</td>
                         <td>{{ sala.4 }}</td>
                         <td>{{ sala.5 }}</td>
-                       
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endif %}
-    {% if nomeopera %}
-        <div id="result" class="tableBody">
-            <table>
-                <thead>
-                    <tr>
-                        <th>NUMERO</th>
-                        <th>NOME</th>
-                        <th>SUPERFICIE</th>
-                        <th>NUMERO OPERE</th>
-                        <th>TEMA SALA</th>
-                        <th>DESCRIZIONE TEMA</th>
-                        
-                        <th>TITOLO OPERA</th>
-                        
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for sala in sale %}
-                    <tr class="{{ forloop.counter0|divisibleby:2|yesno:'rowEven,rowOdd' }}">
-                        <td>{{ sala.0 }}</td>
-                        <td>{{ sala.1 }}</td>
-                        <td>{{ sala.2 }} m²</td>
-                        <td>{{ sala.3 }}</td>
-                        <td>{{ sala.4 }}</td>
-                        <td>{{ sala.5 }}</td>
+                        {% if nomeopera %}
                         <td>{{ sala.6 }}</td>
-                        
+                        {% endif %}
                     </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </div>
-    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
 
 </body>
 </html>

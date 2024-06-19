@@ -71,3 +71,33 @@ def sala(request):
     }
 
     return render(request, 'main/sala.html', context)
+
+
+
+def sala_tema(request, tema_codice):
+    # Connessione al database SQLite
+    conn = sqlite3.connect('db.sqlite3')  # Assicurati di specificare il percorso corretto al tuo database SQLite
+    cursor = conn.cursor()
+
+    # Query per ottenere le sale relative al tema specifico
+    query = """
+    SELECT SALA.numero, SALA.nome, SALA.superficie, SALA.numeroOpere, SALA.temaSala, TEMA.descrizione
+    FROM SALA
+    LEFT JOIN TEMA ON SALA.temaSala = TEMA.codice
+    WHERE SALA.temaSala = ?
+    """
+    cursor.execute(query, (tema_codice,))
+    rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    # Aggiungi una stampa di debug per verificare i dati
+    print("Rows:", rows)
+
+    context = {
+        'sale': rows,
+        'tema_codice': tema_codice
+    }
+
+    return render(request, 'main/sala.html', context)
