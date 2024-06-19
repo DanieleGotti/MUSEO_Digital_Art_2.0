@@ -19,7 +19,7 @@
 </head>
 <body>
 
-    
+    <h1>Filtra Sale</h1>
     <div id="filtri" class="filters">
         <form method="GET" action=".">
             <ul class="filterContainer">
@@ -76,7 +76,7 @@
         </form>
     </div>
 
-    
+    <h1>Risultati Sale</h1>
     <div id="result" class="tableBody">
         <table>
             <thead>
@@ -98,8 +98,12 @@
                         <td>{{ sala.0 }}</td>
                         <td>{{ sala.1 }}</td>
                         <td>{{ sala.2 }} m²</td>
-                        <td>{{ sala.3 }}</td>
-                        <td>{{ sala.4 }}</td>
+                        <td>
+                            <a href="{% url 'opere_sala' sala.0 %}">{{ sala.3 }}</a>
+                        </td>
+                        <td>
+                            <a href="{% url 'tema_sala' sala.4 %}">{{ sala.4 }}</a>
+                        </td>
                         <td>{{ sala.5 }}</td>
                         {% if nomeopera %}
                         <td>{{ sala.6 }}</td>
