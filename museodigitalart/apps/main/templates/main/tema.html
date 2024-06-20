@@ -1,85 +1,72 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Temi</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
     <script src="{% static 'js/bootstrap.bundle.min.js' %}"></script>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-            padding: 8px;
-        }
-        th {
-            background-color: #e17c18;
-        }
-    </style>
 </head>
 <body>
 
     {% include 'nav.html' %}
 
-    <div id="filtri" class="filters">
-        <form method="GET" action=".">
-            <ul class="filterContainer">
-                <li class="filterHeader">
-                    <span class="filterTitle">Filtri</span>
-                </li>
-                <li class="filterItem">
-                    <button type="submit" class="button">
-                        <span class="buttonText">Cerca</span>
-                        <span class="buttonIcon">
-                            <!-- Aggiungi l'immagine della ricerca -->
-                        </span>
-                    </button>
-                    <button type="reset" class="button"  onclick="window.location.href='/tema/'">
-                        <span class="buttonText">Reset</span>
-                        <span class="buttonIcon">
-                            <!-- Aggiungi l'immagine del reset -->
-                        </span>
-                    </button>
-                </li>
-                <div class="filterScroll">
-                    <li class="filterItem">
-                        <input id="codice" class="input" name="codice" type="text" value="{{ codice }}"/>
-                        <label class="placeHolder">Codice</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="descrizione" class="input" name="descrizione" type="text" value="{{ descrizione }}"/>
-                        <label class="placeHolder">Descrizione</label>
-                    </li>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Filtro a sinistra -->
+            <div class="col-md-4">
+                <div class="card bg-warning text-white">
+                    <div class="card-header">
+                        <h4>Filtri</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="GET" action=".">
+                            <div class="mb-3">
+                                <label for="codice" class="form-label">Codice</label>
+                                <input type="text" class="form-control bg-warning text-white border-0" id="codice" name="codice" placeholder="Inserisci Codice" value="{{ codice }}">
+                            </div>
+                            <div class="mb-3">
+                                <label for="descrizione" class="form-label">Descrizione</label>
+                                <input type="text" class="form-control bg-warning text-white border-0" id="descrizione" name="descrizione" placeholder="Inserisci Descrizione" value="{{ descrizione }}">
+                            </div>
+                            <div class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-primary">Cerca</button>
+                                <button type="reset" class="btn btn-secondary" onclick="window.location.href='/tema/'">Reset</button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </ul>
-        </form>
+            </div>
+
+            <!-- Tabella a destra -->
+            <div class="col-md-8">
+                <div id="result" class="table-responsive bg-white rounded p-3 shadow">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>CODICE</th>
+                                <th>DESCRIZIONE</th>
+                                <th>NUMERO SALE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tema in temi %}
+                                <tr>
+                                    <td>{{ tema.0 }}</td>
+                                    <td>{{ tema.1 }}</td>
+                                    <td>
+                                        <a href="{% url 'sale_tema' tema.0 %}">{{ tema.2 }}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <div id="result" class="tableBody">
-        <table>
-            <thead>
-                <tr>
-                    <th>CODICE</th>
-                    <th>DESCRIZIONE</th>
-                    <th>NUMERO SALE</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for tema in temi %}
-                    <tr>
-                        <td>{{ tema.0 }}</td>
-                        <td>{{ tema.1 }}</td>
-                        <td>
-                            <a href="{% url 'sale_tema' tema.0 %}">{{ tema.2 }}</a>
-                        </td>
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
 </body>
 </html>
