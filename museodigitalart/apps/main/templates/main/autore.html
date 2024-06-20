@@ -160,7 +160,7 @@
                 <td>{{ autore.4|default:'' }}</td>
                 <td>{{ autore.5|default:'' }}</td>
                 <td>{{ autore.6|default:'' }}</td>
-                <td>{{ autore.7|default:'' }}</td>
+                <td><a href="{% url 'opere_autore' autore.0 %}">{{ autore.7|default:'' }}</a></td>
                 {% if nomeopera %}
                 <td>{{ autore.8|default:'' }}</td>
                 {% endif %}

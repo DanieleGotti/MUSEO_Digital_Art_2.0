@@ -29,6 +29,7 @@ urlpatterns = [
     path('sala/<str:tema_codice>/', viewssala.sala_tema, name='sale_tema'),
     path('sala/', viewssala.sala, name='sala'),
     path('opera/', viewsopera.opera, name='opera'),  
+    path('opere_autore/<int:autore_id>/', viewsopera.opere_autore, name='opere_autore'),
     path('opera/sala/<str:sala_numero>/', viewsopera.opere_sala, name='opere_sala'),
     path('tema/sala/<str:tema_codice>/', viewstema.tema_sala, name='tema_sala'),
     path('sala/opera/<str:sala_numero>/', viewssala.sala_opera, name='sala_opera'),
