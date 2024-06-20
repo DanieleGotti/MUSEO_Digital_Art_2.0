@@ -191,11 +191,11 @@ def autore_opera(request, autore_codice):
     if nazione:
         query += f" AND AUTORE.nazione LIKE '%{nazione}%'"
     if dataNascita:
-        query += f" AND AUTORE.dataNascita LIKE '%{dataNascita}%'"
+       query += f" AND AUTORE.dataNascita LIKE '%{dataNascita}%'"
     if dataMorte:
         query += f" AND AUTORE.dataMorte LIKE '%{dataMorte}%'"
     if tipo:
-        query += f" AND AUTORE.tipo LIKE '%{tipo}%'"
+         query += f" AND AUTORE.tipo LIKE '%{tipo}%'"
     if numeroOpere:
         query += f" AND AUTORE.numeroOpere = {numeroOpere}"
     if nomeopera:
@@ -204,8 +204,8 @@ def autore_opera(request, autore_codice):
         FROM AUTORE
         JOIN OPERA ON OPERA.autore = AUTORE.codice
         WHERE OPERA.titolo LIKE '%{nomeopera}%'
-        """
-
+       """
+       
     if sort_by and sort_order:
         query += f" ORDER BY {sort_by} {sort_order}"
 
