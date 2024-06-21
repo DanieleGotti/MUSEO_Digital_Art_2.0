@@ -2,11 +2,13 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Autori</title>
-    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
     <style>
         table {
             width: 100%;
@@ -48,353 +50,355 @@
 </head>
 <body>
 
-<div id="filtri" class="filters">
-    <form method="GET" action=".">
-        <ul class="filterContainer">
-            <li class="filterHeader">
-                <span class="filterTitle">Filtri</span>
-            </li>
-            <li class="filterItem">
-                <button type="submit" class="button">
-                    <span class="buttonText">Cerca</span>
-                    <span class="buttonIcon"></span>
-                </button>
-            
-             <button type="reset" class="button" onclick="window.location.href='/autore/'">
-                    <span class="buttonText">Reset</span>
-                    <span class="buttonIcon"></span>
-                </button>
-            </li>
-            <div class="filterScroll">
-                <li class="filterItem">
-                    <input id="codice" class="input" name="codice" type="text" value="{{ request.GET.codice }}"/>
-                    <label class="placeHolder">Codice</label>
-                </li>
-                <li class="filterItem">
-                    <input id="nome" class="input" name="nome" type="text" value="{{ request.GET.nome }}"/>
-                    <label class="placeHolder">Nome</label>
-                </li>
-                <li class="filterItem">
-                    <input id="cognome" class="input" name="cognome" type="text" value="{{ request.GET.cognome }}"/>
-                    <label class="placeHolder">Cognome</label>
-                </li>
-                <li class="filterItem">
-                    <input id="nazione" class="input" name="nazione" type="text" value="{{ request.GET.nazione }}"/>
-                    <label class="placeHolder">Nazione</label>
-                </li>
-                <li class="filterItem">
-                    <input id="dataNascita" class="input" name="dataNascita" type="text" value="{{ request.GET.dataNascita }}"/>
-                    <label class="placeHolder">Data Nascita</label>
-                </li>
-                <li class="filterItem">
-                    <input id="dataMorte" class="input" name="dataMorte" type="text" value="{{ request.GET.dataMorte }}"/>
-                    <label class="placeHolder">Data Morte</label>
-                </li>
-                <li class="filterItemLast">
-                    <input id="tipo" class="input" name="tipo" type="text" value="{{ request.GET.tipo }}"/>
-                    <label class="placeHolder">Tipo</label>
-                </li>
-                <li class="filterItemLast">
-                    <input id="numeroOpere" class="input" name="numeroOpere" type="text" value="{{ request.GET.numeroOpere }}"/>
-                    <label class="placeHolder">Numero Opere</label>
-                </li>
-                <li>
-                    <form name="myform2" class="form" method="get">
-                        <ul class="filterContainer2">
-                            <li class="filterItem">
-                                <input id="opera" class="input" name="nomeopera" type="text" value="{{ request.GET.nomeopera }}">
-                                <label class="placeHolder">Titolo dell'opera</label>
-                            </li>
-                            <li class="filterItem">
-                                <button type="submit" class="button">
-                                    <span class="buttonText">Cerca per opera</span>
-                                    <span class="buttonIcon"></span>
-                                </button>
-                            </li>
-                        </ul>
-                    </form>
-                </li>
-            </div>
-        </ul>
-    </form>
-    <form method="POST" action=".">
-        {% csrf_token %}
-        <input type="hidden" name="toggle_crud" value="true">
-        <button type="submit" class="button">
-            <span class="buttonText">CRUD</span>
-        </button>
-    </form>
-</div>
+    {% include 'nav.html' %}
 
-<div id="result" class="tableBody">
-    {% if mostra %}
-    <button class="btn btn-primary" onclick="showCreateForm()">Inserisci Autore</button>
-    {% endif %}
-    <table>
-        <thead>
-            <tr>
-                <th>CODICE</th>
-                <th>NOME</th>
-                <th>COGNOME</th>
-                <th>NAZIONE</th>
-                <th>DATA NASCITA</th>
-                <th>DATA MORTE</th>
-                <th>TIPO</th>
-                <th>NUMERO OPERE</th>
-                {% if nomeopera %}
-                <th>TITOLO OPERA</th>
-                {% endif %}
-                {% if mostra %}
-                <th>MODIFICA</th>
-                <th>ELIMINA</th>
-                {% endif %}
-            </tr>
-        </thead>
-        <tbody>
-            {% for autore in autori %}
-            <tr>
-                <td>{{ autore.0|default:'' }}</td>
-                <td>{{ autore.1|default:'' }}</td>
-                <td>{{ autore.2|default:'' }}</td>
-                <td>{{ autore.3|default:'' }}</td>
-                <td>{{ autore.4|default:'' }}</td>
-                <td>{{ autore.5|default:'' }}</td>
-                <td>{{ autore.6|default:'' }}</td>
-                <td><a href="{% url 'opere_autore' autore.0 %}">{{ autore.7|default:'' }}</a></td>
-                {% if nomeopera %}
-                <td>{{ autore.8|default:'' }}</td>
-                {% endif %}
-                {% if mostra %}
-                <td>
-                    <button class="btn btn-warning" onclick="toggleEditForm('{{ autore.0 }}')">Modifica</button>
-                </td>
-                <td>
-                    <button class="btn btn-danger" onclick="showDeleteConfirm('{{ autore.0 }}')">Elimina</button>
-                </td>
-                {% endif %}
-            </tr>
-            <tr id="editFormRow{{ autore.0 }}" class="hidden">
-                <td colspan="10">
-                    <form id="editForm{{ autore.0 }}" method="POST" action="{% url 'update_autore' autore.0 %}">
+    <div id="filtri" class="filters">
+        <form method="GET" action=".">
+            <ul class="filterContainer">
+                <li class="filterHeader">
+                    <span class="filterTitle">Filtri</span>
+                </li>
+                <li class="filterItem">
+                    <button type="submit" class="button">
+                        <span class="buttonText">Cerca</span>
+                        <span class="buttonIcon"></span>
+                    </button>
+                
+                <button type="reset" class="button" onclick="window.location.href='/autore/'">
+                        <span class="buttonText">Reset</span>
+                        <span class="buttonIcon"></span>
+                    </button>
+                </li>
+                <div class="filterScroll">
+                    <li class="filterItem">
+                        <input id="codice" class="input" name="codice" type="text" value="{{ request.GET.codice }}"/>
+                        <label class="placeHolder">Codice</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="nome" class="input" name="nome" type="text" value="{{ request.GET.nome }}"/>
+                        <label class="placeHolder">Nome</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="cognome" class="input" name="cognome" type="text" value="{{ request.GET.cognome }}"/>
+                        <label class="placeHolder">Cognome</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="nazione" class="input" name="nazione" type="text" value="{{ request.GET.nazione }}"/>
+                        <label class="placeHolder">Nazione</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="dataNascita" class="input" name="dataNascita" type="text" value="{{ request.GET.dataNascita }}"/>
+                        <label class="placeHolder">Data Nascita</label>
+                    </li>
+                    <li class="filterItem">
+                        <input id="dataMorte" class="input" name="dataMorte" type="text" value="{{ request.GET.dataMorte }}"/>
+                        <label class="placeHolder">Data Morte</label>
+                    </li>
+                    <li class="filterItemLast">
+                        <input id="tipo" class="input" name="tipo" type="text" value="{{ request.GET.tipo }}"/>
+                        <label class="placeHolder">Tipo</label>
+                    </li>
+                    <li class="filterItemLast">
+                        <input id="numeroOpere" class="input" name="numeroOpere" type="text" value="{{ request.GET.numeroOpere }}"/>
+                        <label class="placeHolder">Numero Opere</label>
+                    </li>
+                    <li>
+                        <form name="myform2" class="form" method="get">
+                            <ul class="filterContainer2">
+                                <li class="filterItem">
+                                    <input id="opera" class="input" name="nomeopera" type="text" value="{{ request.GET.nomeopera }}">
+                                    <label class="placeHolder">Titolo dell'opera</label>
+                                </li>
+                                <li class="filterItem">
+                                    <button type="submit" class="button">
+                                        <span class="buttonText">Cerca per opera</span>
+                                        <span class="buttonIcon"></span>
+                                    </button>
+                                </li>
+                            </ul>
+                        </form>
+                    </li>
+                </div>
+            </ul>
+        </form>
+        <form method="POST" action=".">
+            {% csrf_token %}
+            <input type="hidden" name="toggle_crud" value="true">
+            <button type="submit" class="button">
+                <span class="buttonText">CRUD</span>
+            </button>
+        </form>
+    </div>
+
+    <div id="result" class="tableBody">
+        {% if mostra %}
+        <button class="btn btn-primary" onclick="showCreateForm()">Inserisci Autore</button>
+        {% endif %}
+        <table>
+            <thead>
+                <tr>
+                    <th>CODICE</th>
+                    <th>NOME</th>
+                    <th>COGNOME</th>
+                    <th>NAZIONE</th>
+                    <th>DATA NASCITA</th>
+                    <th>DATA MORTE</th>
+                    <th>TIPO</th>
+                    <th>NUMERO OPERE</th>
+                    {% if nomeopera %}
+                    <th>TITOLO OPERA</th>
+                    {% endif %}
+                    {% if mostra %}
+                    <th>MODIFICA</th>
+                    <th>ELIMINA</th>
+                    {% endif %}
+                </tr>
+            </thead>
+            <tbody>
+                {% for autore in autori %}
+                <tr>
+                    <td>{{ autore.0|default:'' }}</td>
+                    <td>{{ autore.1|default:'' }}</td>
+                    <td>{{ autore.2|default:'' }}</td>
+                    <td>{{ autore.3|default:'' }}</td>
+                    <td>{{ autore.4|default:'' }}</td>
+                    <td>{{ autore.5|default:'' }}</td>
+                    <td>{{ autore.6|default:'' }}</td>
+                    <td><a href="{% url 'opere_autore' autore.0 %}">{{ autore.7|default:'' }}</a></td>
+                    {% if nomeopera %}
+                    <td>{{ autore.8|default:'' }}</td>
+                    {% endif %}
+                    {% if mostra %}
+                    <td>
+                        <button class="btn btn-warning" onclick="toggleEditForm('{{ autore.0 }}')">Modifica</button>
+                    </td>
+                    <td>
+                        <button class="btn btn-danger" onclick="showDeleteConfirm('{{ autore.0 }}')">Elimina</button>
+                    </td>
+                    {% endif %}
+                </tr>
+                <tr id="editFormRow{{ autore.0 }}" class="hidden">
+                    <td colspan="10">
+                        <form id="editForm{{ autore.0 }}" method="POST" action="{% url 'update_autore' autore.0 %}">
+                            {% csrf_token %}
+                            <input type="text" name="editNome" value="{{ autore.1 }}">
+                            <input type="text" name="editCognome" value="{{ autore.2 }}">
+                            <input type="text" name="editNazione" value="{{ autore.3 }}">
+                            <input type="date" name="editDataNascita" value="{{ autore.4 }}">
+                            <input type="date" name="editDataMorte" id="editDataMorte{{ autore.0 }}" value="{{ autore.5 }}" onchange="impostaTipoEdit('{{ autore.0 }}')">
+                            <input type="hidden" name="editTipo" id="editTipo{{ autore.0 }}" value="{{ autore.6 }}">
+                            <input type="text" name="editNumeroOpere" value="{{ autore.7 }}">
+                            <button type="button" class="btn btn-success" onclick="mostraConfermaModifica('{{ autore.0 }}')">Salva</button>
+                            <button type="button" class="btn btn-secondary" onclick="toggleEditForm('{{ autore.0 }}')">Annulla</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <!-- Modal di conferma per modifica -->
+    <div class="modal fade" id="editConfirmModal" tabindex="-1" role="dialog" aria-labelledby="editConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editConfirmModalLabel">Conferma Modifica</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Sei sicuro di voler modificare questo autore?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-primary" onclick="confermaModifica()">Conferma</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal di conferma per cancellazione -->
+    <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="deleteConfirmModalLabel">Conferma Cancellazione</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Sei sicuro di voler cancellare questo autore?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-danger" onclick="confermaCancellazione()">Conferma</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal per inserimento autore -->
+    <div class="modal fade" id="createAuthorModal" tabindex="-1" role="dialog" aria-labelledby="createAuthorModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="createAuthorModalLabel">Inserisci Autore</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="inserisciAutoreForm" method="post" action="{% url 'create_autore' %}">
                         {% csrf_token %}
-                        <input type="text" name="editNome" value="{{ autore.1 }}">
-                        <input type="text" name="editCognome" value="{{ autore.2 }}">
-                        <input type="text" name="editNazione" value="{{ autore.3 }}">
-                        <input type="date" name="editDataNascita" value="{{ autore.4 }}">
-                        <input type="date" name="editDataMorte" id="editDataMorte{{ autore.0 }}" value="{{ autore.5 }}" onchange="impostaTipoEdit('{{ autore.0 }}')">
-                        <input type="hidden" name="editTipo" id="editTipo{{ autore.0 }}" value="{{ autore.6 }}">
-                        <input type="text" name="editNumeroOpere" value="{{ autore.7 }}">
-                        <button type="button" class="btn btn-success" onclick="mostraConfermaModifica('{{ autore.0 }}')">Salva</button>
-                        <button type="button" class="btn btn-secondary" onclick="toggleEditForm('{{ autore.0 }}')">Annulla</button>
-                    </form>
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-</div>
-
-<!-- Modal di conferma per modifica -->
-<div class="modal fade" id="editConfirmModal" tabindex="-1" role="dialog" aria-labelledby="editConfirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="editConfirmModalLabel">Conferma Modifica</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Sei sicuro di voler modificare questo autore?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                <button type="button" class="btn btn-primary" onclick="confermaModifica()">Conferma</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal di conferma per cancellazione -->
-<div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="deleteConfirmModalLabel">Conferma Cancellazione</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Sei sicuro di voler cancellare questo autore?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                <button type="button" class="btn btn-danger" onclick="confermaCancellazione()">Conferma</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal per inserimento autore -->
-<div class="modal fade" id="createAuthorModal" tabindex="-1" role="dialog" aria-labelledby="createAuthorModalLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="createAuthorModalLabel">Inserisci Autore</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                <form id="inserisciAutoreForm" method="post" action="{% url 'create_autore' %}">
-                    {% csrf_token %}
-                    <label for="codice">Codice</label>
-                    <input type="text" id="codicecreate" name="codicecreate" required>
-                
-                    <label for="nome">Nome</label>
-                    <input type="text" id="nomecreate" name="nomecreate" required>
-                
-                    <label for="cognome">Cognome</label>
-                    <input type="text" id="cognomecreate" name="cognomecreate" required>
-                
-                    <label for="nazione">Nazione</label>
-                    <input type="text" id="nazionecreate" name="nazionecreate" required>
-                
-                    <label for="dataNascita">Data Nascita</label>
-                    <input type="date" id="dataNascitacreate" name="dataNascitacreate" required>
-                
-                    <label for="dataMorte">Data Morte</label>
-                    <input type="date" id="dataMortecreate" name="dataMortecreate" onchange="impostaTipoCreate()">
-                
-                    <input type="hidden" id="tipocreate" name="tipocreate" value="Vivo">
-    
-                    <input type="hidden" id="numeroOpere" name="numeroOpere" value="0">
-                
-                    <button type="button" class="btn btn-primary" onclick="mostraConfermaInserimento()">Inserisci</button>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Modal di conferma per inserimento -->
-<div class="modal fade" id="confermaModal" tabindex="-1" role="dialog" aria-labelledby="confermaModalLabel" aria-hidden="true">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="confermaModalLabel">Conferma Inserimento</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body">
-                Sei sicuro di voler inserire questo autore?
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
-                <button type="button" class="btn btn-primary" onclick="confermaInserimento()">Conferma</button>
-            </div>
-        </div>
-    </div>
-</div>
-
-<script>
-    var codiceToDelete = null;
-    var editFormId = null;
-
-    function showDeleteConfirm(codice) {
-        codiceToDelete = codice;
-        $('#deleteConfirmModal').modal('show');
-    }
-
-    function confermaCancellazione() {
-        if (codiceToDelete !== null) {
-            $.ajax({
-                type: "POST",
-                url: "{% url 'delete_autore' 0 %}".replace('0', codiceToDelete),
-                data: {
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                },
-                success: function(response) {
-                    console.log("Autore eliminato con successo!");
-                    window.location.reload();
-                },
-                error: function(xhr, status, error) {
-                    console.error("Errore durante la cancellazione dell'autore:", error);
-                }
-            });
-        }
-        $('#deleteConfirmModal').modal('hide');
-    }
-
-    function impostaTipoCreate() {
-        var dataMorte = document.getElementById('dataMortecreate').value;
-        var tipo = document.getElementById('tipocreate');
+                        <label for="codice">Codice</label>
+                        <input type="text" id="codicecreate" name="codicecreate" required>
+                    
+                        <label for="nome">Nome</label>
+                        <input type="text" id="nomecreate" name="nomecreate" required>
+                    
+                        <label for="cognome">Cognome</label>
+                        <input type="text" id="cognomecreate" name="cognomecreate" required>
+                    
+                        <label for="nazione">Nazione</label>
+                        <input type="text" id="nazionecreate" name="nazionecreate" required>
+                    
+                        <label for="dataNascita">Data Nascita</label>
+                        <input type="date" id="dataNascitacreate" name="dataNascitacreate" required>
+                    
+                        <label for="dataMorte">Data Morte</label>
+                        <input type="date" id="dataMortecreate" name="dataMortecreate" onchange="impostaTipoCreate()">
+                    
+                        <input type="hidden" id="tipocreate" name="tipocreate" value="Vivo">
         
-        if (dataMorte) {
-            tipo.value = 'Morto';
-        } else {
-            tipo.value = 'Vivo';
+                        <input type="hidden" id="numeroOpere" name="numeroOpere" value="0">
+                    
+                        <button type="button" class="btn btn-primary" onclick="mostraConfermaInserimento()">Inserisci</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal di conferma per inserimento -->
+    <div class="modal fade" id="confermaModal" tabindex="-1" role="dialog" aria-labelledby="confermaModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="confermaModalLabel">Conferma Inserimento</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    Sei sicuro di voler inserire questo autore?
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Annulla</button>
+                    <button type="button" class="btn btn-primary" onclick="confermaInserimento()">Conferma</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        var codiceToDelete = null;
+        var editFormId = null;
+
+        function showDeleteConfirm(codice) {
+            codiceToDelete = codice;
+            $('#deleteConfirmModal').modal('show');
         }
-    }
 
-    function mostraConfermaInserimento() {
-        impostaTipoCreate(); // Imposta il tipo prima di mostrare la conferma
-        $('#confermaModal').modal('show');
-    }
-
-    function confermaInserimento() {
-        $('#confermaModal').modal('hide'); // Nascondi la modale di conferma
-        $('#createAuthorModal').modal('hide'); // Nascondi la modale di inserimento
-        $('#inserisciAutoreForm').submit(); // Invia il form
-    }
-
-    function impostaTipoEdit(formId) {
-        var dataMorte = document.getElementById('editDataMorte' + formId).value;
-        var tipo = document.createElement('input');
-        tipo.type = 'hidden';
-        tipo.name = 'editTipo';
-        tipo.id = 'editTipo' + formId;
-        if (dataMorte) {
-            tipo.value = 'Morto';
-        } else {
-            tipo.value = 'Vivo';
+        function confermaCancellazione() {
+            if (codiceToDelete !== null) {
+                $.ajax({
+                    type: "POST",
+                    url: "{% url 'delete_autore' 0 %}".replace('0', codiceToDelete),
+                    data: {
+                        csrfmiddlewaretoken: '{{ csrf_token }}'
+                    },
+                    success: function(response) {
+                        console.log("Autore eliminato con successo!");
+                        window.location.reload();
+                    },
+                    error: function(xhr, status, error) {
+                        console.error("Errore durante la cancellazione dell'autore:", error);
+                    }
+                });
+            }
+            $('#deleteConfirmModal').modal('hide');
         }
-        document.getElementById('editForm' + formId).appendChild(tipo);
-    }
 
-    function mostraConfermaModifica(formId) {
-        impostaTipoEdit(formId); // Imposta il tipo prima di mostrare la conferma
-        editFormId = formId;
-        $('#editConfirmModal').modal('show');
-    }
-
-    function confermaModifica() {
-        if (editFormId !== null) {
-            $('#editForm' + editFormId).submit();
-            $('#editConfirmModal').modal('hide');
+        function impostaTipoCreate() {
+            var dataMorte = document.getElementById('dataMortecreate').value;
+            var tipo = document.getElementById('tipocreate');
+            
+            if (dataMorte) {
+                tipo.value = 'Morto';
+            } else {
+                tipo.value = 'Vivo';
+            }
         }
-    }
 
-    function toggleEditForm(codice) {
-        var formRow = document.getElementById('editFormRow' + codice);
-        if (formRow.style.display === 'none' || formRow.style.display === '') {
-            formRow.style.display = 'table-row';
-        } else {
-            formRow.style.display = 'none';
+        function mostraConfermaInserimento() {
+            impostaTipoCreate(); // Imposta il tipo prima di mostrare la conferma
+            $('#confermaModal').modal('show');
         }
-    }
 
-    function showCreateForm() {
-        $('#createAuthorModal').modal('show');
-    }
+        function confermaInserimento() {
+            $('#confermaModal').modal('hide'); // Nascondi la modale di conferma
+            $('#createAuthorModal').modal('hide'); // Nascondi la modale di inserimento
+            $('#inserisciAutoreForm').submit(); // Invia il form
+        }
 
-    // Chiamare impostaTipoCreate anche quando la pagina è caricata, per impostare correttamente il valore iniziale
-    $(document).ready(function() {
-        impostaTipoCreate();
-    });
-</script>
+        function impostaTipoEdit(formId) {
+            var dataMorte = document.getElementById('editDataMorte' + formId).value;
+            var tipo = document.createElement('input');
+            tipo.type = 'hidden';
+            tipo.name = 'editTipo';
+            tipo.id = 'editTipo' + formId;
+            if (dataMorte) {
+                tipo.value = 'Morto';
+            } else {
+                tipo.value = 'Vivo';
+            }
+            document.getElementById('editForm' + formId).appendChild(tipo);
+        }
+
+        function mostraConfermaModifica(formId) {
+            impostaTipoEdit(formId); // Imposta il tipo prima di mostrare la conferma
+            editFormId = formId;
+            $('#editConfirmModal').modal('show');
+        }
+
+        function confermaModifica() {
+            if (editFormId !== null) {
+                $('#editForm' + editFormId).submit();
+                $('#editConfirmModal').modal('hide');
+            }
+        }
+
+        function toggleEditForm(codice) {
+            var formRow = document.getElementById('editFormRow' + codice);
+            if (formRow.style.display === 'none' || formRow.style.display === '') {
+                formRow.style.display = 'table-row';
+            } else {
+                formRow.style.display = 'none';
+            }
+        }
+
+        function showCreateForm() {
+            $('#createAuthorModal').modal('show');
+        }
+
+        // Chiamare impostaTipoCreate anche quando la pagina è caricata, per impostare correttamente il valore iniziale
+        $(document).ready(function() {
+            impostaTipoCreate();
+        });
+    </script>
 
 </body>
 </html>
