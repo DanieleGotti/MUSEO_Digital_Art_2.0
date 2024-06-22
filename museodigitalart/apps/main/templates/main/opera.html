@@ -1,128 +1,117 @@
 <!DOCTYPE html>
-<html lang="it">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Opere</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cssPage.css' %}">
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <script src="{% static 'js/jsFiltersMove.js' %}"></script>
 </head>
 <body>
 
     {% include 'nav.html' %}
     
-    <div id="filtri" class="filters">
-        <form method="GET" action=".">
-            <ul class="filterContainer">
-                <li class="filterHeader">
-                    <span class="filterTitle">Filtri</span>
-                </li>
-                <li class="filterItem">
-                    <button type="submit" class="button">
-                        <span class="buttonText">Cerca</span>
-                        <span class="buttonIcon"></span>
-                    </button>
-                    <button type="reset" class="button"  onclick="window.location.href='/opera/'">
-                        <span class="buttonText">Reset</span>
-                        <span class="buttonIcon"></span>
-                    </button>
-                </li>
-                <div class="filterScroll">
-                    <li class="filterItem">
-                        <input id="opera" class="input" name="opera" type="text" value="{{ opera }}"/>
-                        <label class="placeHolder">Opera</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="autore" class="input" name="autore" type="text" value="{{ autore }}"/>
-                        <label class="placeHolder">Autore</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="nome" class="input" name="nome" type="text" value="{{ nome }}"/>
-                        <label class="placeHolder">Nome</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="cognome" class="input" name="cognome" type="text" value="{{ cognome }}"/>
-                        <label class="placeHolder">Cognome</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="titolo" class="input" name="titolo" type="text" value="{{ titolo }}"/>
-                        <label class="placeHolder">Titolo</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="annoAcquisto" class="input" name="annoAcquisto" type="text" value="{{ annoAcquisto }}"/>
-                        <label class="placeHolder">Anno Acquisto</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="annoRealizzazione" class="input" name="annoRealizzazione" type="text" value="{{ annoRealizzazione }}"/>
-                        <label class="placeHolder">Anno Realizzazione</label>
-                    </li>
-                    <li class="filterItem">
-                        <input type="radio" id="quadro" name="tipo" value="Quadro">
-                        <label for="quadro" class="buttonText">Quadro</label>
-                    </li>
-                    <li class="filterItem">
-                        <input type="radio" id="scultura" name="tipo" value="Scultura">
-                        <label for="scultura" class="buttonText">Scultura</label>
-                    </li>
-                    <li class="filterItemLast">
-                        <input id="espostaInSala" class="input" name="espostaInSala" type="text" value="{{ espostaInSala }}"/>
-                        <label class="placeHolder">Esposta In Sala</label>
-                    </li>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Filtro a sinistra -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Filtri</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="GET" action=".">
+                            <div class="mb-3">
+                                <input id="opera" class="input" name="opera" type="text" value="{{ opera }}"/>
+                                <label class="placeHolder">Opera</label>
+                            </div>
+                            <div class="mb-3">
+                                <input id="autore" class="input" name="autore" type="text" value="{{ autore }}"/>
+                                <label class="placeHolder">Autore</label>
+                            </div>
+                            <div class="mb-3">
+                                <input id="nome" class="input" name="nome" type="text" value="{{ nome }}"/>
+                                <label class="placeHolder">Nome</label>
+                            </div>
+                            <div class="mb-3">
+                                <input id="cognome" class="input" name="cognome" type="text" value="{{ cognome }}"/>
+                                <label class="placeHolder">Cognome</label>
+                            </div>
+                            <div class="mb-3">
+                                <input id="titolo" class="input" name="titolo" type="text" value="{{ titolo }}"/>
+                                <label class="placeHolder">Titolo</label>
+                            </div>
+                            <div class="mb-3">
+                                <input id="annoAcquisto" class="input" name="annoAcquisto" type="text" value="{{ annoAcquisto }}"/>
+                                <label class="placeHolder">Anno Acquisto</label>
+                            </div>
+                            <div class="mb-3">
+                                <input id="annoRealizzazione" class="input" name="annoRealizzazione" type="text" value="{{ annoRealizzazione }}"/>
+                                <label class="placeHolder">Anno Realizzazione</label>
+                            </div>
+                            <div class="mb-3">
+                                <input type="radio" class="radio" id="quadro" name="tipo" value="Quadro">
+                                <label for="quadro" class="radioLabel">Quadro</label>
+                            </div>
+                            <div class="mb-3">
+                                <input type="radio" class="radio" id="scultura" name="tipo" value="Scultura">
+                                <label for="scultura" class="radioLabel">Scultura</label>
+                            </div>
+                            <div class="mb-3">
+                                <input id="espostaInSala" class="input" name="espostaInSala" type="text" value="{{ espostaInSala }}"/>
+                                <label class="placeHolder">Esposta In Sala</label>
+                            </div>
+                            <div class="d-flex justify-content-between"></div>
+                                <button type="submit" class="btn btn-primary">Cerca</button>
+                                <button type="reset" class="btn btn-secondary"  onclick="window.location.href='/opera/'">>Reset</button>
+                            </div>   
+                        </form>
+                    </div>
                 </div>
-            </ul>
-        </form>
-    </div>
+            </div>
 
-    <div id="result" class="tableBody">
-        <table>
-            <thead>
-                <tr>
-                    <th>Opera</th>
-                    <th>Autore</th>
-                    <th>Nome</th>
-                    <th>Cognome</th>
-                    <th>Titolo</th>
-                    <th>Anno Acquisto</th>
-                    <th>Anno Realizzazione</th>
-                    <th>Tipo</th>
-                    <th>Esposta In Sala</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for opera in opere %}
-                <tr class="{{ forloop.counter0|divisibleby:2|yesno:'rowEven,rowOdd' }}">
-                    <td>{{ opera.0 }}</td>
-                    <td>
-                        <a href="{% url 'autore_opera' opera.1 %}">{{ opera.1 }}</a>
-                    </td>
-                    <td>{{ opera.2 }}</td>
-                    <td>{{ opera.3 }}</td>
-                    <td>{{ opera.4 }}</td>
-                    <td>{{ opera.5 }}</td>
-                    <td>{{ opera.6 }}</td>
-                    <td>{{ opera.7 }}</td>
-                    <td>
-                        <a href="{% url 'sala_opera' opera.8 %}">{{ opera.8 }}</a>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
+            <div class="col-md-8">
+                <div id="result" class="table-responsive bg-white rounded p-3 shadow">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>Opera</th>
+                                <th>Autore</th>
+                                <th>Nome</th>
+                                <th>Cognome</th>
+                                <th>Titolo</th>
+                                <th>Anno Acquisto</th>
+                                <th>Anno Realizzazione</th>
+                                <th>Tipo</th>
+                                <th>Esposta In Sala</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for opera in opere %}
+                            <tr>
+                                <td>{{ opera.0 }}</td>
+                                <td>
+                                    <a href="{% url 'autore_opera' opera.1 %}">{{ opera.1 }}</a>
+                                </td>
+                                <td>{{ opera.2 }}</td>
+                                <td>{{ opera.3 }}</td>
+                                <td>{{ opera.4 }}</td>
+                                <td>{{ opera.5 }}</td>
+                                <td>{{ opera.6 }}</td>
+                                <td>{{ opera.7 }}</td>
+                                <td>
+                                    <a href="{% url 'sala_opera' opera.8 %}">{{ opera.8 }}</a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
-
 </body>
 </html>
