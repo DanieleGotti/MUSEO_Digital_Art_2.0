@@ -49,8 +49,9 @@
                                 <button type="reset" class="btn btn-secondary" onclick="window.location.href='/sala/'">Reset</button>
                             </div>
                             <div class="border-bottom my-4"></div>
+                            <form name="myform2" class="form" method="GET">
                             <li class="mb-3">
-                                <input id="opera" class="input" name="nomeopera" type="text" value="{{ nomeopera }}">
+                                <input id="opera" class="input" name="nomeopera" type="text" value="{{ request.GET.nomeopera}}">
                                 <label class="placeHolder">Titolo dell'opera</label>
                             </li>
                             <li class="mb-3">
@@ -58,6 +59,7 @@
                                     <span class="buttonText">Cerca per opera</span>
                                 </button>
                             </li>
+                            </form>
                         </form>
                     </div>
                 </div>
@@ -104,13 +106,5 @@
             </div>
         </div>
     </div>
-
-    
-
-
-
-
-
-
 </body>
 </html>
