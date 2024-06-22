@@ -6,8 +6,9 @@
     <title>Temi</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
-    <link rel="stylesheet" href="{% static 'css/custom.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cssPage.css' %}">
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jsFiltersMove.js' %}"></script>
 </head>
 <body>
 
@@ -16,20 +17,20 @@
     <div class="container-fluid">
         <div class="row">
             <!-- Filtro a sinistra -->
-            <div class="col-md-4">
-                <div class="card bg-warning text-white">
+            <div class="col-md-3">
+                <div class="card">
                     <div class="card-header">
                         <h4>Filtri</h4>
                     </div>
                     <div class="card-body">
                         <form method="GET" action=".">
                             <div class="mb-3">
-                                <label for="codice" class="form-label">Codice</label>
-                                <input type="text" class="form-control bg-warning text-white border-0" id="codice" name="codice" placeholder="Inserisci Codice" value="{{ codice }}">
+                                <input type="text" class="input" id="codice" name="codice" value="{{ codice }}">
+                                <label for="codice" class="placeHolder">Codice</label>
                             </div>
                             <div class="mb-3">
-                                <label for="descrizione" class="form-label">Descrizione</label>
-                                <input type="text" class="form-control bg-warning text-white border-0" id="descrizione" name="descrizione" placeholder="Inserisci Descrizione" value="{{ descrizione }}">
+                                <input type="text" class="input" id="descrizione" name="descrizione" value="{{ descrizione }}">
+                                <label for="descrizione" class="placeHolder">Descrizione</label>
                             </div>
                             <div class="d-flex justify-content-between">
                                 <button type="submit" class="btn btn-primary">Cerca</button>

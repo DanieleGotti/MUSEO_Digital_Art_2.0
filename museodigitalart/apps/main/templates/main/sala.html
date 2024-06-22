@@ -6,118 +6,96 @@
     <title>Sale</title>
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cssPage.css' %}">
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-            padding: 8px;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-    </style>
+    <script src="{% static 'js/jsFiltersMove.js' %}"></script>
 </head>
 <body>
 
     {% include 'nav.html' %}
 
-    <div id="filtri" class="filters">
-        <form method="GET" action=".">
-            <ul class="filterContainer">
-                <li class="filterHeader">
-                    <span class="filterTitle">Filtri</span>
-                </li>
-                <li class="filterItem">
-                    <button type="submit" class="button">
-                        <span class="buttonText">Cerca</span>
-                        <span class="buttonIcon"></span>
-                    </button>
-                    <button type="reset" class="button"  onclick="window.location.href='/sala/'">
-                        <span class="buttonText">Reset</span>
-                        <span class="buttonIcon"></span>
-                    </button>
-                </li>
-                <div class="filterScroll">
-                    <li class="filterItem">
-                        <input id="numero" class="input" name="numero" type="text" value="{{ numero }}"/>
-                        <label class="placeHolder">Numero</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="nome" class="input" name="nome" type="text" value="{{ nome }}"/>
-                        <label class="placeHolder">Nome</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="superficie" class="input" name="superficie" type="text" value="{{ superficie }}"/>
-                        <label class="placeHolder">Superficie</label>
-                    </li>
-                    <li class="filterItem">
-                        <input id="temaSala" class="input" name="temaSala" type="text" value="{{ temaSala }}"/>
-                        <label class="placeHolder">Tema</label>
-                    </li>
-                    <li class="filterItemLast">
-                        <input id="descrizione" class="input" name="descrizione" type="text" value="{{ descrizione }}"/>
-                        <label class="placeHolder">Descrizione</label>
-                    </li>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Filtro a sinistra -->
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header">
+                        <h4>Filtri</h4>
+                    </div>
+                    <div class="card-body">
+                        <form method="GET" action=".">
+                            <li class="mb-3">
+                                <input id="numero" class="input" name="numero" type="text" value="{{ numero }}"/>
+                                <label class="placeHolder">Numero</label>
+                            </li>
+                            <li class="mb-3">
+                                <input id="nome" class="input" name="nome" type="text" value="{{ nome }}"/>
+                                <label class="placeHolder">Nome</label>
+                            </li>
+                            <li class="mb-3">
+                                <input id="superficie" class="input" name="superficie" type="text" value="{{ superficie }}"/>
+                                <label class="placeHolder">Superficie</label>
+                            </li>
+                            <li class="mb-3">
+                                <input id="temaSala" class="input" name="temaSala" type="text" value="{{ temaSala }}"/>
+                                <label class="placeHolder">Tema</label>
+                            </li>
+                            <li class="mb-3">
+                                <input id="descrizione" class="input" name="descrizione" type="text" value="{{ descrizione }}"/>
+                                <label class="placeHolder">Descrizione</label>
+                            </li>
+                            <li class="d-flex justify-content-between">
+                                <button type="submit" class="btn btn-primary">Cerca</button>
+                                <button type="reset" class="btn btn-secondary" onclick="window.location.href='/sala/'">Reset</button>
+                            </il>
+                            <li class="mb-3">
+                                <input id="opera" class="input" name="nomeopera" type="text" value="{{ nomeopera }}">
+                                <label class="placeHolder">Titolo dell'opera</label>
+                            </li>
+                            <li class="mb-3">
+                                <button type="submit" class="button">
+                                    <span class="buttonText">Cerca per opera</span>
+                                    <span class="buttonIcon"></span>
+                                </button>
+                            </li>
+                        </form>
+                    </div>
                 </div>
-            </ul>
-        </form>
-        <form method="GET" action=".">
-            <ul class="filterContainer2">
-                <li class="filterItem">
-                    <input id="opera" class="input" name="nomeopera" type="text" value="{{ nomeopera }}">
-                    <label class="placeHolder">Titolo dell'opera</label>
-                </li>
-                <li class="filterItem">
-                    <button type="submit" class="button">
-                        <span class="buttonText">Cerca per opera</span>
-                        <span class="buttonIcon"></span>
-                    </button>
-                </li>
-            </ul>
-        </form>
+            </div>
+
+            <!-- Tabella a destra -->
+            <div class="col-md-8">
+                <div id="result" class="table-responsive bg-white rounded p-3 shadow">
+                    <table class="table table-hover">
+                        <thead class="table-dark">
+                            <tr>
+                                <th>CODICE</th>
+                                <th>DESCRIZIONE</th>
+                                <th>NUMERO SALE</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for tema in temi %}
+                                <tr>
+                                    <td>{{ tema.0 }}</td>
+                                    <td>{{ tema.1 }}</td>
+                                    <td>
+                                        <a href="{% url 'sale_tema' tema.0 %}">{{ tema.2 }}</a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
     </div>
 
-    <h1>Risultati Sale</h1>
-    <div id="result" class="tableBody">
-        <table>
-            <thead>
-                <tr>
-                    <th>NUMERO</th>
-                    <th>NOME</th>
-                    <th>SUPERFICIE</th>
-                    <th>NUMERO OPERE</th>
-                    <th>TEMA SALA</th>
-                    <th>DESCRIZIONE TEMA</th>
-                    {% if nomeopera %}
-                    <th>TITOLO OPERA</th>
-                    {% endif %}
-                </tr>
-            </thead>
-            <tbody>
-                {% for sala in sale %}
-                    <tr class="{{ forloop.counter0|divisibleby:2|yesno:'rowEven,rowOdd' }}">
-                        <td>{{ sala.0 }}</td>
-                        <td>{{ sala.1 }}</td>
-                        <td>{{ sala.2 }} m²</td>
-                        <td>
-                            <a href="{% url 'opere_sala' sala.0 %}">{{ sala.3 }}</a>
-                        </td>
-                        <td>
-                            <a href="{% url 'tema_sala' sala.4 %}">{{ sala.4 }}</a>
-                        </td>
-                        <td>{{ sala.5 }}</td>
-                        {% if nomeopera %}
-                        <td>{{ sala.6 }}</td>
-                        {% endif %}
-                    </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+
+
+
+
+
 
 </body>
 </html>
