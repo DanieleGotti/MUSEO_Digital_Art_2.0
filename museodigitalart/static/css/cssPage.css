@@ -91,6 +91,14 @@
   box-shadow: 0 0 0px 1000px #F98B41 inset;
 }
 
+.d-flex {
+  justify-content: space-between; 
+}
+
+.border-bottom.my-4 {
+  border-color: #FEF0E7 !important;
+}
+
 
   
 
