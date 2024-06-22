@@ -1,8 +1,18 @@
 from django.shortcuts import render, redirect
 from django.db import connection
+from datetime import datetime
+from django.contrib import messages
 
 def get_connection():
     return connection  # Usa il connection object fornito da Django
+
+def convert_date(date_str):
+    try:
+        # Prova a convertire la data dal formato yyyy-mm-dd a dd/mm/yyyy
+        return datetime.strptime(date_str, '%Y-%m-%d').strftime('%d/%m/%Y')
+    except (ValueError, TypeError):
+        # Se fallisce, significa che la data è già nel formato dd/mm/yyyy o è None
+        return date_str
 
 def autore(request):
     conn = get_connection()
@@ -30,11 +40,19 @@ def autore(request):
     cursor.execute(query)
     rows = cursor.fetchall()
 
+    # Convert dates to dd/mm/yyyy format
+    formatted_rows = []
+    for row in rows:
+        formatted_row = list(row)
+        formatted_row[4] = convert_date(formatted_row[4])  # dataNascita
+        formatted_row[5] = convert_date(formatted_row[5])  # dataMorte
+        formatted_rows.append(tuple(formatted_row))
+
     cursor.close()
     conn.close()
 
     context = {
-        'autori': rows,
+        'autori': formatted_rows,
         'sort_by': sort_by,
         'sort_order': sort_order,
         'codice': codice,
@@ -51,10 +69,10 @@ def autore(request):
 
     return render(request, 'main/autore.html', context)
 
-
 def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere, nomeopera, sort_by, sort_order):
     query = """
-    SELECT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere
+    SELECT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, 
+           AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere
     FROM AUTORE
     WHERE 1=1
     """
@@ -77,7 +95,8 @@ def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tip
         query += f" AND AUTORE.numeroOpere = {numeroOpere}"
     if nomeopera:
         query = f"""
-        SELECT DISTINCT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere, OPERA.titolo AS nomeopera
+        SELECT DISTINCT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, 
+               AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere, OPERA.titolo AS nomeopera
         FROM AUTORE
         JOIN OPERA ON OPERA.autore = AUTORE.codice
         WHERE OPERA.titolo LIKE '%{nomeopera}%'
@@ -99,6 +118,27 @@ def create_autore(request):
         tipocreate = request.POST['tipocreate']
         numeroOperecreate = request.POST.get('numeroOperecreate', '0')  # default to '0' if not provided
 
+        # Validazione dei campi richiesti
+        if not (codicecreate and nomecreate and cognomecreate and nazionecreate and dataNascitacreate and tipocreate):
+            messages.error(request, 'Tutti i campi tranne Data Morte sono obbligatori.')
+            return redirect('autore')
+
+        # Convert date from dd/mm/yyyy to yyyy-mm-dd
+        try:
+            dataNascitacreate = datetime.strptime(dataNascitacreate, '%d/%m/%Y').strftime('%Y-%m-%d')
+        except ValueError:
+            messages.error(request, 'Formato Data Nascita non valido.')
+            return redirect('autore')
+
+        try:
+            if dataMortecreate:
+                dataMortecreate = datetime.strptime(dataMortecreate, '%d/%m/%Y').strftime('%Y-%m-%d')
+            else:
+                dataMortecreate = None
+        except ValueError:
+            messages.error(request, 'Formato Data Morte non valido.')
+            return redirect('autore')
+
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute('''
@@ -118,30 +158,60 @@ def update_autore(request, codice):
     cursor = conn.cursor()
 
     if request.method == 'POST':
-        nome = request.POST['editNome']
-        cognome = request.POST['editCognome']
-        nazione = request.POST['editNazione']
-        dataNascita = request.POST['editDataNascita']
-        dataMorte = request.POST.get('editDataMorte', '')  # Default to empty string if not provided
-        tipo = request.POST['editTipo']
-        numeroOpere = request.POST['editNumeroOpere']
+        editNome = request.POST['editNome']
+        editCognome = request.POST['editCognome']
+        editNazione = request.POST['editNazione']
+        editDataNascita = request.POST.get('editDataNascita', None)
+        editDataMorte = request.POST.get('editDataMorte', None)
+        editTipo = request.POST['editTipo']
+        editNumeroOpere = request.POST['editNumeroOpere']
+
+        # Retrieve current values for dataNascita and dataMorte
+        cursor.execute('SELECT dataNascita, dataMorte FROM AUTORE WHERE codice = %s', (codice,))
+        data = cursor.fetchone()
+        dataNascita, dataMorte = data[0], data[1]
+
+        # Convert the date if provided, otherwise use the current value
+        if editDataNascita:
+            try:
+                editDataNascita = datetime.strptime(editDataNascita, '%d/%m/%Y').strftime('%Y-%m-%d')
+            except ValueError:
+                editDataNascita = dataNascita
+        else:
+            editDataNascita = dataNascita
+
+        if editDataMorte:
+            try:
+                editDataMorte = datetime.strptime(editDataMorte, '%d/%m/%Y').strftime('%Y-%m-%d')
+            except ValueError:
+                editDataMorte = dataMorte
+        else:
+            editDataMorte = dataMorte
 
         cursor.execute('''
             UPDATE AUTORE
             SET nome = %s, cognome = %s, nazione = %s, dataNascita = %s, dataMorte = %s, tipo = %s, numeroOpere = %s
             WHERE codice = %s
-        ''', (nome, cognome, nazione, dataNascita, dataMorte or '', tipo, numeroOpere, codice))
+        ''', (editNome, editCognome, editNazione, editDataNascita, editDataMorte, editTipo, editNumeroOpere, codice))
         conn.commit()
 
         return redirect('autore')
 
     cursor.execute('SELECT * FROM AUTORE WHERE codice = %s', (codice,))
     autore = cursor.fetchone()
+
+    # Convert date format from yyyy-mm-dd to dd/mm/yyyy for display
+    if autore[4]:
+        autore = list(autore)
+        autore[4] = convert_date(autore[4])
+    if autore[5]:
+        autore = list(autore)
+        autore[5] = convert_date(autore[5])
+
     cursor.close()
     conn.close()
 
     return render(request, 'main/autore.html', {'autore': autore})
-
 
 def delete_autore(request, codice):
     conn = get_connection()
@@ -154,7 +224,6 @@ def delete_autore(request, codice):
         conn.close()
 
     return redirect('autore')
-from django.shortcuts import render
 import sqlite3
 
 def autore_opera(request, autore_codice):
