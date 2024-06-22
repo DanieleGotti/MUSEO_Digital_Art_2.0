@@ -1,8 +1,7 @@
-
 var codiceToDelete = null;
 var editFormId = null;
 
-function nascondiModal(modal){
+function nascondiModal(modal) {
     $(modal).modal('hide');
 }
 
@@ -47,11 +46,18 @@ function mostraConfermaInserimento() {
     $('#confermaModal').modal('show');
 }
 
-function confermaInserimento() {
-    $('#confermaModal').modal('hide'); // Nascondi la modale di conferma
-    $('#createAuthorModal').modal('hide'); // Nascondi la modale di inserimento
-    $('#inserisciAutoreForm').submit(); // Invia il form
+function mostraConfermaInserimento() {
+    // Controlla che tutti i campi obbligatori siano riempiti
+    var form = document.getElementById('inserisciAutoreForm');
+    if (form.checkValidity()) {
+        impostaTipoCreate(); // Imposta il tipo prima di mostrare la conferma
+        $('#confermaModal').modal('show');
+    } else {
+        // Se non tutti i campi sono riempiti, mostra un messaggio di errore
+        form.reportValidity();
+    }
 }
+
 
 function impostaTipoEdit(formId) {
     var dataMorte = document.getElementById('editDataMorte' + formId).value;

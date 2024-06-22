@@ -30,7 +30,7 @@
     margin: 0.25rem 0rem;
   }
 
-  .input {
+  .input, .input.datepicker{
     padding: 10px;
     width: 100%;
     box-sizing: border-box;
@@ -58,15 +58,15 @@
     opacity: 0.8;
   }
 
-  .input:hover {
+  .input:hover, .input.datepicker:hover{
     border: 2px solid white !important;
   }
 
-  .input:active {
+  .input:active, .input.datepicker:active{
     border: 2px solid white !important;
   }
   
-  .input:focus + .placeHolder, .input.notEmpty + .placeHolder {
+  .input:focus + .placeHolder, .input.datepicker:focus + .placeHolder, .input.notEmpty + .placeHolder,  .input.datepicker.notEmpty + .placeHolder {
     top: 25% !important;
     transform: translateY(-100%) !important;
     font-weight: 500;
@@ -74,8 +74,10 @@
     opacity: 1;
   }
 
-  .input:-webkit-autofill, .input:-webkit-autofill:hover,
-.input:-webkit-autofill:focus, .input:-webkit-autofill:active {
+  .input:-webkit-autofill, .input.datepicker:-webkit-autofill,
+   .input:-webkit-autofill:hover, .input.datepicker:-webkit-autofill:hover, 
+.input:-webkit-autofill:focus, .input.datepicker:-webkit-autofill:focus, 
+ .input:-webkit-autofill:active, .input.datepicker:-webkit-autofill:active {
   background-color: #F98B41 !important;
   color: white !important;
   border: 1px solid #FEF0E7 !important;
@@ -85,7 +87,7 @@
   box-shadow: 0 0 0px 1000px #F98B41 inset;
 }
 
-.input:autofill {
+.input:autofill, .input.datepicker:autofill {
   background-color: #F98B41 !important;
   color: white !important;
   box-shadow: 0 0 0px 1000px #F98B41 inset;
