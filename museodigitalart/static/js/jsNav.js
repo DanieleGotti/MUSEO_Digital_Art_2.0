@@ -22,12 +22,9 @@ function animateIcon(element) {
     const color = '#F76E11';
   
     if (elements.length === 0) {
-      console.log("Nessun elemento trovato con la classe 'navItem'");
       return;
     }
-  
-    console.log("Pagina corrente:", currentPage);
-  
+
     switch (currentPage) {
       case 'home':
         elements[0].style.backgroundColor = color;

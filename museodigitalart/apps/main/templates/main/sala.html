@@ -20,7 +20,7 @@
             <div class="col-md-3">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Filtri</h4>
+                        <h5>Filtri</h5>
                     </div>
                     <div class="card-body">
                         <form method="GET" action=".">
@@ -44,21 +44,28 @@
                                 <input id="descrizione" class="input" name="descrizione" type="text" value="{{ descrizione }}"/>
                                 <label class="placeHolder">Descrizione</label>
                             </li>
-                            <div class="d-flex">
-                                <button type="submit" class="btn btn-primary">Cerca</button>
-                                <button type="reset" class="btn btn-secondary" onclick="window.location.href='/sala/'">Reset</button>
+                            <div class="d-flex align-items-center justify-content-between">
+                                <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-between col-md-4">
+                                    <span>Cerca</span>
+                                    <img src="{% static 'img/cerca.png' %}"/>
+                                </button>
+                                <button type="reset" class="btn btn-secondary d-flex align-items-center justify-content-between col-md-4" onclick="window.location.href='/sala/'">
+                                    <span>Reset</span>
+                                    <img src="{% static 'img/reset.png' %}"/>
+                                </button>
                             </div>
                             <div class="border-bottom my-4"></div>
                             <form name="myform2" class="form" method="GET">
-                            <li class="mb-3">
-                                <input id="opera" class="input" name="nomeopera" type="text" value="{{ request.GET.nomeopera}}">
-                                <label class="placeHolder">Titolo dell'opera</label>
-                            </li>
-                            <li class="mb-3">
-                                <button type="submit" class="btn btn-primary">
-                                    <span class="buttonText">Cerca per opera</span>
-                                </button>
-                            </li>
+                                <li class="mb-3">
+                                    <input id="opera" class="input" name="nomeopera" type="text" value="{{ request.GET.nomeopera}}">
+                                    <label class="placeHolder">Titolo dell'opera</label>
+                                </li>
+                                <li class="d-flex">
+                                    <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-between">
+                                       <span>Cerca per opera</span>
+                                       <img src="{% static 'img/operaStatica.png' %}"/>
+                                    </button>
+                                </li>
                             </form>
                         </form>
                     </div>

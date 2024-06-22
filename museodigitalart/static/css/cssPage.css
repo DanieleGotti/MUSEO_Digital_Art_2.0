@@ -66,7 +66,8 @@
     border: 2px solid white !important;
   }
   
-  .input:focus + .placeHolder, .input.datepicker:focus + .placeHolder, .input.notEmpty + .placeHolder,  .input.datepicker.notEmpty + .placeHolder {
+  .input:focus + .placeHolder, .input.datepicker:focus + .placeHolder, 
+    .input.notEmpty + .placeHolder,  .input.datepicker.notEmpty + .placeHolder {
     top: 25% !important;
     transform: translateY(-100%) !important;
     font-weight: 500;
@@ -75,9 +76,9 @@
   }
 
   .input:-webkit-autofill, .input.datepicker:-webkit-autofill,
-   .input:-webkit-autofill:hover, .input.datepicker:-webkit-autofill:hover, 
-.input:-webkit-autofill:focus, .input.datepicker:-webkit-autofill:focus, 
- .input:-webkit-autofill:active, .input.datepicker:-webkit-autofill:active {
+    .input:-webkit-autofill:hover, .input.datepicker:-webkit-autofill:hover, 
+    .input:-webkit-autofill:focus, .input.datepicker:-webkit-autofill:focus, 
+    .input:-webkit-autofill:active, .input.datepicker:-webkit-autofill:active {
   background-color: #F98B41 !important;
   color: white !important;
   border: 1px solid #FEF0E7 !important;
@@ -102,19 +103,27 @@
 }
 
 .btn {
+  width: 100%;
   background-color: #F76E11 !important;
-  color: white;
+  color: white !important;
+  border: none !important;
+  border: 1px solid green;
 }
 
-.btn {
-  
+.btn:hover {
+  background-color: #FFB68D !important;
+  border: 2px solid white !important;
 }
 
+.btn img {
+  height: 12px;
+  transform: scale(1.5);
+  filter: contrast(0%) brightness(200%);
+}
 
-
-
-
-
+.radio {
+  display: none;
+}
 
 .radio + .radioLabel {
   display: block;
@@ -139,8 +148,8 @@
 }
 
 .radio + .radioLabel::after {
-  height: 12px;
-  width: 12px;
+  height: 16px;
+  width: 16px;
   border: 2px solid #FEF0E7;
   left: 10px;
   top: calc(50% - 7px);
@@ -178,32 +187,38 @@
   color: white;
 }
 
+::-webkit-scrollbar {
+  width: 0.5em;
+  height: .5em;
+  background-color: #FEF0E7;
+}
+
+::-webkit-scrollbar-track {
+  background-color:#FEF0E7;
+  border-radius: 100vw;
+  margin-block: .5em;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #F76E11;
+  border: 2px solid #FEF0E7;
+  border-radius: 100vw;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #F98B41;
+}
 
 
 
 
 
 
-  
-  .btn-primary {
-    background-color: #F76E11;
-    border: none;
-  }
-  
-  .btn-primary:hover {
-    background-color: #FFB68D;
-    border: 2px solid white;
-  }
-  
-  .btn-secondary {
-    background-color: #F76E11;
-    border: none;
-  }
-  
-  .btn-secondary:hover {
-    background-color: #FFB68D;
-    border: 2px solid white;
-  }
+
+
+
+
+
   
   .table-hover tbody tr:hover {
     background-color: rgba(255, 182, 141, 0.5) !important; /* Colore tenue di arancione */

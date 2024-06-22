@@ -33,9 +33,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
 // Cambia classe agli inputPop in modo che il placeHolder cambi posizione
 document.addEventListener('DOMContentLoaded', function () {
-  const inputs = document.querySelectorAll('.inputPop');
+  const inputs = document.querySelectorAll('.input');
 
   inputs.forEach(function (input) {
+    if (input.value !== '') {
+      input.classList.add('notEmpty');
+    }
+
     input.addEventListener('input', function () {
       if (input.value !== '') {
         input.classList.add('notEmpty');
