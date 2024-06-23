@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.db import connection
 from datetime import datetime
 from django.contrib import messages
+import sqlite3
 
 def get_connection():
     return connection  # Usa il connection object fornito da Django
@@ -30,11 +31,15 @@ def autore(request):
     sort_by = request.GET.get('sort_by', 'codice')
     sort_order = request.GET.get('sort_order', 'asc')
 
-    mostra = request.session.get('mostra_crud', False)  # Get the state from the session
+  # Imposta il valore di mostra_crud su False se non è già presente nella sessione
+    if 'mostra_crud' not in request.session:
+        request.session['mostra_crud'] = False
+    
+    mostra = request.session.get('mostra_crud', False)  # Ottieni lo stato dalla sessione
 
     if request.method == 'POST' and 'toggle_crud' in request.POST:
-        mostra = not mostra  # Toggle the state
-        request.session['mostra_crud'] = mostra  # Save the state in the session
+        mostra = not mostra  # Inverti lo stato
+        request.session['mostra_crud'] = mostra  # Salva lo stato nella sessione
 
     query = get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere, nomeopera, sort_by, sort_order)
     cursor.execute(query)
@@ -107,18 +112,13 @@ def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tip
 
     return query
 
-from django.shortcuts import render, redirect
-from django.contrib import messages
-import sqlite3
-from datetime import datetime
-import re
 
 def get_connection():
     return sqlite3.connect('db.sqlite3')
 from django.contrib import messages
 from django.shortcuts import redirect, render
 from datetime import datetime
-import re
+
 
 def create_autore(request):
     if request.method == 'POST':
