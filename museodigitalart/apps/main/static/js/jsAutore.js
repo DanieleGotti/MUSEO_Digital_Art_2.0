@@ -5,30 +5,6 @@ function nascondiModal(modal) {
     $(modal).modal('hide');
 }
 
-function showDeleteConfirm(codice) {
-    codiceToDelete = codice;
-    $('#deleteConfirmModal').modal('show');
-}
-
-function confermaCancellazione() {
-    if (codiceToDelete !== null) {
-        $.ajax({
-            type: "POST",
-            url: "{% url 'delete_autore' 0 %}".replace('0', codiceToDelete),
-            data: {
-                csrfmiddlewaretoken: '{{ csrf_token }}'
-            },
-            success: function(response) {
-                console.log("Autore eliminato con successo!");
-                window.location.reload();
-            },
-            error: function(xhr, status, error) {
-                console.error("Errore durante la cancellazione dell'autore:", error);
-            }
-        });
-    }
-    $('#deleteConfirmModal').modal('hide');
-}
 
 function impostaTipoCreate() {
     var dataMorte = document.getElementById('dataMortecreate').value;
@@ -38,23 +14,6 @@ function impostaTipoCreate() {
         tipo.value = 'Morto';
     } else {
         tipo.value = 'Vivo';
-    }
-}
-
-function mostraConfermaInserimento() {
-    impostaTipoCreate(); // Imposta il tipo prima di mostrare la conferma
-    $('#confermaModal').modal('show');
-}
-
-function mostraConfermaInserimento() {
-    // Controlla che tutti i campi obbligatori siano riempiti
-    var form = document.getElementById('inserisciAutoreForm');
-    if (form.checkValidity()) {
-        impostaTipoCreate(); // Imposta il tipo prima di mostrare la conferma
-        $('#confermaModal').modal('show');
-    } else {
-        // Se non tutti i campi sono riempiti, mostra un messaggio di errore
-        form.reportValidity();
     }
 }
 
@@ -79,12 +38,6 @@ function mostraConfermaModifica(formId) {
     $('#editConfirmModal').modal('show');
 }
 
-function confermaModifica() {
-    if (editFormId !== null) {
-        $('#editForm' + editFormId).submit();
-        $('#editConfirmModal').modal('hide');
-    }
-}
 
 function toggleEditForm(codice) {
     var formRow = document.getElementById('editFormRow' + codice);
@@ -108,4 +61,89 @@ $(document).ready(function() {
         format: 'dd/mm/yyyy',
         language: 'it'
     });
+});
+
+
+function mostraConfermaInserimento() {
+    var form = document.getElementById('inserisciAutoreForm');
+    if (form.checkValidity()) {
+        impostaTipoCreate();
+        $('#confermaModal').modal('show');
+    } else {
+        form.reportValidity();
+    }
+}
+
+function confermaInserimento() {
+    console.log("Invio modulo conferma inserimento"); // conferma log
+    document.getElementById('inserisciAutoreForm').submit();
+    $('#confermaModal').modal('hide');
+}
+$(document).ready(function() {
+    impostaTipoCreate();
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'it'
+    });
+    $('.selectpicker').selectpicker();
+});
+
+
+// Modifica il codice per chiudere il modal di conferma
+function confermaModifica() {
+    if (editFormId !== null) {
+        $('#editForm' + editFormId).submit();
+        $('#editConfirmModal').modal('hide');
+    }
+}
+
+var codiceToDelete = null;
+
+var codiceToDelete = null;
+
+function showDeleteConfirm(codice) {
+    codiceToDelete = codice;
+    var deleteForm = document.getElementById('deleteForm');
+    deleteForm.action = '/delete_autore/' + codiceToDelete + '/';
+    $('#deleteConfirmModal').modal('show');
+}
+
+$(document).ready(function() {
+    impostaTipoCreate();
+    
+    // Inizializza il datepicker per tutti gli input datepicker
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'it'
+    });
+    $('.selectpicker').selectpicker();
+});
+
+function confermaCancellazione() {
+    if (codiceToDelete !== null) {
+        var form = document.createElement('form');
+        form.method = 'POST';
+        form.action = '/delete_autore/' + codiceToDelete + '/';
+        
+        var csrfToken = document.createElement('input');
+        csrfToken.type = 'hidden';
+        csrfToken.name = 'csrfmiddlewaretoken';
+        csrfToken.value = document.querySelector('[name=csrfmiddlewaretoken]').value;
+        
+        form.appendChild(csrfToken);
+        document.body.appendChild(form);
+        form.submit();
+    }
+    $('#deleteConfirmModal').modal('hide');
+}
+
+$(document).ready(function() {
+    impostaTipoCreate();
+    
+    // Inizializza il datepicker per tutti gli input datepicker
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'it'
+    });
+    $('.selectpicker').selectpicker();
 });

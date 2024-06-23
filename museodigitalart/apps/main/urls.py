@@ -37,5 +37,6 @@ urlpatterns = [
     path('autore/opera/<str:autore_codice>/', viewsautore.autore_opera, name='autore_opera'),  
     path('create_autore/', viewsautore.create_autore, name='create_autore'),
     path('autore/update/<str:codice>/', viewsautore.update_autore, name='update_autore'),
-    path('autore/delete/<str:codice>/', viewsautore.delete_autore, name='delete_autore'),
+    
+    path('delete_autore/<str:codice>/', viewsautore.delete_autore, name='delete_autore')
 ]
