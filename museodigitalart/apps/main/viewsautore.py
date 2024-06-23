@@ -3,6 +3,7 @@ from django.db import connection
 from datetime import datetime
 from django.contrib import messages
 import sqlite3
+import re
 
 def get_connection():
     return connection  # Usa il connection object fornito da Django
@@ -137,7 +138,7 @@ def create_autore(request):
             return redirect('autore')
 
         # Verifica che il codice contenga solo cifre e sia superiore a 100
-        if not re.match(r'^[0-9]+$', codicecreate) :
+        if not re.match(r'^[0-9]+$', codicecreate):
             messages.error(request, 'Il codice deve essere un numero contenente solo cifre.')
             return redirect('autore')
 
@@ -195,7 +196,7 @@ def update_autore(request, codice):
         editNumeroOpere = request.POST['editNumeroOpere']
 
         # Retrieve current values for dataNascita and dataMorte
-        cursor.execute('SELECT dataNascita, dataMorte FROM AUTORE WHERE codice = %s', (codice,))
+        cursor.execute('SELECT dataNascita, dataMorte FROM AUTORE WHERE codice = ?', (codice,))
         data = cursor.fetchone()
         dataNascita, dataMorte = data[0], data[1]
 
@@ -218,11 +219,11 @@ def update_autore(request, codice):
 
         cursor.execute('''
             UPDATE AUTORE
-            SET nome = %s, cognome = %s, nazione = %s, dataNascita = %s, dataMorte = %s, tipo = %s, numeroOpere = %s
-            WHERE codice = %s
+            SET nome = ?, cognome = ?, nazione = ?, dataNascita = ?, dataMorte = ?, tipo = ?, numeroOpere = ?
+            WHERE codice = ?
         ''', (editNome, editCognome, editNazione, editDataNascita, editDataMorte, editTipo, editNumeroOpere, codice))
         conn.commit()
-
+        messages.success(request, 'Autore modificato con successo.')
         return redirect('autore')
 
     cursor.execute('SELECT * FROM AUTORE WHERE codice = ?', (codice,))
@@ -250,7 +251,7 @@ def delete_autore(request, codice):
     finally:
         cursor.close()
         conn.close()
-
+    messages.success(request, 'Autore eliminato con successo.')
     return redirect('autore')
 
 

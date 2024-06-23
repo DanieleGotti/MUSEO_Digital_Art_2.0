@@ -1,0 +1,24 @@
+.alert-debug {
+    background-color: #d1ecf1; /* Azzurro chiaro */
+    color: #0c5460; /* Blu scuro */
+}
+
+.alert-info {
+    background-color: #d1ecf1; /* Azzurro chiaro */
+    color: #0c5460; /* Blu scuro */
+}
+
+.alert-success {
+    background-color: #d4edda; /* Verde chiaro */
+    color: #155724; /* Verde scuro */
+}
+
+.alert-warning {
+    background-color: #fff3cd; /* Giallo chiaro */
+    color: #856404; /* Giallo scuro */
+}
+
+.alert-error {
+    background-color: #f5a6ad; /* Rosso chiaro */
+    color: #721c24; /* Rosso scuro */
+}

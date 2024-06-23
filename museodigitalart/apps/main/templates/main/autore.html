@@ -8,6 +8,7 @@
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
     <link rel="stylesheet" href="{% static 'css/cssPage.css' %}">
     <link rel="stylesheet" href="{% static 'css/cssModal.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cssMessage.css' %}">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
@@ -23,10 +24,39 @@
     {% if messages %}
     <div id="messages">
         {% for message in messages %}
-            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-                {{ message }}
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
+            {% if message.tags == 'error' %}
+                {% with 'danger' as bootstrap_tag %}
+                    <div class="alert alert-{{ bootstrap_tag }} alert-dismissible fade show" role="alert">
+                        {{ message }}
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                    </div>
+                {% endwith %}
+            {% else %}
+                {% if message.tags == 'warning' %}
+                    {% with 'warning' as bootstrap_tag %}
+                        <div class="alert alert-{{ bootstrap_tag }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endwith %}
+                {% else %}
+                    {% if message.tags == 'success' %}
+                        {% with 'success' as bootstrap_tag %}
+                            <div class="alert alert-{{ bootstrap_tag }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endwith %}
+                    {% else %}
+                        {% with 'info' as bootstrap_tag %}
+                            <div class="alert alert-{{ bootstrap_tag }} alert-dismissible fade show" role="alert">
+                                {{ message }}
+                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                            </div>
+                        {% endwith %}
+                    {% endif %}
+                {% endif %}
+            {% endif %}
         {% endfor %}
     </div>
     {% endif %}
@@ -237,9 +267,9 @@
                         <span>Annulla</span>
                         <img src="{% static 'img/indietro.png' %}"/>
                     </button>
-                    <form id="deleteForm" method="POST">
+                    <form id="deleteForm" method="POST" class="col-md-3">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger d-flex align-items-center justify-content-between col-md-3">
+                        <button type="submit" class="btn btn-danger d-flex align-items-center justify-content-between">
                             <span>Conferma</span>
                             <img src="{% static 'img/conferma.png' %}"/>
                         </button>
