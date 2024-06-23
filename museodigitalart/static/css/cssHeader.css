@@ -53,6 +53,9 @@
     font-size: 16px;
 }
 
+.messages {
+    padding-top: 4.5rem; 
+}
 
 .container-fluid {
     padding-top: 4.5rem; 

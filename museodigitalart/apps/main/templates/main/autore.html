@@ -24,7 +24,7 @@
     {% include 'header.html' with page_title="Autori" %}
     {% include 'nav.html' %}
     {% if messages %}
-    <div id="messages">
+    <div class= "messages" id="messages">
         {% for message in messages %}
             {% if message.tags == 'error' %}
                 {% with 'danger' as bootstrap_tag %}
