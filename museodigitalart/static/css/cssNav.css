@@ -22,7 +22,12 @@
     border-left: 2px solid #FEF0E7;
     border-bottom: 2px solid #FEF0E7;
   }
-  
+
+    
+.navbar {
+  position: fixed;
+}
+
   .navbarNav {
     width: 100%;
     list-style: none;

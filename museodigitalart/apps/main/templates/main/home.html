@@ -7,13 +7,19 @@
     {% load static %}
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.min.css' %}">
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cssNav.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cssFooter.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cssHeader.css' %}">
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
+    <script src="{% static 'js/jsFooter.js' %}"></script>
+    <script src="{% static 'js/jsNav.js' %}"></script>
 </head>
 <body>
 
+    {% include 'header.html' with page_title="Home" %}
     {% include 'nav.html' %}
 
-    <div class="content">
+    <div class="container mt-4">
         <h1>Benvenuti</h1>
         <p>Seleziona una sezione per navigare:</p>
         <ul>
@@ -23,5 +29,10 @@
             <li><a href="{% url 'autore' %}">Autore</a></li>
         </ul>
     </div>
+
+    {% include 'footer.html' %}
+
 </body>
 </html>
+
+
