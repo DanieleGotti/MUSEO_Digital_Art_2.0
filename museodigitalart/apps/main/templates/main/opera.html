@@ -9,12 +9,19 @@
     <link rel="stylesheet" href="{% static 'css/cssPage.css' %}">
     <link rel="stylesheet" href="{% static 'css/cssFooter.css' %}">
     <link rel="stylesheet" href="{% static 'css/cssHeader.css' %}">
+    <link rel="stylesheet" href="{% static 'css/cssLoading.css' %}">
     <script src="{% static 'js/bootstrap/bootstrap.bundle.min.js' %}"></script>
     <script src="{% static 'js/jsFiltersMove.js' %}"></script>
+    <script src="{% static 'js/jsLoading.js' %}"></script>
 </head>
 <body>
+
     {% include 'header.html' with page_title="Opere" %}
     {% include 'nav.html' %}
+
+    <div class="caricamento">
+        <span>...</span>
+    </div>
     
     <div class="container-fluid">
         <div class="row">
