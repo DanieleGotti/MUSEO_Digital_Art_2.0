@@ -1,11 +1,9 @@
-# main/views.py
-
 from django.shortcuts import render
 import sqlite3
 
 def sala(request):
     # Connessione al database SQLite
-    conn = sqlite3.connect('db.sqlite3')  # Assicurati di specificare il percorso corretto al tuo database SQLite
+    conn = sqlite3.connect('db.sqlite3')
     cursor = conn.cursor()
 
     # Recupero dei parametri di filtro
@@ -40,12 +38,12 @@ def sala(request):
     if descrizione:
         query += f" AND TEMA.descrizione LIKE '%{descrizione}%'"
     if nomeopera:
-          query = """
+          query = f"""
                     SELECT DISTINCT SALA.numero, SALA.nome, SALA.superficie, SALA.numeroOpere, SALA.temaSala, TEMA.descrizione, OPERA.titolo AS nomeopera
                     FROM SALA
                     LEFT JOIN TEMA ON SALA.temaSala = TEMA.codice
                     LEFT JOIN OPERA ON OPERA.espostaInSala = SALA.numero
-                    WHERE 1=1 AND OPERA.titolo LIKE '%{nomeopera}%'
+                    WHERE OPERA.titolo LIKE '%{nomeopera}%'
                     """
 
     if sort_by and sort_order:
@@ -57,6 +55,19 @@ def sala(request):
     cursor.close()
     conn.close()
 
+    # Calcola le URL per l'ordinamento
+    base_url = request.path
+    params = request.GET.copy()
+    params['sort_order'] = 'asc' if sort_order == 'desc' else 'desc'
+
+    url_numero = f"{base_url}?sort_by=numero&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_nome = f"{base_url}?sort_by=nome&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_superficie = f"{base_url}?sort_by=superficie&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_numeroOpere = f"{base_url}?sort_by=numeroOpere&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_temaSala = f"{base_url}?sort_by=temaSala&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_descrizione = f"{base_url}?sort_by=descrizione&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_nomeopera = f"{base_url}?sort_by=nomeopera&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+
     context = {
         'sale': rows,
         'sort_by': sort_by,
@@ -67,13 +78,18 @@ def sala(request):
         'numeroOpere': numeroOpere,
         'temaSala': temaSala,
         'descrizione': descrizione,
-        'nomeopera': nomeopera
+        'nomeopera': nomeopera,
+        'url_numero': url_numero,
+        'url_nome': url_nome,
+        'url_superficie': url_superficie,
+        'url_numeroOpere': url_numeroOpere,
+        'url_temaSala': url_temaSala,
+        'url_descrizione': url_descrizione,
+        'url_nomeopera': url_nomeopera
     }
 
     return render(request, 'main/sala.html', context)
 
-from django.shortcuts import render
-import sqlite3
 
 def sala_opera(request, sala_numero):
     # Connessione al database SQLite
@@ -127,6 +143,19 @@ def sala_opera(request, sala_numero):
     cursor.close()
     conn.close()
 
+    # Calcola le URL per l'ordinamento
+    base_url = request.path
+    params = request.GET.copy()
+    params['sort_order'] = 'asc' if sort_order == 'desc' else 'desc'
+
+    url_numero = f"{base_url}?sort_by=numero&sort_order={params['sort_order']}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_nome = f"{base_url}?sort_by=nome&sort_order={params['sort_order']}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_superficie = f"{base_url}?sort_by=superficie&sort_order={params['sort_order']}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_numeroOpere = f"{base_url}?sort_by=numeroOpere&sort_order={params['sort_order']}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_temaSala = f"{base_url}?sort_by=temaSala&sort_order={params['sort_order']}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_descrizione = f"{base_url}?sort_by=descrizione&sort_order={params['sort_order']}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_nomeopera = f"{base_url}?sort_by=nomeopera&sort_order={params['sort_order']}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&temaSala={temaSala}&descrizione={descrizione}&nomeopera={nomeopera}"
+
     context = {
         'sale': rows,
         'sort_by': sort_by,
@@ -137,15 +166,21 @@ def sala_opera(request, sala_numero):
         'numeroOpere': numeroOpere,
         'temaSala': temaSala,
         'descrizione': descrizione,
-        'nomeopera': nomeopera
+        'nomeopera': nomeopera,
+        'url_numero': url_numero,
+        'url_nome': url_nome,
+        'url_superficie': url_superficie,
+        'url_numeroOpere': url_numeroOpere,
+        'url_temaSala': url_temaSala,
+        'url_descrizione': url_descrizione,
+        'url_nomeopera': url_nomeopera
     }
 
     return render(request, 'main/sala.html', context)
 
-
 def sala_tema(request, tema_codice):
     # Connessione al database SQLite
-    conn = sqlite3.connect('db.sqlite3')  
+    conn = sqlite3.connect('db.sqlite3')
     cursor = conn.cursor()
 
     # Recupero dei parametri di filtro
@@ -177,13 +212,13 @@ def sala_tema(request, tema_codice):
     if descrizione:
         query += f" AND TEMA.descrizione LIKE '%{descrizione}%'"
     if nomeopera:
-          query = """
-                    SELECT DISTINCT SALA.numero, SALA.nome, SALA.superficie, SALA.numeroOpere, SALA.temaSala, TEMA.descrizione, OPERA.titolo AS nomeopera
-                    FROM SALA
-                    LEFT JOIN TEMA ON SALA.temaSala = TEMA.codice
-                    LEFT JOIN OPERA ON OPERA.espostaInSala = SALA.numero
-                    WHERE SALA.temaSala = ? AND OPERA.titolo LIKE '%{nomeopera}%'
-                    """
+        query = """
+                SELECT DISTINCT SALA.numero, SALA.nome, SALA.superficie, SALA.numeroOpere, SALA.temaSala, TEMA.descrizione, OPERA.titolo AS nomeopera
+                FROM SALA
+                LEFT JOIN TEMA ON SALA.temaSala = TEMA.codice
+                LEFT JOIN OPERA ON OPERA.espostaInSala = SALA.numero
+                WHERE SALA.temaSala = ? AND OPERA.titolo LIKE '%{nomeopera}%'
+                """
 
     if sort_by and sort_order:
         query += f" ORDER BY {sort_by} {sort_order}"
@@ -193,6 +228,18 @@ def sala_tema(request, tema_codice):
 
     cursor.close()
     conn.close()
+
+    # Calcola le URL per l'ordinamento
+    base_url = request.path
+    params = request.GET.copy()
+    params['sort_order'] = 'asc' if sort_order == 'desc' else 'desc'
+
+    url_numero = f"{base_url}?sort_by=numero&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_nome = f"{base_url}?sort_by=nome&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_superficie = f"{base_url}?sort_by=superficie&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_numeroOpere = f"{base_url}?sort_by=numeroOpere&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_descrizione = f"{base_url}?sort_by=descrizione&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&descrizione={descrizione}&nomeopera={nomeopera}"
+    url_nomeopera = f"{base_url}?sort_by=nomeopera&sort_order={params['sort_order']}&numero={numero}&nome={nome}&superficie={superficie}&numeroOpere={numeroOpere}&descrizione={descrizione}&nomeopera={nomeopera}"
 
     context = {
         'sale': rows,
@@ -204,7 +251,13 @@ def sala_tema(request, tema_codice):
         'numeroOpere': numeroOpere,
         'temaSala': tema_codice,
         'descrizione': descrizione,
-        'nomeopera': nomeopera
+        'nomeopera': nomeopera,
+        'url_numero': url_numero,
+        'url_nome': url_nome,
+        'url_superficie': url_superficie,
+        'url_numeroOpere': url_numeroOpere,
+        'url_descrizione': url_descrizione,
+        'url_nomeopera': url_nomeopera
     }
 
     return render(request, 'main/sala.html', context)

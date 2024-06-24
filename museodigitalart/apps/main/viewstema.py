@@ -1,3 +1,4 @@
+
 from django.shortcuts import render
 import sqlite3
 
@@ -9,7 +10,6 @@ def tema(request):
     # Recupero dei parametri di filtro
     codice = request.GET.get('codice', '')
     descrizione = request.GET.get('descrizione', '')
-    numeroSale = request.GET.get('numeroSale', '')
     sort_by = request.GET.get('sort_by', 'codice')
     sort_order = request.GET.get('sort_order', 'asc')
 
@@ -35,19 +35,28 @@ def tema(request):
     cursor.close()
     conn.close()
 
+    # Calcola le URL per l'ordinamento
+    base_url = request.path
+    params = request.GET.copy()
+    params['sort_order'] = 'asc' if sort_order == 'desc' else 'desc'
+
+    url_codice = f"{base_url}?sort_by=codice&sort_order={params['sort_order']}&codice={codice}&descrizione={descrizione}"
+    url_descrizione = f"{base_url}?sort_by=descrizione&sort_order={params['sort_order']}&codice={codice}&descrizione={descrizione}"
+    url_numeroSale = f"{base_url}?sort_by=numeroSale&sort_order={params['sort_order']}&codice={codice}&descrizione={descrizione}"
+
     context = {
         'temi': rows,
         'sort_by': sort_by,
         'sort_order': sort_order,
         'codice': codice,
         'descrizione': descrizione,
-        'numeroSale': numeroSale
+        'url_codice': url_codice,
+        'url_descrizione': url_descrizione,
+        'url_numeroSale': url_numeroSale
     }
 
     return render(request, 'main/tema.html', context)
 
-from django.shortcuts import render
-import sqlite3
 
 def tema_sala(request, tema_codice):
     # Connessione al database SQLite

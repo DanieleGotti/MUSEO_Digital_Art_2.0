@@ -27,11 +27,11 @@
                     <div class="card-body">
                         <form method="GET" action=".">
                             <div class="mb-3">
-                                <input type="text" class="input" id="codice" name="codice" value="{{ codice }}">
+                                <input type="text" class="input" id="codice" name="codice" value="{{ request.GET.codice|default:'' }}">
                                 <label for="codice" class="placeHolder">Codice</label>
                             </div>
                             <div class="mb-3">
-                                <input type="text" class="input" id="descrizione" name="descrizione" value="{{ descrizione }}">
+                                <input type="text" class="input" id="descrizione" name="descrizione" value="{{ request.GET.descrizione|default:'' }}">
                                 <label for="descrizione" class="placeHolder">Descrizione</label>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
@@ -57,17 +57,17 @@
                         <thead class="table">
                             <tr>
                                 <th>Codice
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_codice }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Descrizione
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_descrizione }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Numero Sale
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_numeroSale }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>

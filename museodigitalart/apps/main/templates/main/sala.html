@@ -58,9 +58,9 @@
                                 </button>
                             </div>
                             <div class="border-bottom my-4"></div>
-                            <form name="myform2" class="form" method="GET">
+                            <form name="myform2" class="form mt-3" method="GET" action=".">
                                 <li class="mb-3">
-                                    <input id="opera" class="input" name="nomeopera" type="text" value="{{ request.GET.nomeopera}}">
+                                    <input id="opera" class="input" name="nomeopera" type="text" value="{{ request.GET.nomeopera }}">
                                     <label class="placeHolder">Titolo dell'opera</label>
                                 </li>
                                 <li class="d-flex">
@@ -82,38 +82,38 @@
                         <thead class="table">
                             <tr>
                                 <th>Numero
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_numero }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Nome
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_nome }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Superficie
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_superficie }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Numero Opere
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_numeroOpere }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Tema Sala
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_temaSala }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Descrizione Tema
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_descrizione }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 {% if nomeopera %}
                                 <th>Titolo Opera
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_nomeopera }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
@@ -127,12 +127,12 @@
                                     <td>{{ sala.1 }}</td>
                                     <td>{{ sala.2 }} m²</td>
                                     <td>
-                                        <a href="{% url 'opere_sala' sala.0 %}">{{ sala.3 }}</a>
+                                        <a href="{% url 'opere_sala' sala.0 %}">{{ sala.3|default_if_none:'Aggiungi da db' }}</a>
                                     </td>
                                     <td>
-                                        <a href="{% url 'tema_sala' sala.4 %}">{{ sala.4 }}</a>
+                                        <a href="{% url 'tema_sala' sala.4 %}">{{ sala.4|default_if_none:'' }}</a>
                                     </td>
-                                    <td>{{ sala.5 }}</td>
+                                    <td>{{ sala.5|default_if_none:'' }}</td>
                                     {% if nomeopera %}
                                     <td>{{ sala.6 }}</td>
                                     {% endif %}

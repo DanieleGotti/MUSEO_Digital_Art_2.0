@@ -112,8 +112,12 @@
                                 <label for="dataMorte" class="placeHolder">Data Morte</label>
                             </div>
                             <div class="mb-3">
-                                <input type="text" class="input" id="tipo" name="tipo" value="{{ request.GET.tipo }}">
-                                <label for="tipo" class="placeHolder">Tipo</label>
+                                <input type="radio" class="radio" id="vivo" name="tipo" value="Vivo">
+                                <label for="vivo" class="radioLabel">Vivo</label>
+                            </div>
+                            <div class="mb-3">
+                                <input type="radio" class="radio" id="morto" name="tipo" value="Morto">
+                                <label for="morto" class="radioLabel">Morto</label>
                             </div>
                             <div class="mb-3">
                                 <input type="text" class="input" id="numeroOpere" name="numeroOpere" value="{{ request.GET.numeroOpere }}">
@@ -167,42 +171,42 @@
                                 <th>ELIMINA</th>
                                 {% endif %}
                                 <th>Codice
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_codice }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Nome
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_nome }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Cognome
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_cognome }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Nazione
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_nazione }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Data Nascita
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_dataNascita }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Data Morte
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_dataMorte }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Tipo
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_tipo }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
                                 <th>Numero Opere
-                                    <button class="iconArrow">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_numeroOpere }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>

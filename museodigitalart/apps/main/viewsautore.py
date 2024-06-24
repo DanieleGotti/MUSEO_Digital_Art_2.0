@@ -29,10 +29,10 @@ def autore(request):
     tipo = request.GET.get('tipo', '')
     numeroOpere = request.GET.get('numeroOpere', '')
     nomeopera = request.GET.get('nomeopera', '')
-    sort_by = request.GET.get('sort_by', 'codice')
+    sort_by = request.GET.get('sort_by', 'AUTORE.codice')
     sort_order = request.GET.get('sort_order', 'asc')
 
-  # Imposta il valore di mostra_crud su False se non è già presente nella sessione
+    # Imposta il valore di mostra_crud su False se non è già presente nella sessione
     if 'mostra_crud' not in request.session:
         request.session['mostra_crud'] = False
     
@@ -57,6 +57,20 @@ def autore(request):
     cursor.close()
     conn.close()
 
+    # Calcola le URL per l'ordinamento
+    base_url = request.path
+    params = request.GET.copy()
+    params['sort_order'] = 'asc' if sort_order == 'desc' else 'desc'
+
+    url_codice = f"{base_url}?sort_by=AUTORE.codice&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_nome = f"{base_url}?sort_by=AUTORE.nome&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_cognome = f"{base_url}?sort_by=AUTORE.cognome&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_nazione = f"{base_url}?sort_by=AUTORE.nazione&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_dataNascita = f"{base_url}?sort_by=AUTORE.dataNascita&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_dataMorte = f"{base_url}?sort_by=AUTORE.dataMorte&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_tipo = f"{base_url}?sort_by=AUTORE.tipo&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_numeroOpere = f"{base_url}?sort_by=AUTORE.numeroOpere&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+
     context = {
         'autori': formatted_rows,
         'sort_by': sort_by,
@@ -71,6 +85,14 @@ def autore(request):
         'numeroOpere': numeroOpere,
         'nomeopera': nomeopera,
         'mostra': mostra,
+        'url_codice': url_codice,
+        'url_nome': url_nome,
+        'url_cognome': url_cognome,
+        'url_nazione': url_nazione,
+        'url_dataNascita': url_dataNascita,
+        'url_dataMorte': url_dataMorte,
+        'url_tipo': url_tipo,
+        'url_numeroOpere': url_numeroOpere,
     }
 
     return render(request, 'main/autore.html', context)
@@ -98,7 +120,7 @@ def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tip
     if tipo:
         query += f" AND AUTORE.tipo LIKE '%{tipo}%'"
     if numeroOpere:
-        query += f" AND AUTORE.numeroOpere = {numeroOpere}"
+        query += f" AND AUTORE.numeroOpere LIKE '%{numeroOpere}%'"
     if nomeopera:
         query = f"""
         SELECT DISTINCT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, 
@@ -109,16 +131,118 @@ def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tip
         """
 
     if sort_by and sort_order:
-        query += f" ORDER BY {sort_by} {sort_order}"
+        if sort_by in ['AUTORE.dataNascita', 'AUTORE.dataMorte']:
+            query += f" ORDER BY substr({sort_by}, 7, 4) || '-' || substr({sort_by}, 4, 2) || '-' || substr({sort_by}, 1, 2) {sort_order}"
+        else:
+            query += f" ORDER BY {sort_by} {sort_order}"
 
     return query
+
+def autore_opera(request, autore_codice):
+    conn = sqlite3.connect('db.sqlite3')
+    cursor = conn.cursor()
+
+    codice = autore_codice
+    nome = request.GET.get('nome', '')
+    cognome = request.GET.get('cognome', '')
+    nazione = request.GET.get('nazione', '')
+    dataNascita = request.GET.get('dataNascita', '')
+    dataMorte = request.GET.get('dataMorte', '')
+    tipo = request.GET.get('tipo', '')
+    numeroOpere = request.GET.get('numeroOpere', '')
+    nomeopera = request.GET.get('nomeopera', '')
+    sort_by = request.GET.get('sort_by', 'AUTORE.codice')
+    sort_order = request.GET.get('sort_order', 'asc')
+
+    # Costruzione della query SQL con i filtri
+    query = """
+    SELECT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere
+    FROM AUTORE
+    WHERE AUTORE.codice = ?
+    """
+
+    params = [autore_codice]
+
+    if codice:
+        query += f" AND AUTORE.codice = '{codice}'"
+    if nome:
+        query += f" AND AUTORE.nome LIKE '%{nome}%'"
+    if cognome:
+        query += f" AND AUTORE.cognome LIKE '%{cognome}%'"
+    if nazione:
+        query += f" AND AUTORE.nazione LIKE '%{nazione}%'"
+    if dataNascita:
+       query += f" AND AUTORE.dataNascita LIKE '%{dataNascita}%'"
+    if dataMorte:
+        query += f" AND AUTORE.dataMorte LIKE '%{dataMorte}%'"
+    if tipo:
+         query += f" AND AUTORE.tipo LIKE '%{tipo}%'"
+    if numeroOpere:
+        query += f" AND AUTORE.numeroOpere = {numeroOpere}"
+    if nomeopera:
+        query = f"""
+        SELECT DISTINCT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere, OPERA.titolo AS nomeopera
+        FROM AUTORE
+        JOIN OPERA ON OPERA.autore = AUTORE.codice
+        WHERE OPERA.titolo LIKE '%{nomeopera}%'
+       """
+       
+    if sort_by and sort_order:
+        if sort_by in ['AUTORE.dataNascita', 'AUTORE.dataMorte']:
+            query += f" ORDER BY substr({sort_by}, 7, 4) || '-' || substr({sort_by}, 4, 2) || '-' || substr({sort_by}, 1, 2) {sort_order}"
+        else:
+            query += f" ORDER BY {sort_by} {sort_order}"
+
+    cursor.execute(query, params)
+    rows = cursor.fetchall()
+
+    cursor.close()
+    conn.close()
+
+    # Calcola le URL per l'ordinamento
+    base_url = request.path
+    params = request.GET.copy()
+    params['sort_order'] = 'asc' if sort_order == 'desc' else 'desc'
+
+    url_codice = f"{base_url}?sort_by=AUTORE.codice&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_nome = f"{base_url}?sort_by=AUTORE.nome&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_cognome = f"{base_url}?sort_by=AUTORE.cognome&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_nazione = f"{base_url}?sort_by=AUTORE.nazione&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_dataNascita = f"{base_url}?sort_by=AUTORE.dataNascita&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_dataMorte = f"{base_url}?sort_by=AUTORE.dataMorte&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_tipo = f"{base_url}?sort_by=AUTORE.tipo&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+    url_numeroOpere = f"{base_url}?sort_by=AUTORE.numeroOpere&sort_order={params['sort_order']}&codice={codice}&nome={nome}&cognome={cognome}&nazione={nazione}&dataNascita={dataNascita}&dataMorte={dataMorte}&tipo={tipo}&numeroOpere={numeroOpere}&nomeopera={nomeopera}"
+
+    context = {
+        'autori': rows,
+        'sort_by': sort_by,
+        'sort_order': sort_order,
+        'codice': autore_codice,
+        'nome': nome,
+        'cognome': cognome,
+        'nazione': nazione,
+        'dataNascita': dataNascita,
+        'dataMorte': dataMorte,
+        'tipo': tipo,
+        'numeroOpere': numeroOpere,
+        'nomeopera': nomeopera,
+        'url_codice': url_codice,
+        'url_nome': url_nome,
+        'url_cognome': url_cognome,
+        'url_nazione': url_nazione,
+        'url_dataNascita': url_dataNascita,
+        'url_dataMorte': url_dataMorte,
+        'url_tipo': url_tipo,
+        'url_numeroOpere': url_numeroOpere,
+    }
+
+    return render(request, 'main/autore.html', context)
 
 
 def get_connection():
     return sqlite3.connect('db.sqlite3')
-from django.contrib import messages
-from django.shortcuts import redirect, render
-from datetime import datetime
+
+
 
 
 def create_autore(request):
@@ -253,79 +377,3 @@ def delete_autore(request, codice):
         conn.close()
     messages.success(request, 'Autore eliminato con successo.')
     return redirect('autore')
-
-
-def autore_opera(request, autore_codice):
-    conn = sqlite3.connect('db.sqlite3')
-    cursor = conn.cursor()
-
-    codice = autore_codice
-    nome = request.GET.get('nome', '')
-    cognome = request.GET.get('cognome', '')
-    nazione = request.GET.get('nazione', '')
-    dataNascita = request.GET.get('dataNascita', '')
-    dataMorte = request.GET.get('dataMorte', '')
-    tipo = request.GET.get('tipo', '')
-    numeroOpere = request.GET.get('numeroOpere', '')
-    nomeopera = request.GET.get('nomeopera', '')
-    sort_by = request.GET.get('sort_by', 'codice')
-    sort_order = request.GET.get('sort_order', 'asc')
-
-    # Costruzione della query SQL con i filtri
-    query = """
-    SELECT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere
-    FROM AUTORE
-    WHERE AUTORE.codice = ?
-    """
-
-    params = [autore_codice]
-
-    if codice:
-        query += f" AND AUTORE.codice = '{codice}'"
-    if nome:
-        query += f" AND AUTORE.nome LIKE '%{nome}%'"
-    if cognome:
-        query += f" AND AUTORE.cognome LIKE '%{cognome}%'"
-    if nazione:
-        query += f" AND AUTORE.nazione LIKE '%{nazione}%'"
-    if dataNascita:
-       query += f" AND AUTORE.dataNascita LIKE '%{dataNascita}%'"
-    if dataMorte:
-        query += f" AND AUTORE.dataMorte LIKE '%{dataMorte}%'"
-    if tipo:
-         query += f" AND AUTORE.tipo LIKE '%{tipo}%'"
-    if numeroOpere:
-        query += f" AND AUTORE.numeroOpere = {numeroOpere}"
-    if nomeopera:
-        query = f"""
-        SELECT DISTINCT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere, OPERA.titolo AS nomeopera
-        FROM AUTORE
-        JOIN OPERA ON OPERA.autore = AUTORE.codice
-        WHERE OPERA.titolo LIKE '%{nomeopera}%'
-       """
-       
-    if sort_by and sort_order:
-        query += f" ORDER BY {sort_by} {sort_order}"
-
-    cursor.execute(query, params)
-    rows = cursor.fetchall()
-
-    cursor.close()
-    conn.close()
-
-    context = {
-        'autori': rows,
-        'sort_by': sort_by,
-        'sort_order': sort_order,
-        'codice': autore_codice,
-        'nome': nome,
-        'cognome': cognome,
-        'nazione': nazione,
-        'dataNascita': dataNascita,
-        'dataMorte': dataMorte,
-        'tipo': tipo,
-        'numeroOpere': numeroOpere,
-        'nomeopera': nomeopera,
-    }
-
-    return render(request, 'main/autore.html', context)
