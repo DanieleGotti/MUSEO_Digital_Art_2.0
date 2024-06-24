@@ -19,20 +19,89 @@
     {% include 'header.html' with page_title="Home" %}
     {% include 'nav.html' %}
 
-    <div class="container-fluid">
-        <h1>Benvenuti</h1>
-        <p>Seleziona una sezione per navigare:</p>
-        <ul>
-            <li><a href="{% url 'tema' %}">Temi</a></li>
-            <li><a href="{% url 'sala' %}">Sale</a></li>
-            <li><a href="{% url 'opera' %}">Opere</a></li>
-            <li><a href="{% url 'autore' %}">Autore</a></li>
-        </ul>
+    <div class="container-fluid my-4">
+
+        <div class="indexIntro text-center mt-5">
+            <div class="indexLogo mb-4">
+                <img class="logoImage img-fluid" src="{% static 'img/logo.png' %}">
+            </div>
+            <img class="indexImage img-fluid" src="{% static 'img/intro.jpg' %}">
+        </div>
+
+        <div class="indexContent mt-5">
+            <div class="panel">
+                <div class="panelTitle d-flex justify-content-between align-items-center">
+                    <h3>Scopri i nostri temi</h3>
+                    <a href="{% url 'tema' %}" class="btn btn-outline-primary">Scopri di più</a>
+                </div>
+                <div class="horizontalScroll d-flex flex-row mt-3" id="temaCards">
+                    {% for codice, descrizione in temi %}
+                    <div class="card mx-2">
+                        <p>Codice Tema: <span>{{ codice }}</span></p>
+                        <p>Descrizione: <a href="{% url 'tema_detail' codice %}">{{ descrizione }}</a></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        <div class="indexContent mt-5">
+            <div class="panel">
+                <div class="panelTitle d-flex justify-content-between align-items-center">
+                    <h3>Visita le nostre sale</h3>
+                    <a href="{% url 'sala' %}" class="btn btn-outline-primary">Scopri di più</a>
+                </div>
+                <div class="horizontalScroll d-flex flex-row mt-3">
+                    {% for numero, nome, numeroOpere in sale %}
+                    <div class="card mx-2">
+                        <p>Numero sala: <span>{{ numero }}</span></p>
+                        <p>Nome sala: <a href="{% url 'sala_detail' numero %}">{{ nome }}</a></p>
+                        <p>Opere esposte: <span>{{ numeroOpere }}</span></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="indexContent mt-5">
+            <div class="panel">
+                <div class="panelTitle d-flex justify-content-between align-items-center">
+                    <h3>Ammira le nostre opere</h3>
+                    <a href="{% url 'opera' %}" class="btn btn-outline-primary">Scopri di più</a>
+                </div>
+                <div class="horizontalScroll d-flex flex-row mt-3">
+                    {% for opera, titolo, nome, cognome in opere %}
+                    <div class="card mx-2">
+                        <p>Codice Opera: <span>{{ opera }}</span></p>
+                        <p>Titolo: <a href="{% url 'opera_detail' opera %}">{{ titolo }}</a></p>
+                        <p>Autore: <span>{{ nome }} {{ cognome }}</span></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <div class="indexContent mt-5">
+            <div class="panel">
+                <div class="panelTitle d-flex justify-content-between align-items-center">
+                    <h3>Risali agli autori</h3>
+                    <a href="{% url 'autore' %}" class="btn btn-outline-primary">Scopri di più</a>
+                </div>
+                <div class="horizontalScroll d-flex flex-row mt-3">
+                    {% for codice, nome, cognome, nazione in autori %}
+                    <div class="card mx-2">
+                        <p>Codice: <span>{{ codice }}</span></p>
+                        <p>Autore: <a href="{% url 'autore_detail' codice %}">{{ nome }} {{ cognome }}</a></p>
+                        <p>Nazione: <span>{{ nazione }}</span></p>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
     </div>
 
     {% include 'footer.html' %}
 
 </body>
 </html>
-
 
