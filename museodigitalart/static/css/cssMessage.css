@@ -1,3 +1,10 @@
+* {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    text-decoration: none;
+}
+
 .alert-debug {
     background-color: #d1ecf1; /* Azzurro chiaro */
     color: #0c5460; /* Blu scuro */

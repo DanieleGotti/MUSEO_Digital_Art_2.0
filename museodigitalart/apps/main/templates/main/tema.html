@@ -35,11 +35,12 @@
                                 <label for="descrizione" class="placeHolder">Descrizione</label>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
-                                <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-between col-md-4">
+                                <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-between col-md-5">
                                     <span>Cerca</span>
                                     <img src="{% static 'img/cerca.png' %}"/>
                                 </button>
-                                <button type="reset" class="btn btn-secondary d-flex align-items-center justify-content-between col-md-4" onclick="window.location.href='/tema/'">
+                                <button class="btn btn-primary btn-invisible col-md-1" disabled></button>
+                                <button type="reset" class="btn btn-secondary d-flex align-items-center justify-content-between col-md-5" onclick="window.location.href='/tema/'">
                                     <span>Reset</span>
                                     <img src="{% static 'img/reset.png' %}"/>
                                 </button>
@@ -50,14 +51,26 @@
             </div>
 
             <!-- Tabella a destra -->
-            <div class="col-md-8">
-                <div id="result" class="table-responsive bg-white rounded p-3 shadow">
+            <div class="col-md-9">
+                <div id="result" class="table-responsive bg-white rounded p-3">
                     <table class="table table-hover">
-                        <thead class="table-dark">
+                        <thead class="table">
                             <tr>
-                                <th>CODICE</th>
-                                <th>DESCRIZIONE</th>
-                                <th>NUMERO SALE</th>
+                                <th>Codice
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
+                                <th>Descrizione
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
+                                <th>Numero Sale
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
                             </tr>
                         </thead>
                         <tbody>

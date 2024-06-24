@@ -1,89 +1,100 @@
-  .container-fluid {
-    background-color: #FEF0E7;
-  }
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.container-fluid {
+  min-height: 100% !important;
+  padding-top: 5rem !important;
+  padding-bottom: 6rem !important;
+  padding-right: 5rem !important;
+  background-color: #FEF0E7 !important;
+  overflow: auto !important;
+}
   
-  .col-md-4 {
-    background-color: #FEF0E7;
-  }
+.col-md-4 {
+  background-color: #FEF0E7;
+}
   
-  .card {
-    background-color: #F98B41 !important;
-    border: none !important;
-  }
+.card {
+  background-color: #F98B41 !important;
+  border: none !important;
+  margin-bottom: 1rem !important;
+}
 
-  .card-header {
-    background-color: #F76E11 !important;
-    border: none !important;
-    color: white !important;
-  }
+.card-header {
+  background-color: #F76E11 !important;
+  border: none !important;
+  color: white !important;
+}
 
-  .mb-3 {
-    height: 3rem;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    text-decoration: none;
-    transition: width 600ms;
-    padding: 10px 5px;
-    box-sizing: border-box;
-    position: relative;
-    margin: 0.25rem 0rem;
-  }
+.mb-3 {
+  height: 3rem;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  transition: width 600ms;
+  padding: 10px 5px;
+  box-sizing: border-box;
+  position: relative;
+  margin: 0.25rem 0rem;
+}
 
-  .input, .input.datepicker{
-    padding: 10px;
-    width: 100%;
-    box-sizing: border-box;
-    outline: none;
-    border-radius: 10px;
-    border: 1px solid #FEF0E7;
-    background-color: #F98B41;
-    color: white;
-    caret-color: white;
-    margin: center;
-    position: relative;
-  }
+.input, .input.datepicker{
+  padding: 10px;
+  width: 100%;
+  box-sizing: border-box;
+  outline: none;
+  border-radius: 10px;
+  border: 1px solid #FEF0E7;
+  background-color: #F98B41;
+  color: white;
+  caret-color: white;
+  margin: center;
+  position: relative;
+}
   
-  .placeHolder {
-    position: absolute;
-    top: 50%;
-    left: 10px;
-    padding: 0px 5px;
-    color: #FEF0E7;
-    transition: 0.3s;
-    pointer-events: none;
-    transform: translateY(-50%);
-    background-color: #F98B41;
-    font-style: italic;
-    opacity: 0.8;
-  }
+.placeHolder {
+  position: absolute;
+  top: 50%;
+  left: 10px;
+  padding: 0px 5px;
+  color: #FEF0E7;
+  transition: 0.3s;
+  pointer-events: none;
+  transform: translateY(-50%);
+  background-color: #F98B41;
+  font-style: italic;
+  opacity: 0.8;
+}
 
-  .input:hover, .input.datepicker:hover{
-    border: 2px solid white !important;
-  }
+.input:hover, .input.datepicker:hover{
+  border: 2px solid white !important;
+}
 
-  .input:active, .input.datepicker:active{
-    border: 2px solid white !important;
-  }
+.input:active, .input.datepicker:active{
+  border: 2px solid white !important;
+}
   
-  .input:focus + .placeHolder, .input.datepicker:focus + .placeHolder, 
-    .input.notEmpty + .placeHolder,  .input.datepicker.notEmpty + .placeHolder {
-    top: 25% !important;
-    transform: translateY(-100%) !important;
-    font-weight: 500;
-    font-style: normal;
-    opacity: 1;
-  }
+.input:focus + .placeHolder, .input.datepicker:focus + .placeHolder, 
+  .input.notEmpty + .placeHolder,  .input.datepicker.notEmpty + .placeHolder {
+  top: 25% !important;
+  transform: translateY(-100%) !important;
+  font-weight: 500;
+  font-style: normal;
+  opacity: 1;
+}
 
-  .input:-webkit-autofill, .input.datepicker:-webkit-autofill,
-    .input:-webkit-autofill:hover, .input.datepicker:-webkit-autofill:hover, 
-    .input:-webkit-autofill:focus, .input.datepicker:-webkit-autofill:focus, 
-    .input:-webkit-autofill:active, .input.datepicker:-webkit-autofill:active {
+.input:-webkit-autofill, .input.datepicker:-webkit-autofill,
+  .input:-webkit-autofill:hover, .input.datepicker:-webkit-autofill:hover, 
+  .input:-webkit-autofill:focus, .input.datepicker:-webkit-autofill:focus, 
+  .input:-webkit-autofill:active, .input.datepicker:-webkit-autofill:active {
   background-color: #F98B41 !important;
   color: white !important;
   border: 1px solid #FEF0E7 !important;
   -webkit-text-fill-color: white !important;
-  transition: background-color 5000s ease-in-out 0s;
   -webkit-box-shadow: 0 0 0px 1000px #F98B41 inset;
   box-shadow: 0 0 0px 1000px #F98B41 inset;
 }
@@ -102,15 +113,33 @@
   border-color: #FEF0E7 !important;
 }
 
-.btn {
+.btn, .close {
   width: 100%;
   background-color: #F76E11 !important;
   color: white !important;
   border: none !important;
-  border: 1px solid green;
 }
 
-.btn:hover {
+.btn-invisible{
+  visibility: hidden;
+  pointer-events: none; 
+}
+
+.close {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0.25rem;
+}
+
+.close span {
+  font-size: 1rem;
+}
+
+.btn:hover, .close:hover {
   background-color: #FFB68D !important;
   border: 2px solid white !important;
 }
@@ -119,6 +148,10 @@
   height: 12px;
   transform: scale(1.5);
   filter: contrast(0%) brightness(200%);
+}
+
+.fixed-width-btn {
+  width: 150px; 
 }
 
 .radio {
@@ -206,100 +239,126 @@
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #F98B41;
+  background: #F98B41 !important;
 }
 
+.modal-header, .modal-footer {
+  border-color:  #FFB68D !important;
+}
 
+.form-control {
+  border: 1px solid #FFB68D !important;
+}
 
+.form-control:hover, .form-control:focus {
+  outline: 0 !important;
+  border: 2px solid #F76E11 !important;
+  box-shadow: none !important;
+}
 
+.form-control:-webkit-autofill, 
+.form-control:-webkit-autofill:hover,
+.form-control:-webkit-autofill:focus, 
+.form-control:-webkit-autofill:active {
+  background-color: white !important;
+  border: 1px solid #FFB68D !important;
+  -webkit-box-shadow: 0 0 0 1000px white inset !important;
+  box-shadow: 0 0 0 1000px white inset !important;
+}
 
+.form-control:autofill {
+  background-color: white !important;
+  box-shadow: 0 0 0 1000px white inset !important;
+}
 
+.table {
+  width: 100%;
+  text-align: center;
+  border: none !important;
+}
 
+.table thead th {
+  background-color: #F76E11;
+  color: white;
+  border: none;
+  vertical-align: middle;
+}
 
+.table-hover thead th {
+  font-size: 12px;
+}
 
+.table-hover tbody td {
+  font-size: 14px;
+}
 
+.table-hover tbody tr:hover td{
+  background-color: #FEF0E7 !important; 
+  box-shadow: none !important;
+}
+  
+.table-hover tbody tr td a {
+  color: #1C77C3;
+}
+  
+.table-hover tbody tr td a:hover {
+  font-size: 16px;
+}
+  
+.table-hover tbody tr td a:visited {
+  color: #8B1E3F;
+}
 
-  
-  .table-hover tbody tr:hover {
-    background-color: rgba(255, 182, 141, 0.5) !important; /* Colore tenue di arancione */
-    color: black;
-  }
-  
-  .table-hover tbody tr:hover td a {
-    color: black !important;
-  }
-  
-  .table-hover tbody tr td a {
-    color: #1C77C3;
-  }
-  
-  .table-hover tbody tr td a:hover {
-    font-size: 16px;
-  }
-  
-  .table-hover tbody tr td a:visited {
-    color: #8B1E3F;
-  }
-  
-  .table thead th {
-    background-color: #F76E11;
-    color: white;
-  }
-  
-  .footer {
-    padding: 0;
-    margin: 0;
-    box-sizing: border-box;
-    width: 100%;
-    height: 4rem;
-    background-color: #f26419;
-    display: grid;
-    place-items: center;
-    justify-content: center;
-    padding: 0px 10px;
-    position: static;
-    bottom: 0;
-  }
-  
-  .footer.fixed {
-    position: fixed;
-  }
-  
-  .footer ul {
-    list-style: none;
-    display: flex;
-    padding-top: 10px;
-  }
-  
-  .footer li {
-    margin: 0 5px;
-  }
-  
-  .footer ul li a {
-    padding: 0px 10px;
-    text-decoration: none;
-    color: white;
-    transition: 200ms;
-    font-family: "Open sans";
-    font-weight: 500;
-    font-size: 16px;
-    margin-bottom: 0;
-  }
-  
-  .footer ul li a:hover {
-    color: #FFB68D;
-  }
-  
-  .footer p {
-    right: 0;
-    padding: 0;
-    color: #FFB68D;
-    height: 12px;
-    margin: 0;
-    text-align: center;
-    font-family: "Open sans";
-    font-weight: 600;
-    font-size: 10px;
-    padding-bottom: 10px;
-  }
-  
+table > tbody > tr > td{
+  border-bottom: 1px solid #FFB68D;
+}
+
+.iconArrow {
+  display: inline-block;
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  vertical-align: middle;
+  font-size: 1rem;
+  margin-left: .25rem;
+  background-color: #F76E11 !important;
+  border: none;
+}
+
+.iconArrow img{
+  height: 12px;
+  border-radius: 50%;
+  display: flex;
+  vertical-align: center;
+  transform: translate(-50%, -50%);
+}
+
+.iconArrow img:hover {
+  background-color: #FFB68D;
+}
+
+.buttonModify{
+  height: 2rem;
+  width: 2rem;
+  border: none;
+  cursor: pointer;
+  background-color: white;
+}
+
+.buttonModify img {
+  height: 14px;
+  width: 14px;
+}
+
+.buttonModify:hover {
+  background-color: #FFB68D;
+}
+
+.buttonModify img:hover {
+  transition: 200ms;
+  transform: scale(1.6);
+}
+
+tbody tr:hover td .buttonModify {
+  background-color: #FEF0E7;
+}

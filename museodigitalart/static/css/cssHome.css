@@ -1,0 +1,15 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+  
+.container-fluid {
+  min-height: calc(100% - 8rem) !important;
+  padding-top: 5rem !important;
+  padding-bottom: 5rem !important;
+  background-color: #FEF0E7 !important;
+  overflow: auto !important;
+}
+
+

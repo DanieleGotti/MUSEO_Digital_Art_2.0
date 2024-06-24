@@ -23,47 +23,49 @@
 <body>
     {% include 'header.html' with page_title="Autori" %}
     {% include 'nav.html' %}
-    {% if messages %}
-    <div class= "messages" id="messages">
-        {% for message in messages %}
-            {% if message.tags == 'error' %}
-                {% with 'danger' as bootstrap_tag %}
-                    <div class="alert alert-{{ bootstrap_tag }} alert-dismissible fade show" role="alert">
-                        {{ message }}
-                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                    </div>
-                {% endwith %}
-            {% else %}
-                {% if message.tags == 'warning' %}
-                    {% with 'warning' as bootstrap_tag %}
+    
+    <div class="container-fluid">
+        {% if messages %}
+        <div class= "messages" id="messages">
+            {% for message in messages %}
+                {% if message.tags == 'error' %}
+                    {% with 'danger' as bootstrap_tag %}
                         <div class="alert alert-{{ bootstrap_tag }} alert-dismissible fade show" role="alert">
                             {{ message }}
                             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                         </div>
                     {% endwith %}
                 {% else %}
-                    {% if message.tags == 'success' %}
-                        {% with 'success' as bootstrap_tag %}
+                    {% if message.tags == 'warning' %}
+                        {% with 'warning' as bootstrap_tag %}
                             <div class="alert alert-{{ bootstrap_tag }} alert-dismissible fade show" role="alert">
                                 {{ message }}
                                 <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                             </div>
                         {% endwith %}
                     {% else %}
-                        {% with 'info' as bootstrap_tag %}
-                            <div class="alert alert-{{ bootstrap_tag }} alert-dismissible fade show" role="alert">
-                                {{ message }}
-                                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-                            </div>
-                        {% endwith %}
+                        {% if message.tags == 'success' %}
+                            {% with 'success' as bootstrap_tag %}
+                                <div class="alert alert-{{ bootstrap_tag }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endwith %}
+                        {% else %}
+                            {% with 'info' as bootstrap_tag %}
+                                <div class="alert alert-{{ bootstrap_tag }} alert-dismissible fade show" role="alert">
+                                    {{ message }}
+                                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                                </div>
+                            {% endwith %}
+                        {% endif %}
                     {% endif %}
                 {% endif %}
-            {% endif %}
-        {% endfor %}
-    </div>
-    {% endif %}
+            {% endfor %}
+        </div>
+        {% endif %}
 
-    <div class="container-fluid">
+
         <div class="row">
             <!-- Filtro a sinistra -->
             <div class="col-md-3">
@@ -118,11 +120,12 @@
                                 <label for="numeroOpere" class="placeHolder">Numero Opere</label>
                             </div>
                             <div class="d-flex align-items-center justify-content-between">
-                                <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-between col-md-4">
+                                <button type="submit" class="btn btn-primary d-flex align-items-center justify-content-between col-md-5">
                                     <span>Cerca</span>
                                     <img src="{% static 'img/cerca.png' %}"/>
                                 </button>
-                                <button type="reset" class="btn btn-secondary d-flex align-items-center justify-content-between col-md-4" onclick="window.location.href='/autore/'">
+                                <button class="btn btn-primary btn-invisible col-md-1" disabled></button>
+                                <button type="reset" class="btn btn-secondary d-flex align-items-center justify-content-between col-md-5" onclick="window.location.href='/autore/'">
                                     <span>Reset</span>
                                     <img src="{% static 'img/reset.png' %}"/>
                                 </button>
@@ -155,30 +158,78 @@
                     </button>
                 </div>
                 {% endif %}
-                <div id="result" class="table-responsive bg-white rounded p-3 shadow">
+                <div id="result" class="table-responsive bg-white rounded p-3">
                     <table class="table table-hover">
-                        <thead class="table-dark">
+                        <thead class="table">
                             <tr>
-                                <th>CODICE</th>
-                                <th>NOME</th>
-                                <th>COGNOME</th>
-                                <th>NAZIONE</th>
-                                <th>DATA NASCITA</th>
-                                <th>DATA MORTE</th>
-                                <th>TIPO</th>
-                                <th>NUMERO OPERE</th>
-                                {% if nomeopera %}
-                                <th>TITOLO OPERA</th>
-                                {% endif %}
                                 {% if mostra %}
                                 <th>MODIFICA</th>
                                 <th>ELIMINA</th>
+                                {% endif %}
+                                <th>Codice
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
+                                <th>Nome
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
+                                <th>Cognome
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
+                                <th>Nazione
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
+                                <th>Data Nascita
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
+                                <th>Data Morte
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
+                                <th>Tipo
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
+                                <th>Numero Opere
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
+                                {% if nomeopera %}
+                                <th>Titolo Opera
+                                    <button class="iconArrow">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
                                 {% endif %}
                             </tr>
                         </thead>
                         <tbody>
                             {% for autore in autori %}
                                 <tr>
+                                    {% if mostra %}
+                                    <td>
+                                        <button class="buttonModify" onclick="toggleEditForm('{{ autore.0 }}')">
+                                            <img src="{% static 'img/modifica.png' %}">
+                                        </button>
+                                    </td>
+                                    <td>
+                                        <button class="buttonModify" onclick="showDeleteConfirm('{{ autore.0 }}')">
+                                            <img src="{% static 'img/cancella.png' %}">
+                                        </button>
+                                    </td>
+                                    {% endif %}
                                     <td>{{ autore.0|default:'' }}</td>
                                     <td>{{ autore.1|default:'' }}</td>
                                     <td>{{ autore.2|default:'' }}</td>
@@ -189,14 +240,6 @@
                                     <td><a href="{% url 'opere_autore' autore.0 %}">{{ autore.7|default:'' }}</a></td>
                                     {% if nomeopera %}
                                     <td>{{ autore.8|default:'' }}</td>
-                                    {% endif %}
-                                    {% if mostra %}
-                                    <td>
-                                        <button class="btn btn-warning" onclick="toggleEditForm('{{ autore.0 }}')">Modifica</button>
-                                    </td>
-                                    <td>
-                                        <button class="btn btn-danger" onclick="showDeleteConfirm('{{ autore.0 }}')">Elimina</button>
-                                    </td>
                                     {% endif %}
                                 </tr>
                                 <tr id="editFormRow{{ autore.0 }}" class="hidden">
@@ -228,21 +271,21 @@
     <div class="modal fade" id="editConfirmModal" tabindex="-1" role="dialog" aria-labelledby="editConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="editConfirmModalLabel">Conferma Modifica</h5>
+                <div class="modal-header d-flex align-items-center justify-content-between">
+                    <h5 class="modal-title" id="createAuthorModalLabel">Conferma Modifica</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">X</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     Sei sicuro di voler modificare questo autore?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-between col-md-3" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-between fixed-width-btn" data-bs-dismiss="modal">
                         <span>Annulla</span>
                         <img src="{% static 'img/indietro.png' %}"/>
                     </button>
-                    <button type="button" class="btn btn-primary d-flex align-items-center justify-content-between col-md-3" onclick="confermaModifica()">
+                    <button type="button" class="btn btn-primary d-flex align-items-center justify-content-between fixed-width-btn" onclick="confermaModifica()">
                         <span>Conferma</span>
                         <img src="{% static 'img/conferma.png' %}"/>
                     </button>
@@ -251,32 +294,31 @@
         </div>
     </div>
 
-        <!-- Modal di conferma per cancellazione -->
+    <!-- Modal di conferma per cancellazione -->
     <div class="modal fade" id="deleteConfirmModal" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="deleteConfirmModalLabel">Conferma Cancellazione</h5>
+                <div class="modal-header d-flex align-items-center justify-content-between">
+                    <h5 class="modal-title" id="createAuthorModalLabel">Conferma Cancellazione</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">X</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     Sei sicuro di voler cancellare questo autore?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-between col-md-3" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-between fixed-width-btn" data-bs-dismiss="modal">
                         <span>Annulla</span>
                         <img src="{% static 'img/indietro.png' %}"/>
                     </button>
-                    <form id="deleteForm" method="POST" class="col-md-3">
+                    <form id="deleteForm" method="POST" class="fixed-width-btn">
                         {% csrf_token %}
-                        <button type="submit" class="btn btn-danger d-flex align-items-center justify-content-between">
+                        <button type="submit" class="btn btn-danger d-flex align-items-center justify-content-between fixed-width-btn">
                             <span>Conferma</span>
                             <img src="{% static 'img/conferma.png' %}"/>
                         </button>
                     </form>
-
                 </div>
             </div>
         </div>
@@ -287,10 +329,10 @@
 <div class="modal fade" id="createAuthorModal" tabindex="-1" role="dialog" aria-labelledby="createAuthorModalLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
-            <div class="modal-header">
+            <div class="modal-header d-flex align-items-center justify-content-between">
                 <h5 class="modal-title" id="createAuthorModalLabel">Inserisci Autore</h5>
                 <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
+                    <span aria-hidden="true">X</span>
                 </button>
             </div>
             <div class="modal-body">
@@ -522,11 +564,11 @@
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-between col-md-3" data-bs-dismiss="modal">
+                <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-between fixed-width-btn" data-bs-dismiss="modal">
                     <span>Annulla</span>
                     <img src="{% static 'img/indietro.png' %}"/>
                 </button>
-                <button type="button" class="btn btn-primary d-flex align-items-center justify-content-between col-md-3" onclick="mostraConfermaInserimento()">
+                <button type="button" class="btn btn-primary d-flex align-items-center justify-content-between fixed-width-btn" onclick="mostraConfermaInserimento()">
                     <span>Inserisci</span>
                     <img src="{% static 'img/inserisci.png' %}"/>
                 </button>
@@ -542,21 +584,21 @@
     <div class="modal fade" id="confermaModal" tabindex="-1" role="dialog" aria-labelledby="confermaModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="confermaModalLabel">Conferma Inserimento</h5>
+                <div class="modal-header d-flex align-items-center justify-content-between">
+                    <h5 class="modal-title" id="createAuthorModalLabel">Conferma Inserimento</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
+                        <span aria-hidden="true">X</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     Sei sicuro di voler inserire questo autore?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-between col-md-3" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-between fixed-width-btn" data-bs-dismiss="modal">
                         <span>Annulla</span>
                         <img src="{% static 'img/indietro.png' %}"/>
                     </button>
-                    <button type="button" class="btn btn-primary d-flex align-items-center justify-content-between col-md-3" onclick="confermaInserimento()">
+                    <button type="button" class="btn btn-primary d-flex align-items-center justify-content-between fixed-width-btn" onclick="confermaInserimento()">
                         <span>Conferma</span>
                         <img src="{% static 'img/conferma.png' %}"/>
                     </button>
@@ -564,7 +606,6 @@
             </div>
         </div>
     </div>
-
     {% include 'footer.html' %}
 </body>
 </html>
