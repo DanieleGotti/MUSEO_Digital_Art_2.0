@@ -15,7 +15,6 @@ def convert_date(date_str):
     except (ValueError, TypeError):
         # Se fallisce, significa che la data è già nel formato dd/mm/yyyy o è None
         return date_str
-
 def autore(request):
     conn = get_connection()
     cursor = conn.cursor()
@@ -35,7 +34,11 @@ def autore(request):
     # Imposta il valore di mostra_crud su False se non è già presente nella sessione
     if 'mostra_crud' not in request.session:
         request.session['mostra_crud'] = False
-    
+
+    # Ogni volta che si ricarica la pagina con una richiesta GET, imposta mostra su False
+    if request.method == 'GET':
+        request.session['mostra_crud'] = False
+
     mostra = request.session.get('mostra_crud', False)  # Ottieni lo stato dalla sessione
 
     if request.method == 'POST' and 'toggle_crud' in request.POST:
@@ -96,6 +99,7 @@ def autore(request):
     }
 
     return render(request, 'main/autore.html', context)
+
 
 def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tipo, numeroOpere, nomeopera, sort_by, sort_order):
     query = """

@@ -362,3 +362,93 @@ table > tbody > tr > td{
 tbody tr:hover td .buttonModify {
   background-color: #FEF0E7;
 }
+
+.inputModify, .inputModify.datepicker {
+  margin-left: 2px;
+  margin-right: 2px;
+  width: auto;
+  height: 2rem;
+  box-sizing: border-box;
+  outline: none;
+  border-radius: 10px;
+  border: none;
+  background-color: #FEF0E7;
+  color: black;
+  caret-color: #F76E11;
+  font-family: "Open sans";
+  font-weight: 500;
+  font-size: 14px;
+  text-align: center;
+  position: relative;
+}
+
+.inputModify::placeholder , .inputModify.datepicker::placeholder{
+  color: #F98B41;
+  transition: 0.3s;
+  font-family: "Open sans";
+  font-weight: 400;
+  font-size: 12px;
+  font-style: italic;
+}
+
+.inputModify:hover, .inputModify.datepicker:hover {
+  border: 2px solid white;
+}
+
+.inputModify:-webkit-autofill, input.datepicker:-webkit-autofill , .inputModify:-webkit-autofill:hover, .inputModify.datepicker:-webkit-autofill:hover , 
+.inputModify:-webkit-autofill:focus, .inputModify.datepicker:-webkit-autofill:focus, .inputModify:-webkit-autofill:active, .inputModify.datepicker:-webkit-autofill:active {
+  background-color: #FEF0E7 !important;
+  color: black !important;
+  -webkit-text-fill-color: black !important;
+  transition: background-color 5000s ease-in-out 0s;
+  -webkit-box-shadow: 0 0 0px 1000px #FEF0E7 inset;
+  box-shadow: 0 0 0px 1000px #FEF0E7 inset;
+}
+
+.inputModify:autofill, input.datepicker:autofill {
+  background-color: #FEF0E7 !important;
+  color: black !important;
+  box-shadow: 0 0 0px 1000px #FEF0E7 inset;
+}
+
+.form-row {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 2px; /* Margine ridotto */
+}
+
+.mb-3 {
+  flex: 1;
+  min-width: 100px; /* Ridotta la larghezza minima */
+  margin: 0; /* Rimosso il margine extra */
+}
+
+.btn-modify {
+  height: 2rem;
+  margin-left: 2px;
+  margin-right: 2px;
+  border-radius: 10px;
+  font-size: 14px;
+  line-height: 1.5;
+  padding: 0.375rem 0.75rem;
+}
+
+.btn-success.btn-modify {
+  background-color: #28a745;
+  border: 1px solid #28a745;
+}
+
+.btn-secondary.btn-modify {
+  background-color: #6c757d;
+  border: 1px solid #6c757d;
+}
+
+.btn-modify:hover {
+  background-color: #218838;
+  border-color: #1e7e34;
+}
+
+.btn-secondary.btn-modify:hover {
+  background-color: #5a6268;
+  border-color: #545b62;
+}

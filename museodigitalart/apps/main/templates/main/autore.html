@@ -245,23 +245,38 @@
                                     {% if nomeopera %}
                                     <td>{{ autore.8|default:'' }}</td>
                                     {% endif %}
-                                </tr>
-                                <tr id="editFormRow{{ autore.0 }}" class="hidden">
-                                    <td colspan="10">
-                                        <form id="editForm{{ autore.0 }}" method="POST" action="{% url 'update_autore' autore.0 %}">
-                                            {% csrf_token %}
-                                            <input type="text" name="editNome" value="{{ autore.1 }}">
-                                            <input type="text" name="editCognome" value="{{ autore.2 }}">
-                                            <input type="text" name="editNazione" value="{{ autore.3 }}">
-                                            <input type="text" name="editDataNascita" class="datepicker" value="{{ autore.4 }}">
-                                            <input type="text" name="editDataMorte" class="datepicker" id="editDataMorte{{ autore.0 }}" value="{{ autore.5 }}" onchange="impostaTipoEdit('{{ autore.0 }}')">
-                                            <input type="hidden" name="editTipo" id="editTipo{{ autore.0 }}" value="{{ autore.6 }}">
-                                            <input type="hidden" name="editNumeroOpere" value="{{ autore.7 }}">
-                                            <button type="button" class="btn btn-success" onclick="mostraConfermaModifica('{{ autore.0 }}')">Salva</button>
-                                            <button type="button" class="btn btn-secondary" onclick="toggleEditForm('{{ autore.0 }}')" data-bs-dismiss="modal">Annulla</button>
-                                        </form>
-                                    </td>
-                                </tr>
+                                    </tr>
+                                    <tr id="editFormRow{{ autore.0 }}" class="hidden">
+                                        <td colspan="10">
+                                            <form id="editForm{{ autore.0 }}" method="POST" action="{% url 'update_autore' autore.0 %}">
+                                                {% csrf_token %}
+                                                <div class="form-row">
+                                                    <div class="mb-3">
+                                                        <input type="text" id="nomeedit{{ autore.0 }}" name="editNome" class="inputModify" value="{{ autore.1 }}" placeholder="Nome">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <input type="text" id="cognomeedit{{ autore.0 }}" name="editCognome" class="inputModify" value="{{ autore.2 }}" placeholder="Cognome">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <input type="text" id="nazioneedit{{ autore.0 }}" name="editNazione" class="inputModify" value="{{ autore.3 }}" placeholder="Nazione">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <input type="text" id="dataNascitaedit{{ autore.0 }}" name="editDataNascita" class="inputModify datepicker" value="{{ autore.4 }}" placeholder="Data Nascita">
+                                                    </div>
+                                                    <div class="mb-3">
+                                                        <input type="text" id="dataMorteedit{{ autore.0 }}" name="editDataMorte" class="inputModify datepicker" value="{{ autore.5 }}" placeholder="Data Morte" onchange="impostaTipoEdit('{{ autore.0 }}')">
+                                                    </div>
+                                                    <input type="hidden" name="editTipo" id="editTipo{{ autore.0 }}" value="{{ autore.6 }}">
+                                                    <input type="hidden" name="editNumeroOpere" value="{{ autore.7 }}">
+                                                    <div class="mb-3">
+                                                        <button type="button" class="btn btn-success btn-modify" onclick="mostraConfermaModifica('{{ autore.0 }}')">Salva</button>
+                                                        <button type="button" class="btn btn-secondary btn-modify" onclick="toggleEditForm('{{ autore.0 }}')" data-bs-dismiss="modal">Annulla</button>
+                                                    </div>
+                                                </div>
+                                            </form>
+                                        </td>
+                                    </tr>                                             
+                                    
                             {% endfor %}
                         </tbody>
                     </table>
