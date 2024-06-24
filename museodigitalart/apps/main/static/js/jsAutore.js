@@ -18,20 +18,20 @@ function impostaTipoCreate() {
 }
 
 
-function impostaTipoEdit(formId) {
-    var dataMorte = document.getElementById('editDataMorte' + formId).value;
-    var tipo = document.createElement('input');
-    tipo.type = 'hidden';
-    tipo.name = 'editTipo';
-    tipo.id = 'editTipo' + formId;
-    if (dataMorte) {
-        tipo.value = 'Morto';
-    } else {
-        tipo.value = 'Vivo';
-    }
-    document.getElementById('editForm' + formId).appendChild(tipo);
-}
 
+function impostaTipoEdit(formId) {
+    var dataMorteElement = document.getElementById('dataMorteedit' + formId);
+    var tipoElement = document.getElementById('editTipo' + formId);
+
+    if (dataMorteElement && tipoElement) {
+        var dataMorte = dataMorteElement.value;
+        if (dataMorte) {
+            tipoElement.value = 'Morto';
+        } else {
+            tipoElement.value = 'Vivo';
+        }
+    }
+}
 function mostraConfermaModifica(formId) {
     impostaTipoEdit(formId); // Imposta il tipo prima di mostrare la conferma
     editFormId = formId;

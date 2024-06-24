@@ -24,9 +24,9 @@
     {% include 'header.html' with page_title="Autori" %}
     {% include 'nav.html' %}
     
-    <div class="container-fluid">
+    <div class="container-fluid" id="content-container">
         {% if messages %}
-        <div class= "messages" id="messages">
+        <div class="messages" id="messages">
             {% for message in messages %}
                 {% if message.tags == 'error' %}
                     {% with 'danger' as bootstrap_tag %}
@@ -269,8 +269,8 @@
                                                     <input type="hidden" name="editTipo" id="editTipo{{ autore.0 }}" value="{{ autore.6 }}">
                                                     <input type="hidden" name="editNumeroOpere" value="{{ autore.7 }}">
                                                     <div class="mb-3">
-                                                        <button type="button" class="btn btn-success btn-modify" onclick="mostraConfermaModifica('{{ autore.0 }}')">Salva</button>
-                                                        <button type="button" class="btn btn-secondary btn-modify" onclick="toggleEditForm('{{ autore.0 }}')" data-bs-dismiss="modal">Annulla</button>
+                                                        <button type="button" class="btn btn-success" onclick="mostraConfermaModifica('{{ autore.0 }}')">Salva</button>
+                                                        <button type="button" class="btn btn-secondary" onclick="toggleEditForm('{{ autore.0 }}')" data-bs-dismiss="modal">Annulla</button>
                                                     </div>
                                                 </div>
                                             </form>
@@ -290,21 +290,21 @@
     <div class="modal fade" id="editConfirmModal" tabindex="-1" role="dialog" aria-labelledby="editConfirmModalLabel" aria-hidden="true">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
-                <div class="modal-header d-flex align-items-center justify-content-between">
-                    <h5 class="modal-title" id="createAuthorModalLabel">Conferma Modifica</h5>
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editConfirmModalLabel">Conferma Modifica</h5>
                     <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">X</span>
+                        <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
                 <div class="modal-body">
                     Sei sicuro di voler modificare questo autore?
                 </div>
                 <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-between fixed-width-btn" data-bs-dismiss="modal">
+                    <button type="button" class="btn btn-secondary col-md-3" data-bs-dismiss="modal">
                         <span>Annulla</span>
                         <img src="{% static 'img/indietro.png' %}"/>
                     </button>
-                    <button type="button" class="btn btn-primary d-flex align-items-center justify-content-between fixed-width-btn" onclick="confermaModifica()">
+                    <button type="button" class="btn btn-primary col-md-3" onclick="confermaModifica()">
                         <span>Conferma</span>
                         <img src="{% static 'img/conferma.png' %}"/>
                     </button>
@@ -626,5 +626,17 @@
         </div>
     </div>
     {% include 'footer.html' %}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const messages = document.getElementById('messages');
+            const contentContainer = document.getElementById('content-container');
+            if (messages) {
+                contentContainer.style.paddingTop = '1rem';
+            } else {
+                contentContainer.style.paddingTop = '4rem';
+            }
+        });
+    </script>
 </body>
 </html>
