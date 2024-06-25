@@ -71,7 +71,12 @@ Questa struttura consente una chiara separazione delle responsabilità, rendendo
 ## Struttura
 
 #### Home 
-Se teniamo le card possiamo anche eliminare questo pezzo, se mettiamo altro spieghiamo quello
+
+La tua introduzione è buona e fornisce una panoramica chiara di ciò che è stato fatto. Ecco una versione leggermente ampliata che include alcuni dettagli aggiuntivi che potrebbero essere utili:
+
+La home page è stata realizzata come nel primo progetto, mantenendo la familiarità dell'utente con l'interfaccia. Sono presenti delle card generate con una funzione random (shuffle) che presentano le caratteristiche principali dei vari elementi delle tabelle, come temi, sale, opere e autori. Queste card utilizzano i componenti di Bootstrap per garantire un design reattivo e moderno. Inoltre, abbiamo aggiunto delle animazioni CSS per migliorare l'esperienza visiva.
+
+
 
 #### Temi, Sale, Opere, Autori
 La grafica dei templates è stata modificata, considerando che l'uso di Bootstrap rende il sito già reattivo. Di conseguenza, abbiamo rimosso il pulsante accanto ai filtri. Per il resto, abbiamo cercato di ricreare fedelmente la grafica del primo progetto, ma utilizzando Bootstrap.
