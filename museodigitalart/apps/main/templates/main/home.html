@@ -33,9 +33,6 @@
     <div class="container-fluid my-4">
 
         <div class="indexIntro text-center mt-5">
-            <!--<div class="indexLogo mb-4">
-                <img class="logoImage img-fluid" src="{% static 'img/logo.png' %}">
-            </div>-->
             <img class="indexImage img-fluid" src="{% static 'img/intro.jpg' %}">
         </div>
 
@@ -46,10 +43,9 @@
                     <a href="{% url 'tema' %}" class="btn btn-outline-primary">Scopri di più</a>
                 </div>
                 <div id="temaCarousel" class="carousel slide" data-bs-ride="carousel">
-                    
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <div class="cards-wrapper">
+                            <div class="cards-wrapper horizontalScroll">
                                 {% for tema in temihome %}
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body">
@@ -57,7 +53,6 @@
                                         <h6 class="card-subtitle mb-2 text-muted">Codice Tema: {{ tema.0 }}</h6>
                                         <p class="card-text">Numero Sale: {{ tema.2 }}</p>
                                         <a href="{% url 'tema' %}?codice={{ tema.0 }}" class="card-link">Dettagli</a>
-
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -68,8 +63,6 @@
             </div>
         </div>
 
-
-
         <div class="indexContent mt-5">
             <div class="panel position-relative">
                 <div class="panelTitle d-flex justify-content-between align-items-center">
@@ -77,10 +70,9 @@
                     <a href="{% url 'sala' %}" class="btn btn-outline-primary">Scopri di più</a>
                 </div>
                 <div id="salaCarousel" class="carousel slide" data-bs-ride="carousel">
-                    
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <div class="cards-wrapper">
+                            <div class="cards-wrapper horizontalScroll">
                                 {% for sala in salahome|slice:":10" %}
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body">
@@ -93,13 +85,11 @@
                                 {% endfor %}
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>
         </div>
 
-                
         <div class="indexContent mt-5">
             <div class="panel position-relative">
                 <div class="panelTitle d-flex justify-content-between align-items-center">
@@ -109,26 +99,23 @@
                 <div id="operaCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <div class="cards-wrapper">
+                            <div class="cards-wrapper horizontalScroll">
                                 {% for opera in operahome|slice:":10" %}
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body">
-                                        <h5 class="card-title"> {{ opera.4 }}</p>
+                                        <h5 class="card-title">{{ opera.4 }}</h5>
                                         <h6 class="card-subtitle mb-2 text-muted">Codice Opera: {{ opera.0 }}</h6>
                                         <p class="card-text">Autore: {{ opera.2 }} {{ opera.3 }}</p>
                                         <a href="{% url 'opera' %}?opera={{ opera.0 }}" class="card-link">Dettagli</a>
-                                        
                                     </div>
                                 </div>
                                 {% endfor %}
                             </div>
                         </div>
-                        
                     </div>
                 </div>
             </div>
         </div>
-
 
         <div class="indexContent mt-5">
             <div class="panel position-relative">
@@ -137,14 +124,13 @@
                     <a href="{% url 'autore' %}" class="btn btn-outline-primary">Scopri di più</a>
                 </div>
                 <div id="autoreCarousel" class="carousel slide" data-bs-ride="carousel">
-                    
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <div class="cards-wrapper">
+                            <div class="cards-wrapper horizontalScroll">
                                 {% for autore in autorehome|slice:":10" %}
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body">
-                                        <h5 class="card-title"> {{ autore.1 }} {{ autore.2 }}</h5>
+                                        <h5 class="card-title">{{ autore.1 }} {{ autore.2 }}</h5>
                                         <h6 class="card-subtitle mb-2 text-muted">Codice: {{ autore.0 }}</h6>
                                         <p class="card-text">Nazione: {{ autore.3 }}</p>
                                         <a href="{% url 'autore' %}?codice={{ autore.0 }}" class="card-link">Dettagli</a>
@@ -160,7 +146,43 @@
     </div>
 
     {% include 'footer.html' %}
-    
+
+    <script>
+   document.addEventListener("DOMContentLoaded", function() {
+    var containers = document.querySelectorAll('.horizontalScroll');
+    var scrollAmount = 1; //La quantità di pixel da scorrere ad ogni intervallo
+    var scrollSpeed = 30; //La velocità dello scroll (in millisecondi)
+
+    containers.forEach(function(container) {
+    var scrollInterval;
+
+    function startScrolling() {
+      scrollInterval = setInterval(function() {
+        container.scrollLeft += scrollAmount;
+        // Verifica se ha raggiunto il fondo
+        if (container.scrollLeft >= container.scrollWidth - container.clientWidth) {
+          container.scrollLeft = 0; // Riparti da capo
+        }
+      }, scrollSpeed);
+    }
+
+    function stopScrolling() {
+      clearInterval(scrollInterval);
+    }
+
+    // Inizia lo scrolling quando la pagina è caricata
+    startScrolling();
+
+    // Ferma lo scrolling al passaggio del mouse sul contenitore
+    container.addEventListener("mouseover", stopScrolling);
+
+    // Riprende lo scrolling quando il mouse lascia il contenitore
+    container.addEventListener("mouseout", startScrolling);
+  });
+});
+
+    </script>
+
 </body>
 </html>
 

@@ -15,7 +15,7 @@ html, body {
 ::-webkit-scrollbar {
   width: 1em;
   height: .5em;
-  background-color: white
+  background-color: white;
 }
 
 ::-webkit-scrollbar:vertical {
@@ -23,7 +23,7 @@ html, body {
 }
 
 ::-webkit-scrollbar-track {
-  background-color:#FEF0E7;
+  background-color: #FEF0E7;
   border-radius: 100vw;
   margin-block: .5em;
 }
@@ -47,54 +47,76 @@ html, body {
   border-radius: 0.25rem;
 }
 
-
-
-
-/* Assicurati che il movimento del carousel sia orizzontale */
-.carousel-item {
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  transition: transform 0.5s ease-in-out;
-  
-}
-
-.carousel-inner .carousel-item {
-  float: left;
-  width: 100%;
-}
-
 .carousel-item {
   display: flex;
   justify-content: center;
 }
 
+.carousel-inner .carousel-item {
+  width: 100%;
+}
+
 .carousel-item .card {
   margin: 2px 8px;
-  border: 2px solid #F76E11; /* Colore del bordo della card */
+  border: 2px solid #F76E11;
+  transition: transform 0.3s ease-in-out;
+}
+
+.carousel-item .card:hover {
+  border-color: #FFB68D;
+  transform: scale(1.05);
 }
 
 .cards-wrapper {
   display: flex;
   gap: 20px;
+  padding: 10px;
+}
+
+.horizontalScroll {
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scroll-behavior: smooth;
-  padding: 10px;
 }
 
 .card {
   scroll-snap-align: start;
   flex: 0 0 auto;
-  width: 24rem;
+  width: 18rem;
+  transition: transform 0.3s ease-in-out;
 }
-
 
 .card-title {
-  color: #F76E11 !important; /* Colore del testo della card */
+  color: #F76E11 !important;
 }
 
-.carousel-inner .carousel-item {
-  float: left;
-  width: 100%;
+
+.panelTitle a {
+  display: inline-block;
+  padding: 10px;
+  margin: 5px;
+  color: #F76E11;
+  border-radius: 10px;
+  border: 2px solid #F76E11;
+  margin-left: auto;
+  margin-right: 10px;
+  font-weight: 400;
+  font-size: .75rem;
+  text-decoration: none;
+  background-color: transparent;
+  transition: color 0.3s, border-color 0.3s;
 }
 
+.panelTitle a:hover {
+  color: #FFB68D;
+  border: 2px solid #FFB68D;
+  background-color: transparent;
+}
+
+.panelTitle a:focus, .panelTitle a:active {
+  color: #FFB68D !important;
+  border: 2px solid #FFB68D !important;
+  background-color: transparent !important;
+  outline: none; /* Rimuove il bordo di focus del browser */
+  box-shadow: none; /* Rimuove l'ombra del focus del browser */
+}

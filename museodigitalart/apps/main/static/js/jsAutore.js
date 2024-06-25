@@ -118,7 +118,7 @@ $(document).ready(function() {
     });
     $('.selectpicker').selectpicker();
 });
-
+//Modal di conferma
 function confermaCancellazione() {
     if (codiceToDelete !== null) {
         var form = document.createElement('form');
@@ -147,3 +147,5 @@ $(document).ready(function() {
     });
     $('.selectpicker').selectpicker();
 });
+
+  

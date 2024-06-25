@@ -1,0 +1,71 @@
+/* Base styles */
+.datepicker table tr td {
+  background-color: #fff;
+}
+
+/* Hover state */
+.datepicker table tr td:hover,
+.datepicker table tr td.day:hover,
+.datepicker table tr td.focused {
+  background-color: #FFB68D !important;
+  border-color: #FFB68D !important;
+  color: #fff;
+}
+
+/* Active state */
+.datepicker table tr td.active,
+.datepicker table tr td.active:hover,
+.datepicker table tr td.active:focus,
+.datepicker table tr td.active:active,
+.datepicker table tr td.active.disabled,
+.datepicker table tr td.active.disabled:hover,
+.datepicker table tr td.active.selected,
+.datepicker table tr td.active.selected:hover,
+.datepicker table tr td.active.selected:focus,
+.datepicker table tr td.active.selected:active {
+  background-color: #FFB68D !important;
+  border-color: #FFB68D !important;
+  color: #fff !important;
+}
+
+/* Today state */
+.datepicker table tr td.today,
+.datepicker table tr td.today:hover,
+.datepicker table tr td.today:focus,
+.datepicker table tr td.today:active,
+.datepicker table tr td.today.disabled,
+.datepicker table tr td.today.disabled:hover,
+.datepicker table tr td.today.selected,
+.datepicker table tr td.today.selected:hover,
+.datepicker table tr td.today.selected:focus,
+.datepicker table tr td.today.selected:active {
+  background-color: #FFB68D !important;
+  border-color: #FFB68D !important;
+  color: #fff !important;
+}
+
+/* Selected state */
+.datepicker table tr td.selected,
+.datepicker table tr td.selected:hover,
+.datepicker table tr td.selected:focus,
+.datepicker table tr td.selected:active,
+.datepicker table tr td.selected.disabled,
+.datepicker table tr td.selected.disabled:hover {
+  background-color: #FFB68D !important;
+  border-color: #FFB68D !important;
+  color: #fff !important;
+}
+
+/* Range state */
+.datepicker table tr td.range,
+.datepicker table tr td.range:hover,
+.datepicker table tr td.range.focused,
+.datepicker table tr td.range.selected,
+.datepicker table tr td.range.active,
+.datepicker table tr td.range.active:hover,
+.datepicker table tr td.range.active:focus,
+.datepicker table tr td.range.active:active {
+  background-color: #FFB68D !important;
+  border-color: #FFB68D !important;
+  color: #fff !important;
+}

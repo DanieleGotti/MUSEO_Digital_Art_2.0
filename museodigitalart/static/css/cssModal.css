@@ -34,3 +34,32 @@ th {
 .hidden {
     display: none;
 }
+
+.datepicker table tr td.active,
+.datepicker table tr td.active:hover,
+.datepicker table tr td.active.disabled,
+.datepicker table tr td.active.disabled:hover {
+  background-color: #FFB68D !important;
+  border-color: #FFB68D;
+  color: #fff;
+}
+
+.datepicker table tr td.today,
+.datepicker table tr td.today:hover,
+.datepicker table tr td.today.disabled,
+.datepicker table tr td.today.disabled:hover {
+  background-color: #FFB68D !important;
+  border-color: #FFB68D;
+  color: #fff;
+}
+
+.datepicker-dropdown {
+  background-color: #fff;
+}
+
+.datepicker table tr td:hover,
+.datepicker table tr td.day:hover {
+  background-color: #FFB68D;
+  border-color: #FFB68D;
+  color: #fff;
+}
