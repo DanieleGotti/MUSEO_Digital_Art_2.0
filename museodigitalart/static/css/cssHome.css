@@ -120,3 +120,16 @@ html, body {
   outline: none; /* Rimuove il bordo di focus del browser */
   box-shadow: none; /* Rimuove l'ombra del focus del browser */
 }
+
+.indexIntro {
+  position: relative;
+  text-align: center;
+}
+
+.logoImage {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  max-width: 800px; /* Dimensione aumentata del logo */
+}
