@@ -83,19 +83,42 @@
 
 
         <div class="indexContent mt-5">
-            <div class="panel">
+            <div class="panel position-relative">
                 <div class="panelTitle d-flex justify-content-between align-items-center">
                     <h3>Visita le nostre sale</h3>
                     <a href="{% url 'sala' %}" class="btn btn-outline-primary">Scopri di più</a>
                 </div>
-                <div class="horizontalScroll d-flex flex-row mt-3">
-                    
-                    <div class="card mx-2">
-                        <p>Numero sala: <span>{{ numero }}</span></p>
-                        <p>Nome sala: <a href="{% url 'sala'  %}">{{ nome }}</a></p>
-                        <p>Opere esposte: <span>{{ numeroOpere }}</span></p>
+                <div id="salaCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        {% for i in salahome|slice:":3" %}
+                        <button type="button" data-bs-target="#salaCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+                        {% endfor %}
                     </div>
-
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="cards-wrapper">
+                                {% for sala in salahome %}
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Numero Sala: {{ sala.0 }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Nome Sala:{{ sala.1 }}</h6>
+                                        <p class="card-text">Opere esposte: {{ sala.3 }}</p>
+                                        <a href="{% url 'sala' %}" class="card-link">Dettagli</a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <a class="carousel-control-prev" href="#salaCarousel" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#salaCarousel" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </a>
                 </div>
             </div>
         </div>
