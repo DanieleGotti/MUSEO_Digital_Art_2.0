@@ -1,6 +1,6 @@
 from django.shortcuts import render
 import sqlite3
-import random  # Importa il modulo random
+import random
 
 def home(request):
     # Connessione al database SQLite
@@ -25,20 +25,42 @@ def home(request):
     cursor.execute(sala_query)
     sale = cursor.fetchall()
 
+    # Costruzione della query SQL per ottenere i dati delle opere
+    opera_query = """
+    SELECT OPERA.opera, OPERA.autore, AUTORE.nome, AUTORE.cognome, OPERA.titolo,
+           OPERA.annoAcquisto, OPERA.annoRealizzazione, OPERA.tipo, OPERA.espostaInSala
+    FROM OPERA
+    LEFT JOIN AUTORE ON OPERA.autore = AUTORE.codice
+    JOIN SALA ON OPERA.espostaInSala = SALA.numero
+    """
+    
+    cursor.execute(opera_query)
+    opere = cursor.fetchall()
+
+    autore_query = """
+    SELECT AUTORE.codice, AUTORE.nome, AUTORE.cognome, AUTORE.nazione, 
+           AUTORE.dataNascita, AUTORE.dataMorte, AUTORE.tipo, AUTORE.numeroOpere
+    FROM AUTORE
+    """
+
+    
+    cursor.execute(autore_query)
+    autori = cursor.fetchall()
+
     cursor.close()
     conn.close()
 
-    # Debugging: Stampa i dati nella console
-    print("Temi:", temi)  # Stampa i dati dei temi nella console del server
-    print("Sale:", sale)  # Stampa i dati delle sale nella console del server
-
-    # Mescola i temi e le sale in modo casuale
+    # Mescola i temi, le sale e le opere in modo casuale
     random.shuffle(temi)
     random.shuffle(sale)
+    random.shuffle(opere)
+    random.shuffle(autori)
 
     context = {
         'temihome': temi,
-        'salahome': sale
+        'salahome': sale,
+        'operahome': opere,
+        'autorehome': autori
     }
 
     return render(request, 'main/home.html', context)

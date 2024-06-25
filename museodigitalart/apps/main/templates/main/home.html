@@ -46,11 +46,7 @@
                     <a href="{% url 'tema' %}" class="btn btn-outline-primary">Scopri di più</a>
                 </div>
                 <div id="temaCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                        {% for i in temihome|slice:":3" %}
-                        <button type="button" data-bs-target="#temaCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
-                        {% endfor %}
-                    </div>
+                    
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="cards-wrapper">
@@ -89,11 +85,7 @@
                     <a href="{% url 'sala' %}" class="btn btn-outline-primary">Scopri di più</a>
                 </div>
                 <div id="salaCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                        {% for i in salahome|slice:":3" %}
-                        <button type="button" data-bs-target="#salaCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
-                        {% endfor %}
-                    </div>
+                    
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="cards-wrapper">
@@ -123,42 +115,86 @@
             </div>
         </div>
 
+                
         <div class="indexContent mt-5">
-            <div class="panel">
+            <div class="panel position-relative">
                 <div class="panelTitle d-flex justify-content-between align-items-center">
                     <h3>Ammira le nostre opere</h3>
                     <a href="{% url 'opera' %}" class="btn btn-outline-primary">Scopri di più</a>
                 </div>
-                <div class="horizontalScroll d-flex flex-row mt-3">
-                   
-                    <div class="card mx-2">
-                        <p>Codice Opera: <span>{{ opera }}</span></p>
-                        <p>Titolo: <a href="{% url 'opera' %}">{{ titolo }}</a></p>
-                        <p>Autore: <span>{{ nome }} {{ cognome }}</span></p>
+                <div id="operaCarousel" class="carousel slide" data-bs-ride="carousel">
+                    <div class="carousel-indicators">
+                        {% for i in operahome|slice:":3" %}
+                        <button type="button" data-bs-target="#operaCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
+                        {% endfor %}
                     </div>
-                   
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="cards-wrapper">
+                                {% for opera in operahome %}
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Codice Opera: {{ opera.0 }}</p>
+                                            <h6 class="card-subtitle mb-2 text-muted">Titolo: {{ opera.4 }}</h6>
+                                            <p class="card-text">Autore:{{ opera.2 }} {{ opera.3 }}</p>
+                                            <a href="{% url 'opera' %}" class="card-link">Dettagli</a>
+                                            
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <a class="carousel-control-prev" href="#operaCarousel" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#operaCarousel" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </a>
                 </div>
             </div>
         </div>
 
+
         <div class="indexContent mt-5">
-            <div class="panel">
+            <div class="panel position-relative">
                 <div class="panelTitle d-flex justify-content-between align-items-center">
                     <h3>Risali agli autori</h3>
                     <a href="{% url 'autore' %}" class="btn btn-outline-primary">Scopri di più</a>
                 </div>
-                <div class="horizontalScroll d-flex flex-row mt-3">
+                <div id="autoreCarousel" class="carousel slide" data-bs-ride="carousel">
                     
-                    <div class="card mx-2">
-                        <p>Codice: <span>{{ codice }}</span></p>
-                        <p>Autore: <a href="{% url 'autore' %}">{{ nome }} {{ cognome }}</a></p>
-                        <p>Nazione: <span>{{ nazione }}</span></p>
+                    <div class="carousel-inner">
+                        <div class="carousel-item active">
+                            <div class="cards-wrapper">
+                                {% for autore in autorehome %}
+                                <div class="card" style="width: 18rem;">
+                                    <div class="card-body">
+                                        <h5 class="card-title">Codice: {{ autore.0 }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Autore: {{ autore.1 }} {{ autore.2 }}</h6>
+                                        <p class="card-text">Nazione: {{ autore.3 }}</p>
+                                        <a href="{% url 'autore' %}" class="card-link">Dettagli</a>
+                                    </div>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
                     </div>
-                   
+                    <a class="carousel-control-prev" href="#autoreCarousel" role="button" data-bs-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#autoreCarousel" role="button" data-bs-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="visually-hidden">Next</span>
+                    </a>
                 </div>
             </div>
         </div>
-
     </div>
 
     {% include 'footer.html' %}
@@ -170,6 +206,7 @@
         function scrollRight() {
             document.getElementById('cardsWrapper').scrollBy({left: 300, behavior: 'smooth'});
         }
+        
     </script>
 </body>
 </html>

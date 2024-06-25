@@ -76,7 +76,6 @@ html, body {
 
 
 
-
 /* Assicurati che il movimento del carousel sia orizzontale */
 .carousel-item {
   scroll-snap-type: x mandatory;
@@ -100,7 +99,3 @@ html, body {
   height: 30px;
 }
 
-.carousel-control-prev,
-.carousel-control-next {
-  width: 5%;
-}
