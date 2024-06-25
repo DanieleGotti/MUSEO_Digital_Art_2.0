@@ -24,7 +24,8 @@ from . import views
 
 
 urlpatterns = [
-    path('', views.home, name='home'),
+    
+    path('', views.temahome, name='home'),
     path('tema/', viewstema.tema, name='tema'),  
     path('sala/<str:tema_codice>/', viewssala.sala_tema, name='sale_tema'),
     path('sala/', viewssala.sala, name='sala'),
