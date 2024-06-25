@@ -53,25 +53,17 @@
                                 {% for tema in temihome %}
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body">
-                                        <h5 class="card-title">Codice Tema: {{ tema.0 }}</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">Numero Sale: {{ tema.2 }}</h6>
-                                        <p class="card-text">Descrizione: {{ tema.1 }}</p>
-                                        <a href="{% url 'tema' %}" class="card-link">Dettagli</a>
+                                        <h5 class="card-title">{{ tema.1 }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Codice Tema: {{ tema.0 }}</h6>
+                                        <p class="card-text">Numero Sale: {{ tema.2 }}</p>
+                                        <a href="{% url 'tema' %}?codice={{ tema.0 }}" class="card-link">Dettagli</a>
+
                                     </div>
                                 </div>
                                 {% endfor %}
                             </div>
                         </div>
                     </div>
-                    <a class="carousel-control-prev" href="#temaCarousel" role="button" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="sr-only">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#temaCarousel" role="button" data-bs-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                    </a>
-                      
                 </div>
             </div>
         </div>
@@ -89,13 +81,13 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="cards-wrapper">
-                                {% for sala in salahome %}
+                                {% for sala in salahome|slice:":10" %}
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body">
-                                        <h5 class="card-title">Numero Sala: {{ sala.0 }}</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">Nome Sala:{{ sala.1 }}</h6>
+                                        <h5 class="card-title">{{ sala.1 }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Numero Sala: {{ sala.0 }}</h6>
                                         <p class="card-text">Opere esposte: {{ sala.3 }}</p>
-                                        <a href="{% url 'sala' %}" class="card-link">Dettagli</a>
+                                        <a href="{% url 'sala' %}?numero={{ sala.0 }}" class="card-link">Dettagli</a>
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -103,14 +95,6 @@
                         </div>
                         
                     </div>
-                    <a class="carousel-control-prev" href="#salaCarousel" role="button" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#salaCarousel" role="button" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </a>
                 </div>
             </div>
         </div>
@@ -123,22 +107,17 @@
                     <a href="{% url 'opera' %}" class="btn btn-outline-primary">Scopri di più</a>
                 </div>
                 <div id="operaCarousel" class="carousel slide" data-bs-ride="carousel">
-                    <div class="carousel-indicators">
-                        {% for i in operahome|slice:":3" %}
-                        <button type="button" data-bs-target="#operaCarousel" data-bs-slide-to="{{ forloop.counter0 }}" class="{% if forloop.first %}active{% endif %}" aria-current="true" aria-label="Slide {{ forloop.counter }}"></button>
-                        {% endfor %}
-                    </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="cards-wrapper">
-                                {% for opera in operahome %}
+                                {% for opera in operahome|slice:":10" %}
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body">
-                                        <h5 class="card-title">Codice Opera: {{ opera.0 }}</p>
-                                            <h6 class="card-subtitle mb-2 text-muted">Titolo: {{ opera.4 }}</h6>
-                                            <p class="card-text">Autore:{{ opera.2 }} {{ opera.3 }}</p>
-                                            <a href="{% url 'opera' %}" class="card-link">Dettagli</a>
-                                            
+                                        <h5 class="card-title"> {{ opera.4 }}</p>
+                                        <h6 class="card-subtitle mb-2 text-muted">Codice Opera: {{ opera.0 }}</h6>
+                                        <p class="card-text">Autore: {{ opera.2 }} {{ opera.3 }}</p>
+                                        <a href="{% url 'opera' %}?opera={{ opera.0 }}" class="card-link">Dettagli</a>
+                                        
                                     </div>
                                 </div>
                                 {% endfor %}
@@ -146,14 +125,6 @@
                         </div>
                         
                     </div>
-                    <a class="carousel-control-prev" href="#operaCarousel" role="button" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#operaCarousel" role="button" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </a>
                 </div>
             </div>
         </div>
@@ -170,44 +141,26 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="cards-wrapper">
-                                {% for autore in autorehome %}
+                                {% for autore in autorehome|slice:":10" %}
                                 <div class="card" style="width: 18rem;">
                                     <div class="card-body">
-                                        <h5 class="card-title">Codice: {{ autore.0 }}</h5>
-                                        <h6 class="card-subtitle mb-2 text-muted">Autore: {{ autore.1 }} {{ autore.2 }}</h6>
+                                        <h5 class="card-title"> {{ autore.1 }} {{ autore.2 }}</h5>
+                                        <h6 class="card-subtitle mb-2 text-muted">Codice: {{ autore.0 }}</h6>
                                         <p class="card-text">Nazione: {{ autore.3 }}</p>
-                                        <a href="{% url 'autore' %}" class="card-link">Dettagli</a>
+                                        <a href="{% url 'autore' %}?codice={{ autore.0 }}" class="card-link">Dettagli</a>
                                     </div>
                                 </div>
                                 {% endfor %}
                             </div>
                         </div>
-
                     </div>
-                    <a class="carousel-control-prev" href="#autoreCarousel" role="button" data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </a>
-                    <a class="carousel-control-next" href="#autoreCarousel" role="button" data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </a>
                 </div>
             </div>
         </div>
     </div>
 
     {% include 'footer.html' %}
-    <script>
-        function scrollLeft() {
-            document.getElementById('cardsWrapper').scrollBy({left: -300, behavior: 'smooth'});
-        }
-
-        function scrollRight() {
-            document.getElementById('cardsWrapper').scrollBy({left: 300, behavior: 'smooth'});
-        }
-        
-    </script>
+    
 </body>
 </html>
 

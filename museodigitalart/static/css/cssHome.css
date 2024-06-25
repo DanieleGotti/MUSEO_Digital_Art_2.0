@@ -47,32 +47,6 @@ html, body {
   border-radius: 0.25rem;
 }
 
-.carousel-item {
-  display: flex;
-  justify-content: center;
-}
-
-.carousel-item .card {
-  margin: 2 8px;
-}
-
-
-.cards-wrapper {
-  display: flex;
-  gap: 20px;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-  scroll-behavior: smooth;
-  padding: 10px;
-}
-.card {
-  scroll-snap-align: start;
-  flex: 0 0 auto;
-  width: 24rem; /* Aumenta la larghezza della carta */
-}
-
-
-
 
 
 
@@ -89,13 +63,38 @@ html, body {
   width: 100%;
 }
 
-/* Stile per i controlli del carousel */
-.carousel-control-prev-icon,
-.carousel-control-next-icon {
-  background-color: #F76E11; /* Colore arancione per la visibilità */
-  background-size: 100%, 100%;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
+.carousel-item {
+  display: flex;
+  justify-content: center;
+}
+
+.carousel-item .card {
+  margin: 2px 8px;
+  border: 2px solid #F76E11; /* Colore del bordo della card */
+}
+
+.cards-wrapper {
+  display: flex;
+  gap: 20px;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  padding: 10px;
+}
+
+.card {
+  scroll-snap-align: start;
+  flex: 0 0 auto;
+  width: 24rem;
+}
+
+
+.card-title {
+  color: #F76E11 !important; /* Colore del testo della card */
+}
+
+.carousel-inner .carousel-item {
+  float: left;
+  width: 100%;
 }
 
