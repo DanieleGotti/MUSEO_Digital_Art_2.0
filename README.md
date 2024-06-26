@@ -2,7 +2,7 @@
 Versione 2.0
 ![logo](https://github.com/DanieleGotti/MUSEO_Digital_Art/blob/main/img/logos/logo.png)
 
-[Museo - Digital Art_2.0](https://museodigitalart.altervista.orgAAAAA) è un sito web per la visualizzazione di temi, sale, opere e autori di un museo.
+Museo - Digital Art_2.0 è un sito web per la visualizzazione di temi, sale, opere e autori di un museo.
 Questo progetto è stato realizzato ristrutturando il precedente [Museo - Digital_Art](https://museodigitalart.altervista.org) ([Git](https://github.com/DanieleGotti/MUSEO_Digital_Art.git)) con liguaggio python e l'utilizzo dei framework [Django](https://www.djangoproject.com/) e [Bootstrap](https://getbootstrap.com/).
 
 
