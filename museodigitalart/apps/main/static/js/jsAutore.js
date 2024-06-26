@@ -1,11 +1,12 @@
-var codiceToDelete = null;
-var editFormId = null;
+var codiceToDelete = null;  // Variabile per memorizzare il codice dell'autore da eliminare
+var editFormId = null;  // Variabile per memorizzare l'ID del form di modifica
 
+// Funzione per nascondere una modale
 function nascondiModal(modal) {
     $(modal).modal('hide');
 }
 
-
+// Funzione per impostare il tipo (Vivo/Morto) durante la creazione
 function impostaTipoCreate() {
     var dataMorte = document.getElementById('dataMortecreate').value;
     var tipo = document.getElementById('tipocreate');
@@ -17,8 +18,7 @@ function impostaTipoCreate() {
     }
 }
 
-
-
+// Funzione per impostare il tipo (Vivo/Morto) durante la modifica
 function impostaTipoEdit(formId) {
     var dataMorteElement = document.getElementById('dataMorteedit' + formId);
     var tipoElement = document.getElementById('editTipo' + formId);
@@ -33,8 +33,7 @@ function impostaTipoEdit(formId) {
     }
 }
 
-
-
+// Funzione per mostrare o nascondere il form di modifica
 function toggleEditForm(codice) {
     var formRow = document.getElementById('editFormRow' + codice);
     if (formRow.style.display === 'none' || formRow.style.display === '') {
@@ -44,10 +43,12 @@ function toggleEditForm(codice) {
     }
 }
 
+// Funzione per mostrare la modale di creazione
 function showCreateForm() {
     $('#createAuthorModal').modal('show');
 }
 
+// Funzione per validare le date di nascita e morte
 function validateDateOfBirthAndDeath(birthDateId, deathDateId) {
     var birthDateStr = document.getElementById(birthDateId).value;
     var deathDateStr = document.getElementById(deathDateId).value;
@@ -64,6 +65,7 @@ function validateDateOfBirthAndDeath(birthDateId, deathDateId) {
     return true;
 }
 
+// Funzione per mostrare la modale di conferma inserimento
 function mostraConfermaInserimento() {
     var form = document.getElementById('inserisciAutoreForm');
     if (form.checkValidity()) {
@@ -78,6 +80,7 @@ function mostraConfermaInserimento() {
     }
 }
 
+// Funzione per mostrare la modale di conferma modifica
 function mostraConfermaModifica(formId) {
     var isValid = validateDateOfBirthAndDeath('dataNascitaedit' + formId, 'dataMorteedit' + formId);
     if (isValid) {
@@ -87,6 +90,7 @@ function mostraConfermaModifica(formId) {
     }
 }
 
+// Funzione per confermare la modifica
 function confermaModifica() {
     if (editFormId !== null) {
         $('#editForm' + editFormId).submit();
@@ -94,6 +98,7 @@ function confermaModifica() {
     }
 }
 
+// Funzione per mostrare la modale di conferma cancellazione
 function showDeleteConfirm(codice) {
     codiceToDelete = codice;
     var deleteForm = document.getElementById('deleteForm');
@@ -101,10 +106,11 @@ function showDeleteConfirm(codice) {
     $('#deleteConfirmModal').modal('show');
 }
 
+// Inizializza le funzioni quando il documento è pronto
 $(document).ready(function() {
     impostaTipoCreate();
     
-    // Inizializza il datepicker per tutti gli input datepicker
+    // Inizializza il datepicker per tutti gli input con classe datepicker
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
         language: 'it'
@@ -112,7 +118,7 @@ $(document).ready(function() {
     $('.selectpicker').selectpicker();
 });
 
-//Modal di conferma
+// Funzione per confermare la cancellazione
 function confermaCancellazione() {
     if (codiceToDelete !== null) {
         var form = document.createElement('form');
@@ -131,10 +137,11 @@ function confermaCancellazione() {
     $('#deleteConfirmModal').modal('hide');
 }
 
+// Inizializza le funzioni quando il documento è pronto
 $(document).ready(function() {
     impostaTipoCreate();
     
-    // Inizializza il datepicker per tutti gli input datepicker
+    // Inizializza il datepicker per tutti gli input con classe datepicker
     $('.datepicker').datepicker({
         format: 'dd/mm/yyyy',
         language: 'it'
@@ -142,11 +149,14 @@ $(document).ready(function() {
     $('.selectpicker').selectpicker();
 });
 
+// Funzione per confermare l'inserimento
 function confermaInserimento() {
     console.log("Invio modulo conferma inserimento"); // conferma log
     document.getElementById('inserisciAutoreForm').submit();
     $('#confermaModal').modal('hide');
 }
+
+// Inizializza le funzioni quando il documento è pronto
 $(document).ready(function() {
     impostaTipoCreate();
     $('.datepicker').datepicker({
@@ -154,4 +164,15 @@ $(document).ready(function() {
         language: 'it'
     });
     $('.selectpicker').selectpicker();
+});
+
+// Imposta il padding del contenitore dei messaggi dopo il caricamento del documento
+document.addEventListener('DOMContentLoaded', function() {
+    const messages = document.getElementById('messages');
+    const contentContainer = document.getElementById('content-container');
+    if (messages) {
+        contentContainer.style.paddingTop = '1rem';
+    } else {
+        contentContainer.style.paddingTop = '2rem';
+    }
 });

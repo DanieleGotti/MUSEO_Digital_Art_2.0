@@ -57,7 +57,7 @@ def tema(request):
 
     return render(request, 'main/tema.html', context)
 
-
+#query necessaria quando si vuole eseguire una query sulla tabella tema a partire dalla pagina di sala
 def tema_sala(request, tema_codice):
     # Connessione al database SQLite
     conn = sqlite3.connect('db.sqlite3')

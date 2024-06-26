@@ -136,6 +136,7 @@ def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tip
 
     return query
 
+#query necessaria quando si vuole eseguire una query sulla tabella autore a partire dalla pagina di opera
 def autore_opera(request, autore_codice):
     conn = get_connection()
     cursor = conn.cursor()
@@ -258,9 +259,9 @@ def create_autore(request):
         cognomecreate = request.POST['cognomecreate']
         nazionecreate = request.POST['nazionecreate']
         dataNascitacreate = request.POST['dataNascitacreate']
-        dataMortecreate = request.POST.get('dataMortecreate', '')  # Default to empty string if not provided
+        dataMortecreate = request.POST.get('dataMortecreate', '')  # Default vuoto se non c'è
         tipocreate = request.POST['tipocreate']
-        numeroOperecreate = request.POST.get('numeroOperecreate', '0')  # default to '0' if not provided
+        numeroOperecreate = request.POST.get('numeroOperecreate', '0')  # default '0'
 
         # Validazione dei campi richiesti
         if not (codicecreate and nomecreate and cognomecreate and nazionecreate and dataNascitacreate and tipocreate):
@@ -272,7 +273,7 @@ def create_autore(request):
             messages.error(request, 'Il codice deve essere un numero contenente solo cifre.')
             return redirect('autore')
 
-        # Convert date from dd/mm/yyyy to yyyy-mm-dd
+        # Converti date 
         try:
             dataNascitacreate = datetime.strptime(dataNascitacreate, '%d/%m/%Y').strftime('%Y-%m-%d')
         except ValueError:
@@ -312,6 +313,7 @@ def create_autore(request):
 
     return render(request, 'main/autore.html')
 
+#funzione per la modifica
 def update_autore(request, codice):
     conn = get_connection()
     cursor = conn.cursor()
@@ -325,12 +327,12 @@ def update_autore(request, codice):
         editTipo = request.POST['editTipo']
         editNumeroOpere = request.POST['editNumeroOpere']
 
-        # Retrieve current values for dataNascita and dataMorte
+       
         cursor.execute('SELECT dataNascita, dataMorte FROM AUTORE WHERE codice = ?', (codice,))
         data = cursor.fetchone()
         dataNascita, dataMorte = data[0], data[1]
 
-        # Convert the date if provided, otherwise use the current value
+        # Converti data
         if editDataNascita:
             try:
                 editDataNascita = datetime.strptime(editDataNascita, '%d/%m/%Y').strftime('%Y-%m-%d')
@@ -359,7 +361,7 @@ def update_autore(request, codice):
     cursor.execute('SELECT * FROM AUTORE WHERE codice = ?', (codice,))
     autore = cursor.fetchone()
 
-    # Convert date format from yyyy-mm-dd to dd/mm/yyyy for display
+    
     if autore[4]:
         autore = list(autore)
         autore[4] = convert_date(autore[4])
@@ -372,6 +374,7 @@ def update_autore(request, codice):
 
     return render(request, 'main/autore.html', {'autore': autore})
 
+#funzione di eliminazione da db
 def delete_autore(request, codice):
     conn = get_connection()
     cursor = conn.cursor()

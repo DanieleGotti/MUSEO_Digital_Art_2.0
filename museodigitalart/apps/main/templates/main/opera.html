@@ -100,6 +100,11 @@
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
+                                <th>Titolo
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_titolo }}'">
+                                        <img src="{% static 'img/freccia.png' %}">
+                                    </button>
+                                </th>
                                 <th>Autore
                                     <button class="iconArrow" onclick="window.location.href='{{ url_autore }}'">
                                         <img src="{% static 'img/freccia.png' %}">
@@ -112,11 +117,6 @@
                                 </th>
                                 <th>Cognome
                                     <button class="iconArrow" onclick="window.location.href='{{ url_cognome }}'">
-                                        <img src="{% static 'img/freccia.png' %}">
-                                    </button>
-                                </th>
-                                <th>Titolo
-                                    <button class="iconArrow" onclick="window.location.href='{{ url_titolo }}'">
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
@@ -146,17 +146,18 @@
                             {% for opera in opere %}
                             <tr>
                                 <td>{{ opera.0 }}</td>
+                                <td>{{ opera.4 }}</td>
                                 <td>
-                                    <a href="{% url 'autore_opera' opera.1 %}">{{ opera.1 }}</a>
+                                    <a href="{% url 'autore_opera' opera.1 %}">{{ opera.1 }}</a> <!-- collegamento alla tabella autore -->
                                 </td>
                                 <td>{{ opera.2 }}</td>
                                 <td>{{ opera.3 }}</td>
-                                <td>{{ opera.4 }}</td>
+                                
                                 <td>{{ opera.5 }}</td>
                                 <td>{{ opera.6 }}</td>
                                 <td>{{ opera.7 }}</td>
                                 <td>
-                                    <a href="{% url 'sala_opera' opera.8 %}">{{ opera.8 }}</a>
+                                    <a href="{% url 'sala_opera' opera.8 %}">{{ opera.8 }}</a> <!-- collegamento alla tabella sala -->
                                 </td>
                             </tr>
                             {% endfor %}

@@ -35,20 +35,20 @@
             <img class="indexImage img-fluid" src="{% static 'img/intro.jpg' %}">
             <img class="logoImageHome" src="{% static 'img/logo.png' %}">
         </div>
-
+        <!-- panel contenente le cards che scorrono come un carosello -->
         <div class="indexContent mt-5">
             <div class="panel position-relative">
                 <div class="panelTitle d-flex justify-content-between align-items-center">
                     <h3>Scopri i nostri temi</h3>
-                    <a href="{% url 'tema' %}" class="btn btn-outline-primary">Scopri di più</a>
+                    <a href="{% url 'tema' %}" class="btn btn-outline-primary">Scopri di più</a> <!-- collegamento alla tabella tema -->
                 </div>
                 <div id="temaCarousel" class="carousel slide" data-bs-ride="carousel">
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="cards-wrapper horizontalScroll">
-                                {% for tema in temihome %}
-                                <div class="card" style="width: 18rem;">
-                                    <div class="card-body">
+                                {% for tema in temihome %} <!-- sono 10 i temi quindi non limito il numero di carte -->
+                                <div class="card">
+                                    <div class="card-body"> <!--contenuto della carta -->
                                         <h5 class="card-title">{{ tema.1 }}</h5>
                                         <h6 class="card-subtitle mb-2 text-muted">Codice Tema: {{ tema.0 }}</h6>
                                         <p class="card-text">Numero Sale: {{ tema.2 }}</p>
@@ -73,8 +73,8 @@
                     <div class="carousel-inner">
                         <div class="carousel-item active">
                             <div class="cards-wrapper horizontalScroll">
-                                {% for sala in salahome|slice:":10" %}
-                                <div class="card" style="width: 18rem;">
+                                {% for sala in salahome|slice:":10" %} <!-- con slice limito il numero di iterazioni a 10 (come il numero dei temi) -->
+                                <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ sala.1 }}</h5>
                                         <h6 class="card-subtitle mb-2 text-muted">Numero Sala: {{ sala.0 }}</h6>
@@ -101,7 +101,7 @@
                         <div class="carousel-item active">
                             <div class="cards-wrapper horizontalScroll">
                                 {% for opera in operahome|slice:":10" %}
-                                <div class="card" style="width: 18rem;">
+                                <div class="card" >
                                     <div class="card-body">
                                         <h5 class="card-title">{{ opera.4 }}</h5>
                                         <h6 class="card-subtitle mb-2 text-muted">Codice Opera: {{ opera.0 }}</h6>
@@ -128,7 +128,7 @@
                         <div class="carousel-item active">
                             <div class="cards-wrapper horizontalScroll">
                                 {% for autore in autorehome|slice:":10" %}
-                                <div class="card" style="width: 18rem;">
+                                <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">{{ autore.1 }} {{ autore.2 }}</h5>
                                         <h6 class="card-subtitle mb-2 text-muted">Codice: {{ autore.0 }}</h6>

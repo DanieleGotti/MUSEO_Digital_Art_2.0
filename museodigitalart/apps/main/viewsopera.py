@@ -115,6 +115,7 @@ def opera(request):
 
     return render(request, 'main/opera.html', context)
 
+#query necessaria quando si vuole eseguire una query sulla tabella opera a partire dalla pagina di sala
 def opere_sala(request, sala_numero):
     # Connessione al database SQLite
     conn = sqlite3.connect('db.sqlite3')
@@ -223,6 +224,8 @@ def opere_sala(request, sala_numero):
 
     return render(request, 'main/opera.html', context)
 
+
+#query necessaria quando si vuole eseguire una query sulla tabella opera a partire dalla pagina di autore
 def opere_autore(request, autore_id):
     # Connessione al database SQLite
     conn = sqlite3.connect('db.sqlite3')

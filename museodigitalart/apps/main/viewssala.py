@@ -90,7 +90,7 @@ def sala(request):
 
     return render(request, 'main/sala.html', context)
 
-
+#query necessaria quando si vuole eseguire una query sulla tabella sala a partire dalla pagina di opera
 def sala_opera(request, sala_numero):
     # Connessione al database SQLite
     conn = sqlite3.connect('db.sqlite3')
@@ -178,6 +178,8 @@ def sala_opera(request, sala_numero):
 
     return render(request, 'main/sala.html', context)
 
+
+#query necessaria quando si vuole eseguire una query sulla tabella sala a partire dalla pagina di tema
 def sala_tema(request, tema_codice):
     # Connessione al database SQLite
     conn = sqlite3.connect('db.sqlite3')

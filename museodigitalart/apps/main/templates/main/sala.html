@@ -89,7 +89,7 @@
                         <thead class="table">
                             <tr>
                                 <th>Numero
-                                    <button class="iconArrow" onclick="window.location.href='{{ url_numero }}'">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_numero }}'"> <!-- per ordinamento -->
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
@@ -134,10 +134,10 @@
                                     <td>{{ sala.1 }}</td>
                                     <td>{{ sala.2 }} m²</td>
                                     <td>
-                                        <a href="{% url 'opere_sala' sala.0 %}">{{ sala.3|default_if_none:'Aggiungi da db' }}</a>
+                                        <a href="{% url 'opere_sala' sala.0 %}">{{ sala.3}}</a> <!-- collegamento alla tabella opera -->
                                     </td>
                                     <td>
-                                        <a href="{% url 'tema_sala' sala.4 %}">{{ sala.4|default_if_none:'' }}</a>
+                                        <a href="{% url 'tema_sala' sala.4 %}">{{ sala.4|default_if_none:'' }}</a> <!-- collegamento alla tabella tema -->
                                     </td>
                                     <td>{{ sala.5|default_if_none:'' }}</td>
                                     {% if nomeopera %}

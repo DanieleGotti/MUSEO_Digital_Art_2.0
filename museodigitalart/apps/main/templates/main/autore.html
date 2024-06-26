@@ -176,11 +176,11 @@
                         <thead class="table">
                             <tr>
                                 {% if mostra %}
-                                <th>MODIFICA</th>
+                                <th>MODIFICA</th> <!--queste due colonne verranno mostrate solo se mostra è true; il valore di mostra si gestisce nella view e dipende dal click su CRUD-->
                                 <th>ELIMINA</th>
                                 {% endif %}
                                 <th>Codice
-                                    <button class="iconArrow" onclick="window.location.href='{{ url_codice }}'">
+                                    <button class="iconArrow" onclick="window.location.href='{{ url_codice }}'"> <!--urls per ordinamento -->
                                         <img src="{% static 'img/freccia.png' %}">
                                     </button>
                                 </th>
@@ -250,12 +250,12 @@
                                 <td>{{ autore.4|default:'' }}</td>
                                 <td>{{ autore.5|default:'' }}</td>
                                 <td>{{ autore.6|default:'' }}</td>
-                                <td><a href="{% url 'opere_autore' autore.0 %}">{{ autore.7|default:'' }}</a></td>
+                                <td><a href="{% url 'opere_autore' autore.0 %}">{{ autore.7|default:'' }}</a></td> <!-- default a 0 se non ci sono opere(come nel caso degli inserimenti per prevenire la scritta None) -->
                                 {% if nomeopera %}
-                                <td>{{ autore.8|default:'' }}</td>
+                                <td>{{ autore.8|default:'' }}</td> <!-- con questo if la colonna viene aggiunta solo quando si ha un input di ricerca di nomeopera-->
                                 {% endif %}
-                                </tr>
-                                <tr id="editFormRow{{ autore.0 }}" class="hidden">
+                                </tr> 
+                                <tr id="editFormRow{{ autore.0 }}" class="hidden"> <!--form di modifica che si stampa al di sotto della riga nella quale è stato selezionato-->
                                     <form id="editForm{{ autore.0 }}" method="POST" action="{% url 'update_autore' autore.0 %}">
                                         {% csrf_token %}
                                         <div class="form-row">
@@ -283,7 +283,7 @@
                                                 <button type="button" class="btn btn-secondary d-flex align-items-center justify-content-between" onclick="toggleEditForm('{{ autore.0 }}')" data-bs-dismiss="modal">Annulla</button>
                                             </td>
                                             <td>
-                                                <button type="button" class="btn btn-success d-flex align-items-center justify-content-between" onclick="mostraConfermaModifica('{{ autore.0 }}')">Salva</button>
+                                                <button type="button" class="btn btn-success d-flex align-items-center justify-content-between" onclick="mostraConfermaModifica('{{ autore.0 }}')">Salva</button> <!--premendo su salva si apre il modal gestito da js-->
                                             </td>
                                         </div>
                                     </form>
@@ -639,16 +639,5 @@
     </div>
     {% include 'footer.html' %}
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const messages = document.getElementById('messages');
-            const contentContainer = document.getElementById('content-container');
-            if (messages) {
-                contentContainer.style.paddingTop = '1rem';
-            } else {
-                contentContainer.style.paddingTop = '2rem';
-            }
-        });
-    </script>
 </body>
 </html>
