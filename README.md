@@ -18,8 +18,8 @@ Il Database utilizzato per questo progetto è lo stesso impiegato nel progetto p
 SQLite è un DBMS relazionale che è noto per essere leggero e facile da usare. Alcuni dei motivi per cui abbiamo scelto SQLite includono:
 
 - **Facilità d'uso**: SQLite non richiede un server separato per operare, il che semplifica l'installazione e la configurazione. È sufficiente avere il file `.sqlite3` nel progetto.
-- **Portabilità**: Il database è memorizzato in un singolo file, il che rende facile il trasferimento e la condivisione tra diversi ambienti di sviluppo.
-- **Prestazioni**: Per progetti di piccola e media scala, SQLite offre prestazioni adeguate senza la complessità di un DBMS più grande.
+- **Portabilità**: il database è memorizzato in un singolo file, il che rende facile il trasferimento e la condivisione tra diversi ambienti di sviluppo.
+- **Prestazioni**: per progetti di piccola e media scala, SQLite offre prestazioni adeguate senza la complessità di un DBMS più grande.
 - **Compatibilità con Django**: SQLite è supportato nativamente da Django, rendendo l'integrazione semplice e senza problemi.
 
 ### Integrazione con Django
@@ -31,18 +31,18 @@ Django utilizza il file di configurazione `settings.py` per definire quale datab
 
 Il progetto Django si basa sul pattern MVC (Model-View-Controller):
 
-- **Model**: Rappresenta il database, contenente i dati.
-- **View**: I file `.html` all'interno della directory `templates`, responsabili dell'interfaccia utente.
-- **Controller**: I file `.py` denominati `views`, che gestiscono i dati in risposta all'interazione dell'utente con la view.
+- **Model**: rappresenta il database, contenente i dati.
+- **View**: i file `.html` all'interno della directory `templates`, responsabili dell'interfaccia utente.
+- **Controller**: i file `.py` denominati `views`, che gestiscono i dati in risposta all'interazione dell'utente con la view.
 
 Inizialmente, il progetto è composto da due directory principali: `database` (contenente il DB) e `museodigitalart`. All'interno di `museodigitalart` troviamo:
 
 ### 1. templates
 Questa directory contiene i file HTML che gestiscono la visualizzazione delle varie pagine del sito. I componenti principali includono:
 
-- **footer.html**: La sezione del footer del sito.
-- **header.html**: La sezione dell'header del sito.
-- **nav.html**: La barra di navigazione del sito.
+- **footer.html**: la sezione del footer del sito.
+- **header.html**: la sezione dell'header del sito.
+- **nav.html**: la barra di navigazione del sito.
 
 ### 2. static
 Questa cartella contiene i file statici utilizzati dall'applicazione, organizzati in sottodirectory:
@@ -54,16 +54,16 @@ Questa cartella contiene i file statici utilizzati dall'applicazione, organizzat
 ### 3. apps
 All'interno della directory `apps` troviamo la cartella `main`, che è cruciale per l'applicazione:
 
-- **templates/main**: I template HTML per le diverse pagine.
+- **templates/main**: i template HTML per le diverse pagine.
 - **views.py**: File Python che gestiscono la logica e la gestione dei dati.
-- **settings.py**: Configurazioni dell'applicazione.
-- **urls.py**: Gestione delle URL e del routing dell'applicazione.
+- **settings.py**: configurazioni dell'applicazione.
+- **urls.py**: gestione delle URL e del routing dell'applicazione.
 
 ### 4. museodigitalart
 Questa directory contiene i file di configurazione principali:
 
-- **settings.py**: Il file di configurazione principale del progetto.
-- **urls.py**: Il file principale per la configurazione delle URL, che rimanda a `urls.py` nella cartella `main` all'interno di `apps`.
+- **settings.py**: il file di configurazione principale del progetto.
+- **urls.py**: il file principale per la configurazione delle URL, che rimanda a `urls.py` nella cartella `main` all'interno di `apps`.
 
 Questa struttura consente una chiara separazione delle responsabilità, rendendo il progetto più facile da gestire e scalare.
 
@@ -71,7 +71,10 @@ Questa struttura consente una chiara separazione delle responsabilità, rendendo
 ## Struttura
 
 #### Home 
-Se teniamo le card possiamo anche eliminare questo pezzo, se mettiamo altro spieghiamo quello
+
+La home page è stata realizzata come nel primo progetto, mantenendo la familiarità dell'utente con l'interfaccia. Sono presenti delle card generate con una funzione random (shuffle) che presentano le caratteristiche principali dei vari elementi delle tabelle, come temi, sale, opere e autori. Queste card utilizzano i componenti di Bootstrap per garantire un design reattivo e moderno. Inoltre, abbiamo aggiunto delle animazioni CSS per migliorare l'esperienza visiva.
+
+
 
 #### Temi, Sale, Opere, Autori
 La grafica dei templates è stata modificata, considerando che l'uso di Bootstrap rende il sito già reattivo. Di conseguenza, abbiamo rimosso il pulsante accanto ai filtri. Per il resto, abbiamo cercato di ricreare fedelmente la grafica del primo progetto, ma utilizzando Bootstrap.
@@ -82,7 +85,7 @@ Tuttavia, la barra di navigazione, essendo molto personalizzata, è stata manten
 #### Gestione Autori (CRUD)
 Il sistema CRUD è stato sviluppato in modo coerente con il primo progetto, cercando di ricreare la stessa grafica per le diverse funzioni. Sono stati utilizzati modali per gestire l'inserimento e le conferme, sostituendo i popup e gli alert precedentemente impiegati per le conferme delle azioni. 
 
-All'interno dei form di inserimento e di modifica, è stato sfruttato Bootstrap, utilizzando le funzioni di datepicker per le date e un menu a tendina per la selezione della nazione. La scelta di non includere il menu a tendina nel form di modifica è stata voluta, in quanto potrebbe essere necessario modificare una nazione non trovata tramite il menu a tendina.
+All'interno dei form di inserimento e di modifica, è stato sfruttato Bootstrap, utilizzando le funzioni di datepicker per le date e i selectpicker per la selezione della nazione. La scelta di non includere il select nel form di modifica è stata voluta, in quanto potrebbe essere necessario modificare una nazione non trovata. 
 
 Come nel progetto precedente, nel form di modifica non è possibile modificare il codice e il tipo, che vengono calcolati automaticamente in base alla modifica o meno della data di morte.
 
@@ -96,11 +99,11 @@ L'utilizzo di Bootstrap ha permesso di velocizzare lo sviluppo della GUI, rispar
 
 Bootstrap ci ha offerto numerosi vantaggi, tra cui:
 
-- **Reattività**: Il sito è automaticamente ottimizzato per diverse dimensioni di schermo senza bisogno di ulteriori interventi CSS.
-- **Consistenza**: L'uso di componenti predefiniti ha garantito un aspetto uniforme e professionale in tutte le pagine.
-- **Velocità di sviluppo**: Grazie alle classi predefinite di Bootstrap, abbiamo potuto implementare rapidamente layout complessi e funzionalità avanzate.
+- **Reattività**: il sito è automaticamente ottimizzato per diverse dimensioni di schermo senza bisogno di ulteriori interventi CSS.
+- **Consistenza**: l'uso di componenti predefiniti ha garantito un aspetto uniforme e professionale in tutte le pagine.
+- **Velocità di sviluppo**: grazie alle classi predefinite di Bootstrap, abbiamo potuto implementare rapidamente layout complessi e funzionalità avanzate.
 
-Abbiamo sfruttato componenti specifici di Bootstrap, come il **datepicker** per la selezione delle date e i **menu a tendina** per la scelta di opzioni predefinite, rendendo l'interfaccia più intuitiva e user-friendly.
+Abbiamo sfruttato componenti specifici di Bootstrap, come il **datepicker** per la selezione delle date e i **selectpicker** per la scelta di opzioni predefinite, rendendo l'interfaccia più intuitiva e user-friendly.
 
 Nonostante l'adozione di Bootstrap, abbiamo mantenuto alcune parti altamente personalizzate dell'interfaccia, come la barra di navigazione, utilizzando solo CSS per preservare il design originale. In questo modo, siamo riusciti a combinare il meglio del vecchio progetto con le nuove potenzialità offerte da Bootstrap.
 
