@@ -15,6 +15,7 @@ def convert_date(date_str):
     except (ValueError, TypeError):
         # Se fallisce, significa che la data è già nel formato dd/mm/yyyy o è None
         return date_str
+
 def autore(request):
     conn = get_connection()
     cursor = conn.cursor()
@@ -31,15 +32,8 @@ def autore(request):
     sort_by = request.GET.get('sort_by', 'AUTORE.codice')
     sort_order = request.GET.get('sort_order', 'asc')
 
-    # Imposta il valore di mostra_crud su False se non è già presente nella sessione
-    if 'mostra_crud' not in request.session:
-        request.session['mostra_crud'] = False
-
-    # Ogni volta che si ricarica la pagina con una richiesta GET, imposta mostra su False
-    if request.method == 'GET':
-        request.session['mostra_crud'] = False
-
-    mostra = request.session.get('mostra_crud', False)  # Ottieni lo stato dalla sessione
+    # Mantieni lo stato di mostra_crud
+    mostra = request.session.get('mostra_crud', False)
 
     if request.method == 'POST' and 'toggle_crud' in request.POST:
         mostra = not mostra  # Inverti lo stato
@@ -143,7 +137,7 @@ def get_autore_query(codice, nome, cognome, nazione, dataNascita, dataMorte, tip
     return query
 
 def autore_opera(request, autore_codice):
-    conn = sqlite3.connect('db.sqlite3')
+    conn = get_connection()
     cursor = conn.cursor()
 
     codice = autore_codice
@@ -157,6 +151,13 @@ def autore_opera(request, autore_codice):
     nomeopera = request.GET.get('nomeopera', '')
     sort_by = request.GET.get('sort_by', 'AUTORE.codice')
     sort_order = request.GET.get('sort_order', 'asc')
+
+    # Mantieni lo stato di mostra_crud
+    mostra = request.session.get('mostra_crud', False)
+
+    if request.method == 'POST' and 'toggle_crud' in request.POST:
+        mostra = not mostra  # Inverti lo stato
+        request.session['mostra_crud'] = mostra  # Salva lo stato nella sessione
 
     # Costruzione della query SQL con i filtri
     query = """
@@ -230,6 +231,7 @@ def autore_opera(request, autore_codice):
         'tipo': tipo,
         'numeroOpere': numeroOpere,
         'nomeopera': nomeopera,
+        'mostra': mostra,
         'url_codice': url_codice,
         'url_nome': url_nome,
         'url_cognome': url_cognome,
