@@ -20,7 +20,7 @@ Questo progetto è stato realizzato ristrutturando il precedente [Museo - Digita
    - Fare clic con il tasto destro sulla cartella `MUSEO_Digital_Art_2.0-main` appena estratta e selezionare **Apri nel terminale**.
 
 4. **Installare le dipendenze e configurare l'ambiente**
-   - Copiare i codici presenti nel file `setup.ipynb` nella console del terminale e seguire le indicazioni.
+   - Copiare i codici presenti nel file [`setup.ipynb`](https://github.com/DanieleGotti/MUSEO_Digital_Art_2.0/blob/main/setup.ipynb) nella console del terminale e seguire le indicazioni.
 
 
 ## Database
