@@ -7,7 +7,21 @@ Questo progetto è stato realizzato ristrutturando il precedente [Museo - Digita
 
 
 ## Installazione del software e procedura per l'avvio
-Quando abbiamo finito facciamo delle prove e completiamo questa sezione
+
+1. **Installare Python**
+   - È necessario avere installato Python funzionante sul PC. Se non è installato, andare al sito [python.org/downloads](https://www.python.org/downloads/) e scaricarlo.
+   - Assicurarsi che la versione di Python sia superiore alla versione 3.10; la versione da noi utilizzata è stata Python 3.12.4 .
+
+2. **Scaricare il repository da GitHub**
+   - In questo repository, premere il pulsante **Code** e poi **Download ZIP**.
+   - Estrarre il file ZIP scaricato.
+
+3. **Aprire il terminale**
+   - Fare clic con il tasto destro sulla cartella `MUSEO_Digital_Art_2.0-main` appena estratta e selezionare **Apri nel terminale**.
+
+4. **Installare le dipendenze e configurare l'ambiente**
+   - Copiare i codici presenti nel file `setup.ipynb` nella console del terminale e seguire le indicazioni.
+
 
 ## Database
 
