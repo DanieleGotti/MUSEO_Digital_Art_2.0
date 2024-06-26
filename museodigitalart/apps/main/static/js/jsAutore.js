@@ -32,11 +32,7 @@ function impostaTipoEdit(formId) {
         }
     }
 }
-function mostraConfermaModifica(formId) {
-    impostaTipoEdit(formId); // Imposta il tipo prima di mostrare la conferma
-    editFormId = formId;
-    $('#editConfirmModal').modal('show');
-}
+
 
 
 function toggleEditForm(codice) {
@@ -52,54 +48,51 @@ function showCreateForm() {
     $('#createAuthorModal').modal('show');
 }
 
-// Chiamare impostaTipoCreate anche quando la pagina è caricata, per impostare correttamente il valore iniziale
-$(document).ready(function() {
-    impostaTipoCreate();
+function validateDateOfBirthAndDeath(birthDateId, deathDateId) {
+    var birthDateStr = document.getElementById(birthDateId).value;
+    var deathDateStr = document.getElementById(deathDateId).value;
 
-    // Inizializza il datepicker per tutti gli input datepicker
-    $('.datepicker').datepicker({
-        format: 'dd/mm/yyyy',
-        language: 'it'
-    });
-});
+    if (birthDateStr && deathDateStr) {
+        var birthDate = moment(birthDateStr, "DD/MM/YYYY");
+        var deathDate = moment(deathDateStr, "DD/MM/YYYY");
 
+        if (deathDate.isBefore(birthDate)) {
+            alert("La data di morte deve essere successiva alla data di nascita.");
+            return false;
+        }
+    }
+    return true;
+}
 
 function mostraConfermaInserimento() {
     var form = document.getElementById('inserisciAutoreForm');
     if (form.checkValidity()) {
-        impostaTipoCreate();
-        $('#confermaModal').modal('show');
-    } else {
-        form.reportValidity();
+
+        var isValid = validateDateOfBirthAndDeath('dataNascitacreate', 'dataMortecreate');
+        if (isValid && document.getElementById('inserisciAutoreForm').checkValidity()) {
+            impostaTipoCreate();
+            $('#confermaModal').modal('show');
+        } else {
+            document.getElementById('inserisciAutoreForm').reportValidity();
+        }
     }
 }
 
-function confermaInserimento() {
-    console.log("Invio modulo conferma inserimento"); // conferma log
-    document.getElementById('inserisciAutoreForm').submit();
-    $('#confermaModal').modal('hide');
+function mostraConfermaModifica(formId) {
+    var isValid = validateDateOfBirthAndDeath('dataNascitaedit' + formId, 'dataMorteedit' + formId);
+    if (isValid) {
+        impostaTipoEdit(formId);
+        editFormId = formId;
+        $('#editConfirmModal').modal('show');
+    }
 }
-$(document).ready(function() {
-    impostaTipoCreate();
-    $('.datepicker').datepicker({
-        format: 'dd/mm/yyyy',
-        language: 'it'
-    });
-    $('.selectpicker').selectpicker();
-});
 
-
-// Modifica il codice per chiudere il modal di conferma
 function confermaModifica() {
     if (editFormId !== null) {
         $('#editForm' + editFormId).submit();
         $('#editConfirmModal').modal('hide');
     }
 }
-
-var codiceToDelete = null;
-
-var codiceToDelete = null;
 
 function showDeleteConfirm(codice) {
     codiceToDelete = codice;
@@ -118,6 +111,7 @@ $(document).ready(function() {
     });
     $('.selectpicker').selectpicker();
 });
+
 //Modal di conferma
 function confermaCancellazione() {
     if (codiceToDelete !== null) {
@@ -148,4 +142,16 @@ $(document).ready(function() {
     $('.selectpicker').selectpicker();
 });
 
-  
+function confermaInserimento() {
+    console.log("Invio modulo conferma inserimento"); // conferma log
+    document.getElementById('inserisciAutoreForm').submit();
+    $('#confermaModal').modal('hide');
+}
+$(document).ready(function() {
+    impostaTipoCreate();
+    $('.datepicker').datepicker({
+        format: 'dd/mm/yyyy',
+        language: 'it'
+    });
+    $('.selectpicker').selectpicker();
+});
